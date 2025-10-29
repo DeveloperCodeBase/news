@@ -4,6 +4,7 @@
   "private": true,
   "packageManager": "pnpm@10.13.1",
   "scripts": {
+    "check:registry": "node scripts/check-registry.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
