@@ -9,6 +9,7 @@ const envSchema = z.object({
   SUPABASE_URL: z.string().url().optional(),
   SUPABASE_ANON_KEY: z.string().optional(),
   SUPABASE_SERVICE_ROLE_KEY: z.string().optional(),
+  INTERNAL_API_URL: z.string().url().optional(),
   QUEUE_DATABASE_URL: z.string().url().optional(),
   JOB_QUEUE_SCHEMA: z.string().optional(),
   LT_URL: z.string().optional(),

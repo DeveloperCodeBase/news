@@ -79,6 +79,7 @@ cp .env.example .env
 # مقادیر زیر را در .env تکمیل کنید
 # - DATABASE_URL (از Supabase یا Postgres محلی)
 # - SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY و همچنین NEXT_PUBLIC_SUPABASE_URL/NEXT_PUBLIC_SUPABASE_ANON_KEY
+# - INTERNAL_API_URL (برای ارتباط Worker با Next.js؛ روی همان سرور معمولاً http://127.0.0.1:3000)
 # - QUEUE_DATABASE_URL (در صورت استفاده از دیتابیس جدا برای صف) و JOB_QUEUE_SCHEMA
 # - LT_URL یا کلیدهای سرویس ترجمه (حداقل یکی)
 # - ALERT_EMAIL
@@ -139,7 +140,7 @@ sudo certbot --nginx -d news.vista-ai.ir --email devcodebase.dec@gmail.com --agr
 
 ### ۹. برنامه‌ریزی کران‌ها
 
-Worker صف `pnpm queue:worker` وظایف زمان‌بندی‌شده را از طریق `pg-boss` اجرا می‌کند (اینجست هر ۳۰ دقیقه، بازسازی کش پس از انتشار). برای اطمینان از اجرا پس از ریبوت، فایل‌های `systemd` نمونه:
+Worker صف `pnpm queue:worker` وظایف زمان‌بندی‌شده را از طریق `pg-boss` اجرا می‌کند (اینجست هر ۳۰ دقیقه، بازسازی کش پس از انتشار). این Worker با استفاده از `SUPABASE_SERVICE_ROLE_KEY` به اندپوینت داخلی `/api/internal/revalidate` متصل می‌شود؛ بنابراین مقداردهی این متغیر و `INTERNAL_API_URL` ضروری است. برای اطمینان از اجرا پس از ریبوت، فایل‌های `systemd` نمونه:
 
 ```ini
 # /etc/systemd/system/vista-web.service
@@ -188,8 +189,9 @@ sudo systemctl enable --now vista-web vista-worker
 | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | دامنهٔ عمومی برای لینک‌های سئو. |
 | `DATABASE_URL` | اتصال Postgres (Supabase یا محلی). |
-| `SUPABASE_URL`، `SUPABASE_SERVICE_ROLE_KEY` | دسترسی سرور به Auth و Storage. |
+| `SUPABASE_URL`، `SUPABASE_SERVICE_ROLE_KEY` | دسترسی سرور به Auth و Storage. سرویس‌کی برای صف و کران الزامی است. |
 | `NEXT_PUBLIC_SUPABASE_URL`، `NEXT_PUBLIC_SUPABASE_ANON_KEY` | دسترسی کلاینت به Supabase Auth. |
+| `INTERNAL_API_URL` | آدرس داخلی برای فراخوانی API از Worker (پیش‌فرض: `http://127.0.0.1:3000`). |
 | `QUEUE_DATABASE_URL`، `JOB_QUEUE_SCHEMA` | تنظیمات صف `pg-boss` (در صورت جدا بودن از دیتابیس اصلی). |
 | `LT_URL` یا `OPENAI_API_KEY`/`GOOGLE_*` | ارائه‌دهندهٔ ترجمه. |
 | `ALERT_EMAIL` | مقصد اعلان خطاها. |
@@ -209,6 +211,7 @@ pnpm queue:worker    # راه‌اندازی Worker صف
 
 - `POST /api/ingest/trigger` – فقط ادمین؛ قرار دادن وظیفهٔ جمع‌آوری در صف.
 - `POST /api/revalidate` – بازسازی مسیرها پس از انتشار (Protected).
+- `POST /api/internal/revalidate` – فقط سرویس داخلی (Service Key) برای رفرش مسیرهای استاتیک.
 - `GET /api/search?q=&lang=` – جست‌وجوی Full-Text.
 - `GET /api/health` – بررسی وضعیت سرویس.
 - `GET /rss.xml`، `GET /sitemap.xml`، `GET /robots.txt` – خروجی‌های سئو.
