@@ -33,6 +33,7 @@
     "metascraper-image": "^5.43.1",
     "metascraper-title": "^5.43.1",
     "metascraper-url": "^5.43.1",
+    "onnxruntime-node": "^1.17.3",
     "lucide-react": "^0.378.0",
     "next": "14.2.3",
     "next-auth": "^4.24.7",
@@ -48,6 +49,7 @@
     "sanitize-html": "^2.13.0",
     "sharp": "^0.33.3",
     "sonner": "^1.4.2",
+    "web-push": "^3.6.7",
     "zod": "^3.23.8",
     "@prisma/client": "^5.16.1"
   },

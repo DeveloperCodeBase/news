@@ -85,8 +85,22 @@ model Article {
   translations  TranslationCache[]
   analytics     ArticleAnalytics?
   viewFingerprints ArticleViewFingerprint[]
+  topics        ArticleTopic[]
 
   @@index([status, scheduledFor])
+}
+
+model ArticleTopic {
+  id         String   @id @default(cuid())
+  articleId  String
+  label      String
+  score      Float
+  source     String   @default("keyword")
+  createdAt  DateTime @default(now())
+  article    Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@index([articleId])
+  @@index([label])
 }
 
 model Account {
@@ -214,4 +228,114 @@ model ArticleViewFingerprint {
   article     Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
 
   @@unique([articleId, fingerprint])
+}
+
+model CoreWebVital {
+  id             String   @id @default(cuid())
+  metric         String
+  value          Float
+  rating         String
+  delta          Float?
+  navigationType String?
+  route          String
+  createdAt      DateTime @default(now())
+
+  @@index([route, metric])
+  @@index([createdAt])
+}
+
+model TrendSnapshot {
+  id          String        @id @default(cuid())
+  windowStart DateTime
+  windowEnd   DateTime
+  generatedAt DateTime      @default(now())
+  topics      TopicTrend[]
+
+  @@index([generatedAt])
+}
+
+model TopicTrend {
+  id           String        @id @default(cuid())
+  snapshotId   String
+  topic        String
+  score        Float
+  articleCount Int
+  snapshot     TrendSnapshot @relation(fields: [snapshotId], references: [id], onDelete: Cascade)
+
+  @@index([topic])
+}
+
+enum ExperimentStatus {
+  DRAFT
+  RUNNING
+  PAUSED
+  COMPLETED
+}
+
+enum ExperimentTemplateType {
+  ARTICLE
+  NEWSLETTER
+}
+
+model Experiment {
+  id          String                @id @default(cuid())
+  key         String                @unique
+  name        String
+  description String?
+  status      ExperimentStatus      @default(DRAFT)
+  createdAt   DateTime              @default(now())
+  updatedAt   DateTime              @updatedAt
+  variants    ExperimentVariant[]
+  assignments ExperimentAssignment[]
+  metrics     ExperimentMetric[]
+}
+
+model ExperimentVariant {
+  id            String                  @id @default(cuid())
+  experimentId  String
+  key           String
+  label         String
+  weight        Int                     @default(1)
+  templateType  ExperimentTemplateType
+  templatePath  String?
+  createdAt     DateTime                @default(now())
+  experiment    Experiment              @relation(fields: [experimentId], references: [id], onDelete: Cascade)
+  assignments   ExperimentAssignment[]
+  metrics       ExperimentMetric[]
+
+  @@unique([experimentId, key])
+}
+
+model ExperimentAssignment {
+  id            String     @id @default(cuid())
+  experimentId  String
+  variantId     String
+  visitorKey    String
+  assignedAt    DateTime   @default(now())
+  experiment    Experiment @relation(fields: [experimentId], references: [id], onDelete: Cascade)
+  variant       ExperimentVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  @@unique([experimentId, visitorKey])
+}
+
+model ExperimentMetric {
+  id           String     @id @default(cuid())
+  experimentId String
+  variantId    String
+  metric       String
+  value        Float
+  recordedAt   DateTime   @default(now())
+  experiment   Experiment @relation(fields: [experimentId], references: [id], onDelete: Cascade)
+  variant      ExperimentVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  @@index([experimentId, metric])
+}
+
+model PushSubscription {
+  id             String   @id @default(cuid())
+  endpoint       String   @unique
+  p256dh         String
+  auth           String
+  createdAt      DateTime @default(now())
+  lastNotifiedAt DateTime?
 }

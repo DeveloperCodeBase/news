@@ -16,6 +16,7 @@ const envSchema = z.object({
   MEDIA_UPLOAD_DIR: z.string().default('public/media'),
   QUEUE_DATABASE_URL: z.string().url().optional(),
   JOB_QUEUE_SCHEMA: z.string().optional(),
+  TREND_MODEL_PATH: z.string().optional(),
   LT_URL: z.string().optional(),
   OPENAI_API_KEY: z.string().optional(),
   GOOGLE_PROJECT_ID: z.string().optional(),
@@ -27,7 +28,11 @@ const envSchema = z.object({
   SMTP_PASSWORD: z.string().optional(),
   SMTP_SECURE: z.enum(['true', 'false']).optional(),
   SMTP_FROM: z.string().optional(),
-  NEWSLETTER_RECIPIENTS: z.string().optional()
+  NEWSLETTER_RECIPIENTS: z.string().optional(),
+  NEXT_PUBLIC_WEB_PUSH_VAPID_PUBLIC_KEY: z.string().optional(),
+  WEB_PUSH_VAPID_PUBLIC_KEY: z.string().optional(),
+  WEB_PUSH_VAPID_PRIVATE_KEY: z.string().optional(),
+  WEB_PUSH_CONTACT_EMAIL: z.string().optional()
 });
 
 type Env = z.infer<typeof envSchema>;

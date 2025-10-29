@@ -1,4 +1,9 @@
-import { getArticleAnalyticsSummary } from '@/lib/db/articles';
+import {
+  getArticleAnalyticsSummary,
+  getCoreWebVitalSummary,
+  getTrendHighlights,
+  getExperimentSummaries
+} from '@/lib/db/articles';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,7 +18,12 @@ function formatDuration(ms: number) {
 }
 
 export default async function AnalyticsPage() {
-  const summary = await getArticleAnalyticsSummary();
+  const [summary, vitals, trends, experiments] = await Promise.all([
+    getArticleAnalyticsSummary(),
+    getCoreWebVitalSummary(),
+    getTrendHighlights(),
+    getExperimentSummaries()
+  ]);
   const cards = [
     { label: 'بازدید کل', value: summary.totals.views.toLocaleString('fa-IR') },
     { label: 'بازدیدکننده یکتا', value: summary.totals.visitors.toLocaleString('fa-IR') },
@@ -83,6 +93,93 @@ export default async function AnalyticsPage() {
             </tbody>
           </table>
         </div>
+      </section>
+      <section className="grid gap-6 lg:grid-cols-2">
+        <div className="space-y-4 rounded-2xl border border-slate-800 bg-slate-950/60 p-6">
+          <h3 className="text-lg font-semibold text-slate-100">ترند موضوعی</h3>
+          {trends ? (
+            <ul className="space-y-2 text-sm text-slate-200">
+              {trends.topics.map((topic) => (
+                <li key={topic.id} className="flex items-center justify-between rounded-xl border border-slate-800/50 bg-slate-900/60 px-4 py-3">
+                  <span className="font-medium text-slate-100">{topic.topic}</span>
+                  <span className="text-xs text-slate-400">
+                    امتیاز {topic.score.toFixed(2)} · {topic.articleCount} خبر
+                  </span>
+                </li>
+              ))}
+              <li className="text-xs text-slate-500">
+                آخرین بروزرسانی: {new Date(trends.generatedAt).toLocaleString('fa-IR')}
+              </li>
+            </ul>
+          ) : (
+            <p className="text-sm text-slate-400">داده‌ای برای تحلیل ترند ثبت نشده است.</p>
+          )}
+        </div>
+        <div className="space-y-4 rounded-2xl border border-slate-800 bg-slate-950/60 p-6">
+          <h3 className="text-lg font-semibold text-slate-100">Core Web Vitals</h3>
+          <div className="overflow-hidden rounded-xl border border-slate-800">
+            <table className="min-w-full divide-y divide-slate-800 text-sm text-slate-200">
+              <thead className="bg-slate-900/70">
+                <tr>
+                  <th className="px-4 py-2 text-right font-medium">شاخص</th>
+                  <th className="px-4 py-2 text-center font-medium">کیفیت</th>
+                  <th className="px-4 py-2 text-center font-medium">میانگین</th>
+                  <th className="px-4 py-2 text-center font-medium">نمونه</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-800">
+                {vitals.grouped.map((row) => (
+                  <tr key={`${row.metric}-${row.rating}`}>
+                    <td className="px-4 py-2 text-right">{row.metric}</td>
+                    <td className="px-4 py-2 text-center">{row.rating}</td>
+                    <td className="px-4 py-2 text-center">{(row._avg.value ?? 0).toFixed(2)}</td>
+                    <td className="px-4 py-2 text-center">{row._count._all}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="text-xs text-slate-500">
+            آخرین اندازه‌گیری در {vitals.latest[0] ? new Date(vitals.latest[0].createdAt).toLocaleString('fa-IR') : '—'}
+          </div>
+        </div>
+      </section>
+      <section className="space-y-4 rounded-2xl border border-slate-800 bg-slate-950/60 p-6">
+        <h3 className="text-lg font-semibold text-slate-100">آزمایش‌های A/B</h3>
+        {experiments.length ? (
+          <div className="grid gap-4 md:grid-cols-2">
+            {experiments.map((experiment) => (
+              <div key={experiment.key} className="space-y-3 rounded-xl border border-slate-800/60 bg-slate-900/60 p-4">
+                <div>
+                  <p className="text-sm font-semibold text-slate-100">{experiment.name}</p>
+                  <p className="text-xs text-slate-500">وضعیت: {experiment.status}</p>
+                </div>
+                <ul className="space-y-2 text-xs text-slate-200">
+                  {experiment.variants.map((variant) => (
+                    <li key={variant.key} className="rounded-lg border border-slate-800/50 bg-slate-950/60 p-3">
+                      <div className="flex items-center justify-between">
+                        <span className="font-medium text-slate-100">{variant.label}</span>
+                        <span className="text-slate-400">{variant.assignments} تخصیص</span>
+                      </div>
+                      <div className="mt-2 grid grid-cols-2 gap-2 text-slate-300">
+                        {Object.entries(variant.metrics).map(([metric, value]) => (
+                          <span key={metric} className="rounded bg-slate-900/80 px-2 py-1 text-xs text-slate-200">
+                            {metric}: {value.toFixed(2)}
+                          </span>
+                        ))}
+                        {Object.keys(variant.metrics).length === 0 ? (
+                          <span className="col-span-2 text-slate-500">هنوز داده‌ای ثبت نشده است.</span>
+                        ) : null}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm text-slate-400">هیچ آزمایشی فعال نیست.</p>
+        )}
       </section>
     </section>
   );

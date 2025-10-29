@@ -18,9 +18,11 @@ function getVisitorKey(articleId: string) {
 
 type PageViewTrackerProps = {
   articleId: string;
+  experimentKey?: string;
+  variantKey?: string;
 };
 
-export default function PageViewTracker({ articleId }: PageViewTrackerProps) {
+export default function PageViewTracker({ articleId, experimentKey, variantKey }: PageViewTrackerProps) {
   useEffect(() => {
     if (!articleId) return;
 
@@ -46,7 +48,14 @@ export default function PageViewTracker({ articleId }: PageViewTrackerProps) {
       const endedAt = typeof performance !== 'undefined' ? performance.now() : Date.now();
       const readTimeMs = Math.max(0, Math.round(endedAt - startedAt));
       const completion = Number(maxCompletion.toFixed(2));
-      const body = JSON.stringify({ articleId, readTimeMs, completion, visitorId });
+      const body = JSON.stringify({
+        articleId,
+        readTimeMs,
+        completion,
+        visitorId,
+        experimentKey,
+        variantKey
+      });
       if (navigator.sendBeacon) {
         navigator.sendBeacon('/api/analytics/pageview', body);
       } else {

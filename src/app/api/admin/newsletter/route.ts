@@ -4,7 +4,10 @@ import { z } from 'zod';
 import { Status } from '@prisma/client';
 import { prisma } from '@/lib/db/client';
 import { authOptions } from '@/lib/auth/options';
-import { sendNewsletterDigest } from '@/lib/email/mailer';
+import { sendEmail, sendNewsletterDigest } from '@/lib/email/mailer';
+import { getEnv } from '@/lib/env';
+import { resolveExperimentVariant } from '@/lib/experiments/assignment';
+import { renderNewsletterTemplate } from '@/lib/newsletter/templates';
 
 const newsletterSchema = z.object({
   subject: z.string().min(5),
@@ -42,28 +45,69 @@ export async function POST(request: NextRequest) {
   }
 
   const intro = parsed.data.intro ?? 'جدیدترین خبرهای هوش مصنوعی از مجله ویستا';
-  const htmlList = articles
-    .map(
-      (article) =>
-        `<li><a href="${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://news.vista-ai.ir'}/fa/news/${article.slug}"><strong>${
-          article.titleFa ?? article.titleEn
-        }</strong></a><br/><small>${new Date(article.publishedAt).toLocaleDateString('fa-IR')}</small><p>${
-          article.excerptFa ?? article.excerptEn ?? ''
-        }</p></li>`
-    )
-    .join('');
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://news.vista-ai.ir';
+  const env = getEnv();
+  const resolvedRecipients = parsed.data.recipients?.length
+    ? parsed.data.recipients
+    : env.NEWSLETTER_RECIPIENTS?.split(',').map((value) => value.trim()).filter(Boolean) ?? [];
 
-  const html = `<h1>${parsed.data.subject}</h1><p>${intro}</p><ol>${htmlList}</ol>`;
-  const text = `${parsed.data.subject}\n${intro}\n${articles
-    .map((article) => `${article.titleFa ?? article.titleEn} - ${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://news.vista-ai.ir'}/fa/news/${article.slug}`)
-    .join('\n')}`;
-
-  await sendNewsletterDigest({
-    subject: parsed.data.subject,
-    html,
-    text,
-    recipients: parsed.data.recipients
+  const experiment = await prisma.experiment.findUnique({
+    where: { key: 'newsletter-template' },
+    include: { variants: true }
   });
 
-  return NextResponse.json({ sent: true });
+  if (!experiment || experiment.status !== 'RUNNING' || experiment.variants.length === 0 || resolvedRecipients.length === 0) {
+    const rendered = renderNewsletterTemplate('minimal', { subject: parsed.data.subject, intro, siteUrl, articles });
+    await sendNewsletterDigest({
+      subject: parsed.data.subject,
+      html: rendered.html,
+      text: rendered.text,
+      recipients: resolvedRecipients
+    });
+    return NextResponse.json({ sent: true, variant: 'minimal' });
+  }
+
+  const variantBuckets = new Map<
+    string,
+    { variantId: string; templateKey: 'minimal' | 'story'; recipients: string[] }
+  >();
+
+  for (const recipient of resolvedRecipients) {
+    const assignment = await resolveExperimentVariant('newsletter-template', recipient);
+    if (!assignment) continue;
+    const templateKey = (assignment.templatePath as 'minimal' | 'story') ?? (assignment.key === 'story' ? 'story' : 'minimal');
+    const existing = variantBuckets.get(assignment.key) ?? {
+      variantId: assignment.variantId,
+      templateKey,
+      recipients: []
+    };
+    existing.recipients.push(recipient);
+    variantBuckets.set(assignment.key, existing);
+  }
+
+  for (const bucket of variantBuckets.values()) {
+    if (bucket.recipients.length === 0) continue;
+    const rendered = renderNewsletterTemplate(bucket.templateKey, {
+      subject: parsed.data.subject,
+      intro,
+      siteUrl,
+      articles
+    });
+    await sendEmail({
+      to: bucket.recipients,
+      subject: parsed.data.subject,
+      html: rendered.html,
+      text: rendered.text
+    });
+    await prisma.experimentMetric.create({
+      data: {
+        experimentId: experiment.id,
+        variantId: bucket.variantId,
+        metric: 'newsletter.sent',
+        value: bucket.recipients.length
+      }
+    });
+  }
+
+  return NextResponse.json({ sent: true, variants: Array.from(variantBuckets.keys()) });
 }

@@ -1,11 +1,14 @@
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
+import { cookies } from 'next/headers';
 import type { Metadata } from 'next';
+import clsx from 'clsx';
 import { getArticleBySlug, getRelatedArticles } from '@/lib/db/articles';
 import type { AppLocale } from '@/lib/i18n/config';
 import { getLocalizedValue } from '@/lib/news/localization';
 import { formatDisplayDate } from '@/lib/news/dates';
 import PageViewTracker from '@/components/analytics/page-view-tracker';
+import { resolveExperimentVariant } from '@/lib/experiments/assignment';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 600;
@@ -64,6 +67,15 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
     article!.categories.map((item) => item.category.id)
   );
 
+  const visitorKey = cookies().get('vista_visitor')?.value ?? 'anonymous';
+  const experiment = await resolveExperimentVariant('article-template', visitorKey);
+  const experimentKey = experiment ? 'article-template' : undefined;
+  const variantKey = experiment?.key ?? 'classic';
+  const isImmersive = variantKey === 'immersive';
+
+  const primaryTopic = article!.topics?.[0];
+  const topicBadges = (article!.topics ?? []).slice(0, 3);
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'NewsArticle',
@@ -85,32 +97,88 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
     }
   };
 
-  return (
-    <article className="mx-auto flex max-w-3xl flex-col gap-8 px-4 py-10 sm:px-6 lg:px-8" dir={direction}>
-      <PageViewTracker articleId={article!.id} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <header className="space-y-4">
-        <div className="flex flex-wrap items-center gap-3 text-xs text-slate-400">
-          <span className={article!.source.isTrusted ? 'rounded-full bg-emerald-500/10 px-3 py-1 text-emerald-200' : 'rounded-full bg-amber-500/10 px-3 py-1 text-amber-200'}>
-            {article!.source.name}
+  const headerContent = (
+    <>
+      <div className="flex flex-wrap items-center gap-3 text-xs text-slate-300">
+        <span
+          className={clsx(
+            'rounded-full px-3 py-1',
+            article!.source.isTrusted
+              ? 'bg-emerald-500/10 text-emerald-200'
+              : 'bg-amber-500/10 text-amber-200'
+          )}
+        >
+          {article!.source.name}
+        </span>
+        <time>{formatDisplayDate(article!.publishedAt, locale)}</time>
+        {primaryTopic ? (
+          <span className="rounded-full bg-sky-500/10 px-3 py-1 text-sky-200">
+            {primaryTopic.label}
           </span>
-          <time>{formatDisplayDate(article!.publishedAt, locale)}</time>
-        </div>
-        <h1 className="text-4xl font-bold text-slate-50">{title}</h1>
-        {excerpt && <p className="text-lg text-slate-300">{excerpt}</p>}
-        <p className="text-sm text-slate-400">
-          {t('source')}: <a className="text-sky-300 hover:text-sky-200" href={article!.source.url} rel="noopener noreferrer" target="_blank">{article!.source.url}</a>
+        ) : null}
+      </div>
+      <h1 className={clsx('font-bold text-slate-50', isImmersive ? 'text-5xl leading-tight' : 'text-4xl')}>
+        {title}
+      </h1>
+      {excerpt && (
+        <p className={clsx('text-slate-300', isImmersive ? 'text-xl' : 'text-lg')}>
+          {excerpt}
         </p>
-      </header>
-      {article!.coverImageUrl && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={article!.coverImageUrl}
-          alt={title}
-          className="w-full rounded-3xl border border-slate-800/60"
-        />
       )}
-      <div className="prose max-w-none prose-invert" dangerouslySetInnerHTML={{ __html: safeContent }} />
+      <p className="text-sm text-slate-400">
+        {t('source')}: <a className="text-sky-300 hover:text-sky-200" href={article!.source.url} rel="noopener noreferrer" target="_blank">{article!.source.url}</a>
+      </p>
+      {topicBadges.length > 1 ? (
+        <div className="flex flex-wrap gap-2 text-xs">
+          {topicBadges.map((topic) => (
+            <span key={topic.label} className="rounded-full border border-slate-700/60 px-3 py-1 text-slate-200">
+              {topic.label}
+            </span>
+          ))}
+        </div>
+      ) : null}
+    </>
+  );
+
+  return (
+    <article
+      className={clsx(
+        'mx-auto flex flex-col gap-8 px-4 py-10 sm:px-6 lg:px-8',
+        isImmersive ? 'max-w-5xl' : 'max-w-3xl'
+      )}
+      dir={direction}
+    >
+      <PageViewTracker
+        articleId={article!.id}
+        experimentKey={experimentKey}
+        variantKey={experiment?.key}
+      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+
+      {isImmersive && article!.coverImageUrl ? (
+        <div className="relative overflow-hidden rounded-3xl border border-slate-800/40 bg-slate-950/70 shadow-2xl shadow-slate-950/40">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={article!.coverImageUrl} alt={title} className="h-96 w-full object-cover opacity-60" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+          <div className="relative z-10 space-y-4 p-8">{headerContent}</div>
+        </div>
+      ) : (
+        <header className="space-y-4">{headerContent}</header>
+      )}
+
+      {!isImmersive && article!.coverImageUrl ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={article!.coverImageUrl} alt={title} className="w-full rounded-3xl border border-slate-800/60" />
+      ) : null}
+
+      <div
+        className={clsx(
+          'prose max-w-none prose-invert',
+          isImmersive && 'rounded-3xl border border-slate-800/40 bg-slate-950/70 p-8 shadow-inner shadow-slate-950/30'
+        )}
+        dangerouslySetInnerHTML={{ __html: safeContent }}
+      />
+
       <section className="rounded-3xl border border-slate-800/60 bg-slate-900/60 p-6">
         <h2 className="text-lg font-semibold text-slate-100">{t('related')}</h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">

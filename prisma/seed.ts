@@ -1,4 +1,11 @@
-import { PrismaClient, Role, Status, Lang } from '@prisma/client';
+import {
+  PrismaClient,
+  Role,
+  Status,
+  Lang,
+  ExperimentStatus,
+  ExperimentTemplateType
+} from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -218,6 +225,90 @@ async function main() {
         avgCompletion
       }
     });
+  }
+
+  const experiments = [
+    {
+      key: 'article-template',
+      name: 'قالب صفحه خبر',
+      description: 'مقایسه چیدمان کلاسیک در برابر نسخه مدرن با تاکید بر تصاویر',
+      status: ExperimentStatus.RUNNING,
+      variants: [
+        {
+          key: 'classic',
+          label: 'چیدمان کلاسیک',
+          weight: 1,
+          templateType: ExperimentTemplateType.ARTICLE,
+          templatePath: 'classic'
+        },
+        {
+          key: 'immersive',
+          label: 'چیدمان غنی',
+          weight: 1,
+          templateType: ExperimentTemplateType.ARTICLE,
+          templatePath: 'immersive'
+        }
+      ]
+    },
+    {
+      key: 'newsletter-template',
+      name: 'قالب خبرنامه',
+      description: 'آزمایش خبرنامه مینیمال در مقابل نسخه روایی',
+      status: ExperimentStatus.RUNNING,
+      variants: [
+        {
+          key: 'minimal',
+          label: 'خبرنامه مینیمال',
+          weight: 1,
+          templateType: ExperimentTemplateType.NEWSLETTER,
+          templatePath: 'minimal'
+        },
+        {
+          key: 'story',
+          label: 'خبرنامه روایی',
+          weight: 1,
+          templateType: ExperimentTemplateType.NEWSLETTER,
+          templatePath: 'story'
+        }
+      ]
+    }
+  ];
+
+  for (const experiment of experiments) {
+    const upserted = await prisma.experiment.upsert({
+      where: { key: experiment.key },
+      update: {
+        name: experiment.name,
+        description: experiment.description,
+        status: experiment.status
+      },
+      create: {
+        key: experiment.key,
+        name: experiment.name,
+        description: experiment.description,
+        status: experiment.status
+      }
+    });
+
+    for (const variant of experiment.variants) {
+      await prisma.experimentVariant.upsert({
+        where: { experimentId_key: { experimentId: upserted.id, key: variant.key } },
+        update: {
+          label: variant.label,
+          weight: variant.weight,
+          templateType: variant.templateType,
+          templatePath: variant.templatePath
+        },
+        create: {
+          experimentId: upserted.id,
+          key: variant.key,
+          label: variant.label,
+          weight: variant.weight,
+          templateType: variant.templateType,
+          templatePath: variant.templatePath
+        }
+      });
+    }
   }
 }
 

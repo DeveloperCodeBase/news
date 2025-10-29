@@ -5,8 +5,10 @@ import { prisma } from '@/lib/db/client';
 import { classifyText } from '@/lib/news/classifier';
 import { generateUniqueArticleSlug } from '@/lib/news/slugs';
 import { translateWithCache } from '@/lib/translation/provider';
+import { predictTopics } from '@/lib/news/topics';
 import sanitizeHtml from 'sanitize-html';
 import { sendAlertEmail } from '@/lib/email/mailer';
+import { enqueueJob, JOB_NAMES } from './queue';
 
 function buildExcerpt(text: string, length = 260) {
   if (!text) return '';
@@ -104,6 +106,17 @@ export async function runIngestion() {
       }
 
       try {
+        const topicPlainText = sanitizeHtml(
+          `${contentFa ?? ''} ${contentEn ?? ''}`,
+          { allowedTags: [], allowedAttributes: {} }
+        );
+        const topicPredictions = await predictTopics(
+          `${titleFa ?? titleEn ?? ''} ${excerptFa ?? excerptEn ?? ''} ${topicPlainText}`
+        );
+        const topicCreate = topicPredictions
+          .slice(0, 6)
+          .map((topic) => ({ label: topic.label, score: topic.score, source: topic.source }));
+
         await prisma.article.create({
           data: {
             slug,
@@ -139,6 +152,13 @@ export async function runIngestion() {
                 tag: { connect: { slug: slugValue } }
               }))
             },
+            ...(topicCreate.length
+              ? {
+                  topics: {
+                    create: topicCreate
+                  }
+                }
+              : {}),
             analytics: {
               create: {}
             }
@@ -152,6 +172,14 @@ export async function runIngestion() {
           console.error('Failed to insert article', error);
         }
       }
+    }
+
+    if (created > 0) {
+      await enqueueJob(
+        JOB_NAMES.TREND_REFRESH,
+        {},
+        { singletonKey: 'trend-refresh', singletonMinutes: 30 }
+      );
     }
 
     return {

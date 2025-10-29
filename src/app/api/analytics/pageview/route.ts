@@ -8,7 +8,9 @@ const payloadSchema = z.object({
   articleId: z.string().min(1),
   readTimeMs: z.number().int().min(0).optional(),
   completion: z.number().min(0).max(1).optional(),
-  visitorId: z.string().max(128).optional()
+  visitorId: z.string().max(128).optional(),
+  experimentKey: z.string().optional(),
+  variantKey: z.string().optional()
 });
 
 function buildFingerprint(articleId: string, request: NextRequest, provided?: string) {
@@ -28,7 +30,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid payload', details: parsed.error.flatten() }, { status: 400 });
   }
 
-  const { articleId, readTimeMs = 0, completion = 0, visitorId } = parsed.data;
+  const { articleId, readTimeMs = 0, completion = 0, visitorId, experimentKey, variantKey } = parsed.data;
   const fingerprint = buildFingerprint(articleId, request, visitorId);
   const now = new Date();
 
@@ -84,6 +86,41 @@ export async function POST(request: NextRequest) {
         lastViewedAt: now
       }
     });
+
+    if (experimentKey && variantKey) {
+      const experiment = await tx.experiment.findUnique({
+        where: { key: experimentKey },
+        select: {
+          id: true,
+          variants: { select: { id: true, key: true } }
+        }
+      });
+
+      const variantId = experiment?.variants.find((variant) => variant.key === variantKey)?.id;
+      if (experiment && variantId) {
+        await tx.experimentMetric.createMany({
+          data: [
+            { experimentId: experiment.id, variantId, metric: 'article.view', value: 1 },
+            readTimeMs > 0
+              ? {
+                  experimentId: experiment.id,
+                  variantId,
+                  metric: 'article.readTimeMs',
+                  value: readTimeMs
+                }
+              : null,
+            completion > 0
+              ? {
+                  experimentId: experiment.id,
+                  variantId,
+                  metric: 'article.completion',
+                  value: completion
+                }
+              : null
+          ].filter(Boolean) as { experimentId: string; variantId: string; metric: string; value: number }[]
+        });
+      }
+    }
   });
 
   return NextResponse.json({ recorded: true });

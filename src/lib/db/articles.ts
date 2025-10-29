@@ -1,5 +1,5 @@
 import { prisma } from './client';
-import { Status } from '@prisma/client';
+import { Status, ExperimentStatus } from '@prisma/client';
 import type { AppLocale } from '@/lib/i18n/config';
 
 const ARTICLE_SELECT = {
@@ -48,6 +48,12 @@ const ARTICLE_SELECT = {
           nameEn: true
         }
       }
+    }
+  },
+  topics: {
+    select: {
+      label: true,
+      score: true
     }
   }
 } as const;
@@ -274,4 +280,82 @@ export async function getCategorySummaries(locale: AppLocale, limit = 6) {
     nameEn: category.nameEn,
     count: category._count.CategoryOnArticle
   }));
+}
+
+export async function getCoreWebVitalSummary(days = 7) {
+  const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
+  const grouped = await prisma.coreWebVital.groupBy({
+    by: ['metric', 'rating'],
+    _avg: { value: true },
+    _count: { _all: true },
+    where: { createdAt: { gte: since } }
+  });
+
+  const latest = await prisma.coreWebVital.findMany({
+    where: { createdAt: { gte: since } },
+    orderBy: { createdAt: 'desc' },
+    take: 20
+  });
+
+  return { grouped, latest };
+}
+
+export async function getTrendHighlights(limit = 8) {
+  const snapshot = await prisma.trendSnapshot.findFirst({
+    orderBy: { generatedAt: 'desc' },
+    include: {
+      topics: {
+        orderBy: { score: 'desc' },
+        take: limit
+      }
+    }
+  });
+
+  return snapshot;
+}
+
+export async function getExperimentSummaries(days = 14) {
+  const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
+  const experiments = await prisma.experiment.findMany({
+    where: { status: { in: [ExperimentStatus.RUNNING, ExperimentStatus.PAUSED] } },
+    include: {
+      variants: {
+        include: {
+          _count: { select: { assignments: true } }
+        }
+      }
+    }
+  });
+
+  const metrics = await prisma.experimentMetric.groupBy({
+    by: ['experimentId', 'variantId', 'metric'],
+    _sum: { value: true },
+    where: { recordedAt: { gte: since } }
+  });
+
+  return experiments.map((experiment) => {
+    const variantSummaries = experiment.variants.map((variant) => {
+      const variantMetrics = metrics.filter(
+        (metric) => metric.variantId === variant.id && metric.experimentId === experiment.id
+      );
+      const mapped = Object.fromEntries(
+        variantMetrics.map((metric) => [metric.metric, Number((metric._sum.value ?? 0).toFixed(2))])
+      );
+      return {
+        key: variant.key,
+        label: variant.label,
+        templateType: variant.templateType,
+        templatePath: variant.templatePath,
+        assignments: variant._count.assignments,
+        metrics: mapped
+      };
+    });
+
+    return {
+      key: experiment.key,
+      name: experiment.name,
+      status: experiment.status,
+      variants: variantSummaries
+    };
+  });
 }

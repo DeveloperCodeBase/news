@@ -2,6 +2,7 @@ import { getBoss, JOB_NAMES } from './queue';
 import { runIngestion } from './index';
 import { runRevalidate } from './revalidate';
 import { publishScheduledArticle, releaseDueArticles } from './publish';
+import { refreshTrendSnapshot } from './trends';
 
 export async function startQueueWorker() {
   const boss = await getBoss();
@@ -25,6 +26,10 @@ export async function startQueueWorker() {
       return;
     }
     await publishScheduledArticle(articleId);
+  });
+
+  await boss.work(JOB_NAMES.TREND_REFRESH, async () => {
+    await refreshTrendSnapshot();
   });
 
   // eslint-disable-next-line no-console
