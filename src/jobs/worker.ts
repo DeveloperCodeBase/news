@@ -1,6 +1,7 @@
 import { getBoss, JOB_NAMES } from './queue';
 import { runIngestion } from './index';
 import { runRevalidate } from './revalidate';
+import { publishScheduledArticle, releaseDueArticles } from './publish';
 
 export async function startQueueWorker() {
   const boss = await getBoss();
@@ -18,8 +19,18 @@ export async function startQueueWorker() {
     await runRevalidate(slug);
   });
 
+  await boss.work(JOB_NAMES.PUBLISH_SCHEDULED, async (job) => {
+    const articleId = job.data.articleId as string | undefined;
+    if (!articleId) {
+      return;
+    }
+    await publishScheduledArticle(articleId);
+  });
+
   // eslint-disable-next-line no-console
   console.log('Queue worker started and listening for jobs.');
+
+  await releaseDueArticles();
 }
 
 if (import.meta.url === `file://${__filename}`) {

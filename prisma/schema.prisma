@@ -21,6 +21,7 @@ enum Lang {
 enum Status {
   DRAFT
   REVIEWED
+  SCHEDULED
   PUBLISHED
   REJECTED
 }
@@ -46,8 +47,14 @@ model Source {
   feedUrl   String   @unique
   isTrusted Boolean  @default(true)
   active    Boolean  @default(true)
+  blacklisted Boolean @default(false)
+  notes     String?
+  priority  Int      @default(10)
+  lastFetchedAt DateTime?
   createdAt DateTime @default(now())
   articles  Article[]
+
+  @@index([active, blacklisted])
 }
 
 model Article {
@@ -68,12 +75,18 @@ model Article {
   authorId      String?
   author        User?    @relation("AuthorArticles", fields: [authorId], references: [id])
   publishedAt   DateTime @default(now())
+  scheduledFor  DateTime?
+  scheduleJobId String?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   categories    CategoryOnArticle[]
   tags          TagOnArticle[]
   media         Media[]
   translations  TranslationCache[]
+  analytics     ArticleAnalytics?
+  viewFingerprints ArticleViewFingerprint[]
+
+  @@index([status, scheduledFor])
 }
 
 model Account {
@@ -174,4 +187,31 @@ model TranslationCache {
   updatedAt    DateTime @updatedAt
   articleId    String?
   article      Article? @relation(fields: [articleId], references: [id])
+}
+
+model ArticleAnalytics {
+  id              String   @id @default(cuid())
+  articleId       String   @unique
+  totalViews      Int      @default(0)
+  uniqueVisitors  Int      @default(0)
+  totalReadTimeMs Int      @default(0)
+  totalCompletion Float    @default(0)
+  avgReadTimeMs   Int      @default(0)
+  avgCompletion   Float    @default(0)
+  lastViewedAt    DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  article         Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@index([lastViewedAt])
+}
+
+model ArticleViewFingerprint {
+  id          String   @id @default(cuid())
+  articleId   String
+  fingerprint String
+  createdAt   DateTime @default(now())
+  article     Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@unique([articleId, fingerprint])
 }

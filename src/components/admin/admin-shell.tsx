@@ -10,7 +10,11 @@ type AdminShellProps = {
 };
 
 const navItems = [
-  { href: '/admin', label: 'صف بازبینی' }
+  { href: '/admin', label: 'صف بازبینی' },
+  { href: '/admin/schedule', label: 'زمان‌بندی انتشار' },
+  { href: '/admin/sources', label: 'منابع خبری' },
+  { href: '/admin/analytics', label: 'تحلیل بازدید' },
+  { href: '/admin/newsletter', label: 'خبرنامه' }
 ];
 
 function formatRole(role: Role | string) {

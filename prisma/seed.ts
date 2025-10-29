@@ -70,19 +70,24 @@ async function main() {
       name: 'OpenAI Blog',
       url: 'https://openai.com/blog',
       feedUrl: 'https://openai.com/blog/rss/',
-      isTrusted: true
+      isTrusted: true,
+      notes: 'منبع رسمی OpenAI',
+      priority: 5
     },
     {
       name: 'Google DeepMind',
       url: 'https://deepmind.google/',
       feedUrl: 'https://deepmind.google/feeds/news',
-      isTrusted: true
+      isTrusted: true,
+      notes: 'پوشش پژوهش‌های دیپ‌مایند',
+      priority: 5
     },
     {
       name: 'MIT News - AI',
       url: 'https://news.mit.edu/topic/artificial-intelligence2',
       feedUrl: 'https://news.mit.edu/rss/topic/artificial-intelligence2',
-      isTrusted: false
+      isTrusted: false,
+      notes: 'رسانه دانشگاهی'
     },
     {
       name: 'Anthropic',
@@ -100,13 +105,15 @@ async function main() {
       name: 'Hugging Face',
       url: 'https://huggingface.co/blog',
       feedUrl: 'https://huggingface.co/blog/feed.xml',
-      isTrusted: true
+      isTrusted: true,
+      notes: 'اکوسیستم متن‌باز'
     },
     {
       name: 'VentureBeat AI',
       url: 'https://venturebeat.com/category/ai/',
       feedUrl: 'https://venturebeat.com/category/ai/feed/',
-      isTrusted: false
+      isTrusted: false,
+      notes: 'خبرهای صنعت'
     }
   ];
 
@@ -154,7 +161,7 @@ async function main() {
   ];
 
   for (const article of sampleArticles) {
-    await prisma.article.upsert({
+    const created = await prisma.article.upsert({
       where: { slug: article.slug },
       update: {
         titleFa: article.titleFa,
@@ -190,6 +197,25 @@ async function main() {
             tag: { connect: { slug } }
           }))
         }
+      }
+    });
+
+    const totalViews = Math.floor(Math.random() * 120) + 30;
+    const uniqueVisitors = Math.floor(Math.random() * 90) + 20;
+    const avgReadTimeMs = 78000;
+    const avgCompletion = 0.68;
+
+    await prisma.articleAnalytics.upsert({
+      where: { articleId: created.id },
+      update: {},
+      create: {
+        articleId: created.id,
+        totalViews,
+        uniqueVisitors,
+        totalReadTimeMs: avgReadTimeMs * totalViews,
+        totalCompletion: avgCompletion * totalViews,
+        avgReadTimeMs,
+        avgCompletion
       }
     });
   }

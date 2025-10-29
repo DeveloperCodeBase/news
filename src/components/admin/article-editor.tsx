@@ -19,6 +19,7 @@ type ArticleEditorProps = {
     contentFa: string;
     contentEn: string;
     status: ArticleStatus;
+    scheduledFor?: string | null;
     categories: { category: Taxonomy }[];
     tags: { tag: Taxonomy }[];
     coverImageUrl?: string | null;
@@ -44,6 +45,15 @@ export default function ArticleEditor({ article, taxonomies }: ArticleEditorProp
   const [activeLocale, setActiveLocale] = useState<'fa' | 'en'>('fa');
   const [coverImageUrl, setCoverImageUrl] = useState(article.coverImageUrl ?? '');
   const [isUploading, setIsUploading] = useState(false);
+  const [scheduledAt, setScheduledAt] = useState(() => {
+    if (!article.scheduledFor) return '';
+    const parsed = new Date(article.scheduledFor);
+    if (Number.isNaN(parsed.getTime())) return '';
+    const pad = (value: number) => value.toString().padStart(2, '0');
+    return `${parsed.getFullYear()}-${pad(parsed.getMonth() + 1)}-${pad(parsed.getDate())}T${pad(parsed.getHours())}:${pad(
+      parsed.getMinutes()
+    )}`;
+  });
 
   const editorFa = useEditor({
     extensions: [StarterKit],
@@ -63,6 +73,11 @@ export default function ArticleEditor({ article, taxonomies }: ArticleEditorProp
     if (!editorFa || !editorEn) return;
     setIsSubmitting(true);
 
+    const scheduledFor =
+      status === 'SCHEDULED' && scheduledAt
+        ? new Date(scheduledAt).toISOString()
+        : null;
+
     const payload = {
       titleFa,
       titleEn,
@@ -73,7 +88,8 @@ export default function ArticleEditor({ article, taxonomies }: ArticleEditorProp
       status,
       categories: selectedCategories,
       tags: selectedTags,
-      coverImageUrl: coverImageUrl ? coverImageUrl : null
+      coverImageUrl: coverImageUrl ? coverImageUrl : null,
+      scheduledFor
     };
 
     try {
@@ -300,6 +316,18 @@ export default function ArticleEditor({ article, taxonomies }: ArticleEditorProp
             ))}
           </select>
         </label>
+        {status === 'SCHEDULED' ? (
+          <label className="space-y-2">
+            <span className="block text-sm text-slate-300">زمان انتشار</span>
+            <input
+              type="datetime-local"
+              value={scheduledAt}
+              onChange={(event) => setScheduledAt(event.target.value)}
+              className="rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-slate-100 focus:border-emerald-400 focus:outline-none"
+              required
+            />
+          </label>
+        ) : null}
         <button
           type="submit"
           disabled={isSubmitting}

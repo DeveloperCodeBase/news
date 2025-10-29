@@ -3,7 +3,8 @@ import { getEnv } from '@/lib/env';
 
 const JOB_NAMES = {
   INGEST: 'vista.ingest',
-  REVALIDATE: 'vista.revalidate'
+  REVALIDATE: 'vista.revalidate',
+  PUBLISH_SCHEDULED: 'vista.publish'
 } as const;
 
 type JobName = (typeof JOB_NAMES)[keyof typeof JOB_NAMES];
@@ -22,9 +23,13 @@ async function getBoss() {
   return bossPromise;
 }
 
-export async function enqueueJob(name: JobName, payload: Record<string, unknown> = {}) {
+export async function enqueueJob(
+  name: JobName,
+  payload: Record<string, unknown> = {},
+  options?: PgBoss.SendOptions
+) {
   const boss = await getBoss();
-  await boss.send(name, payload);
+  return boss.send(name, payload, options ?? {});
 }
 
 export { JOB_NAMES, getBoss };

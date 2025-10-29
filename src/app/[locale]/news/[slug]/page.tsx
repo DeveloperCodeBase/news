@@ -5,6 +5,7 @@ import { getArticleBySlug, getRelatedArticles } from '@/lib/db/articles';
 import type { AppLocale } from '@/lib/i18n/config';
 import { getLocalizedValue } from '@/lib/news/localization';
 import { formatDisplayDate } from '@/lib/news/dates';
+import PageViewTracker from '@/components/analytics/page-view-tracker';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 600;
@@ -86,6 +87,7 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
 
   return (
     <article className="mx-auto flex max-w-3xl flex-col gap-8 px-4 py-10 sm:px-6 lg:px-8" dir={direction}>
+      <PageViewTracker articleId={article!.id} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <header className="space-y-4">
         <div className="flex flex-wrap items-center gap-3 text-xs text-slate-400">

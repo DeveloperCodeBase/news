@@ -10,7 +10,8 @@ type ReviewArticle = {
   titleFa: string;
   titleEn: string;
   status: ArticleStatus;
-  publishedAt: Date;
+  publishedAt: string | Date;
+  scheduledFor?: string | Date | null;
   source: { name: string } | null;
 };
 
@@ -52,7 +53,10 @@ export default function ReviewQueue({ articles }: ReviewQueueProps) {
           <div>
             <p className="text-lg font-semibold text-slate-100">{article.titleFa || article.titleEn}</p>
             <p className="text-sm text-slate-400">
-              منبع: {article.source?.name ?? 'نامشخص'} · زمان انتشار: {new Date(article.publishedAt).toLocaleString('fa-IR')}
+              منبع: {article.source?.name ?? 'نامشخص'} ·{' '}
+              {article.status === 'SCHEDULED' && article.scheduledFor
+                ? `برنامه‌ریزی شده برای ${new Date(article.scheduledFor).toLocaleString('fa-IR')}`
+                : `زمان انتشار: ${new Date(article.publishedAt).toLocaleString('fa-IR')}`}
             </p>
             <Link href={`/admin/articles/${article.id}`} className="mt-1 inline-block text-sm text-emerald-400 hover:text-emerald-300">
               ویرایش و بررسی کامل

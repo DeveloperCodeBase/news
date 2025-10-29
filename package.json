@@ -39,6 +39,7 @@
     "next-intl": "^3.13.0",
     "next-seo": "^6.5.0",
     "next-sitemap": "^4.2.3",
+    "nodemailer": "^6.9.11",
     "pg": "^8.11.5",
     "pg-boss": "^9.0.3",
     "react": "18.2.0",

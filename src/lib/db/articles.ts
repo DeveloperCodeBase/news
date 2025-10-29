@@ -13,6 +13,7 @@ const ARTICLE_SELECT = {
   contentEn: true,
   coverImageUrl: true,
   publishedAt: true,
+  scheduledFor: true,
   status: true,
   urlCanonical: true,
   source: {
@@ -72,6 +73,7 @@ export async function getReviewQueueArticles(limit = 25) {
       titleEn: true,
       status: true,
       publishedAt: true,
+      scheduledFor: true,
       source: { select: { name: true } }
     }
   });
@@ -97,11 +99,97 @@ export async function getArticleForAdmin(id: string) {
       contentFa: true,
       contentEn: true,
       status: true,
+      scheduledFor: true,
       coverImageUrl: true,
       categories: { select: { category: { select: { id: true, nameFa: true, nameEn: true } } } },
       tags: { select: { tag: { select: { id: true, nameFa: true, nameEn: true } } } }
     }
   });
+}
+
+export async function getScheduledArticles(limit = 25) {
+  return prisma.article.findMany({
+    where: { status: Status.SCHEDULED },
+    orderBy: { scheduledFor: 'asc' },
+    take: limit,
+    select: {
+      id: true,
+      slug: true,
+      titleFa: true,
+      titleEn: true,
+      scheduledFor: true,
+      source: { select: { name: true } }
+    }
+  });
+}
+
+export async function getArticleAnalyticsSummary() {
+  const [totals, topArticles] = await Promise.all([
+    prisma.articleAnalytics.aggregate({
+      _sum: { totalViews: true, uniqueVisitors: true, totalReadTimeMs: true, totalCompletion: true },
+      _count: true
+    }),
+    prisma.article.findMany({
+      where: { analytics: { isNot: null } },
+      select: {
+        id: true,
+        slug: true,
+        titleFa: true,
+        titleEn: true,
+        analytics: {
+          select: {
+            totalViews: true,
+            uniqueVisitors: true,
+            totalReadTimeMs: true,
+            totalCompletion: true,
+            avgReadTimeMs: true,
+            avgCompletion: true,
+            updatedAt: true,
+            lastViewedAt: true
+          }
+        }
+      },
+      orderBy: {
+        analytics: {
+          totalViews: 'desc'
+        }
+      },
+      take: 10
+    })
+  ]);
+
+  const totalViews = totals._sum.totalViews ?? 0;
+  const totalVisitors = totals._sum.uniqueVisitors ?? 0;
+  const totalReadTime = totals._sum.totalReadTimeMs ?? 0;
+  const totalCompletion = totals._sum.totalCompletion ?? 0;
+  const avgReadTimeMs = totalViews > 0 ? Math.round(totalReadTime / totalViews) : 0;
+  const avgCompletion = totalViews > 0 ? totalCompletion / totalViews : 0;
+
+  return {
+    totals: {
+      views: totalViews,
+      visitors: totalVisitors,
+      avgReadTimeMs,
+      avgCompletion
+    },
+    topArticles: topArticles.map((article) => ({
+      id: article.id,
+      slug: article.slug,
+      titleFa: article.titleFa,
+      titleEn: article.titleEn,
+      analytics: article.analytics && {
+        ...article.analytics,
+        avgReadTimeMs:
+          article.analytics.totalViews > 0
+            ? Math.round(article.analytics.totalReadTimeMs / article.analytics.totalViews)
+            : 0,
+        avgCompletion:
+          article.analytics.totalViews > 0
+            ? article.analytics.totalCompletion / article.analytics.totalViews
+            : 0
+      }
+    }))
+  };
 }
 
 export async function getAdminTaxonomies() {

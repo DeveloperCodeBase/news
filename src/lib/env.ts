@@ -20,7 +20,14 @@ const envSchema = z.object({
   OPENAI_API_KEY: z.string().optional(),
   GOOGLE_PROJECT_ID: z.string().optional(),
   GOOGLE_APPLICATION_CREDENTIALS: z.string().optional(),
-  ALERT_EMAIL: z.string().email().optional()
+  ALERT_EMAIL: z.string().email().optional(),
+  SMTP_HOST: z.string().optional(),
+  SMTP_PORT: z.string().optional(),
+  SMTP_USER: z.string().optional(),
+  SMTP_PASSWORD: z.string().optional(),
+  SMTP_SECURE: z.enum(['true', 'false']).optional(),
+  SMTP_FROM: z.string().optional(),
+  NEWSLETTER_RECIPIENTS: z.string().optional()
 });
 
 type Env = z.infer<typeof envSchema>;
