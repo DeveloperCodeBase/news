@@ -8,7 +8,8 @@
     "about": "About",
     "contact": "Contact",
     "categories": "Categories",
-    "latest": "Latest"
+    "latest": "Latest",
+    "login": "Admin login"
   },
   "home": {
     "heroBadge": "Real-time AI coverage",

@@ -60,11 +60,56 @@ export async function getHomepageArticles(limit = 12) {
   });
 }
 
+export async function getReviewQueueArticles(limit = 25) {
+  return prisma.article.findMany({
+    where: { status: { in: [Status.REVIEWED, Status.DRAFT] } },
+    orderBy: [{ status: 'asc' }, { updatedAt: 'desc' }],
+    take: limit,
+    select: {
+      id: true,
+      slug: true,
+      titleFa: true,
+      titleEn: true,
+      status: true,
+      publishedAt: true,
+      source: { select: { name: true } }
+    }
+  });
+}
+
 export async function getArticleBySlug(slug: string) {
   return prisma.article.findUnique({
     where: { slug },
     select: ARTICLE_SELECT
   });
+}
+
+export async function getArticleForAdmin(id: string) {
+  return prisma.article.findUnique({
+    where: { id },
+    select: {
+      id: true,
+      slug: true,
+      titleFa: true,
+      titleEn: true,
+      excerptFa: true,
+      excerptEn: true,
+      contentFa: true,
+      contentEn: true,
+      status: true,
+      categories: { select: { category: { select: { id: true, nameFa: true, nameEn: true } } } },
+      tags: { select: { tag: { select: { id: true, nameFa: true, nameEn: true } } } }
+    }
+  });
+}
+
+export async function getAdminTaxonomies() {
+  const [categories, tags] = await Promise.all([
+    prisma.category.findMany({ select: { id: true, nameFa: true, nameEn: true } }),
+    prisma.tag.findMany({ select: { id: true, nameFa: true, nameEn: true } })
+  ]);
+
+  return { categories, tags };
 }
 
 export async function getRelatedArticles(articleId: string, categoryIds: string[], take = 4) {

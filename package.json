@@ -11,14 +11,20 @@
     "typecheck": "tsc --noEmit",
     "prepare": "husky install",
     "seed": "pnpm prisma db seed",
-    "ingest": "ts-node src/jobs/index.ts"
+    "ingest": "ts-node src/jobs/index.ts",
+    "queue:worker": "ts-node src/jobs/worker.ts",
+    "test": "vitest",
+    "test:unit": "vitest run tests/unit",
+    "test:e2e": "vitest run tests/e2e"
   },
   "dependencies": {
     "@supabase/auth-helpers-nextjs": "^0.11.0",
+    "@supabase/auth-helpers-react": "^0.5.0",
     "@supabase/supabase-js": "^2.44.3",
     "@sindresorhus/slugify": "^2.2.1",
     "@tanstack/react-query": "^5.45.0",
-    "bcryptjs": "^2.4.3",
+    "@tiptap/react": "^2.6.6",
+    "@tiptap/starter-kit": "^2.6.6",
     "clsx": "^2.1.0",
     "date-fns": "^3.6.0",
     "metascraper": "^5.43.1",
@@ -33,6 +39,8 @@
     "next-intl": "^3.13.0",
     "next-seo": "^6.5.0",
     "next-sitemap": "^4.2.3",
+    "pg": "^8.11.5",
+    "pg-boss": "^9.0.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "rss-parser": "^3.13.0",
@@ -45,7 +53,6 @@
   "devDependencies": {
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
-    "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20.14.10",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
@@ -59,7 +66,10 @@
     "prisma": "^5.16.1",
     "tailwindcss": "^3.4.4",
     "typescript": "^5.4.5",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "vitest": "^1.6.0",
+    "@vitest/coverage-v8": "^1.6.0",
+    "vite-tsconfig-paths": "^4.3.2"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [

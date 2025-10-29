@@ -25,6 +25,9 @@ export default async function SiteHeader({ locale }: { locale: AppLocale }) {
               {item.label}
             </Link>
           ))}
+          <Link href="/login" className="rounded-full border border-slate-700 px-3 py-1 text-xs font-medium hover:border-sky-300 hover:text-sky-300">
+            {t('login')}
+          </Link>
           <LocaleSwitcher locale={locale} />
         </nav>
       </div>

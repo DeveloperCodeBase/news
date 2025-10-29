@@ -1,20 +1,28 @@
 import { PrismaClient, Role, Status, Lang } from '@prisma/client';
-import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
 async function main() {
-  const passwordHash = await bcrypt.hash('Strong!Pass#123', 10);
-
-  await prisma.user.upsert({
-    where: { email: 'admin@vista-ai.ir' },
-    update: {},
-    create: {
+  const seedUsers = [
+    {
+      authId: '00000000-0000-4000-8000-000000000001',
       email: 'admin@vista-ai.ir',
-      password: passwordHash,
       role: Role.ADMIN
+    },
+    {
+      authId: '00000000-0000-4000-8000-000000000002',
+      email: 'editor@vista-ai.ir',
+      role: Role.EDITOR
     }
-  });
+  ];
+
+  for (const user of seedUsers) {
+    await prisma.user.upsert({
+      where: { email: user.email },
+      update: { role: user.role },
+      create: user
+    });
+  }
 
   const categories = [
     { slug: 'news', nameFa: 'خبر', nameEn: 'News' },

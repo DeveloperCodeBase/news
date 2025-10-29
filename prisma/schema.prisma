@@ -27,8 +27,8 @@ enum Status {
 
 model User {
   id        String   @id @default(cuid())
+  authId    String   @unique
   email     String   @unique
-  password  String
   role      Role     @default(CONTRIBUTOR)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
