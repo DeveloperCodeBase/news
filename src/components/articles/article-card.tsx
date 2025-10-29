@@ -11,6 +11,8 @@ export type ArticleSummary = {
   titleEn: string | null;
   excerptFa: string | null;
   excerptEn: string | null;
+  summaryFa: string | null;
+  summaryEn: string | null;
   coverImageUrl: string | null;
   publishedAt: Date;
   status: string;
@@ -25,7 +27,9 @@ type ArticleCardProps = {
 
 export default function ArticleCard({ article, locale }: ArticleCardProps) {
   const title = getLocalizedValue(article, locale, 'title');
+  const summary = getLocalizedValue(article, locale, 'summary');
   const excerpt = getLocalizedValue(article, locale, 'excerpt');
+  const teaser = summary || excerpt;
   const href = `/${locale}/news/${article.slug}`;
   const direction = locale === 'fa' ? 'rtl' : 'ltr';
 
@@ -56,7 +60,7 @@ export default function ArticleCard({ article, locale }: ArticleCardProps) {
           <time>{formatDisplayDate(article.publishedAt, locale)}</time>
         </div>
         <h3 className="line-clamp-2 text-lg font-semibold text-slate-100">{title}</h3>
-        {excerpt && <p className="line-clamp-3 text-sm text-slate-300">{excerpt}</p>}
+        {teaser && <p className="line-clamp-3 text-sm text-slate-300">{teaser}</p>}
         <div className="mt-auto flex flex-wrap gap-2 text-xs text-slate-400">
           {article.categories.slice(0, 2).map((category) => (
             <span key={category.slug} className="rounded-full border border-slate-700/60 px-2 py-1">

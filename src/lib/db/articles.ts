@@ -9,6 +9,8 @@ const ARTICLE_SELECT = {
   titleEn: true,
   excerptFa: true,
   excerptEn: true,
+  summaryFa: true,
+  summaryEn: true,
   contentFa: true,
   contentEn: true,
   coverImageUrl: true,
@@ -102,6 +104,8 @@ export async function getArticleForAdmin(id: string) {
       titleEn: true,
       excerptFa: true,
       excerptEn: true,
+      summaryFa: true,
+      summaryEn: true,
       contentFa: true,
       contentEn: true,
       status: true,
@@ -246,7 +250,9 @@ export async function searchArticles(query: string, locale: AppLocale, limit = 1
         { titleFa: { contains: text, mode: 'insensitive' } },
         { titleEn: { contains: text, mode: 'insensitive' } },
         { excerptFa: { contains: text, mode: 'insensitive' } },
-        { excerptEn: { contains: text, mode: 'insensitive' } }
+        { excerptEn: { contains: text, mode: 'insensitive' } },
+        { summaryFa: { contains: text, mode: 'insensitive' } },
+        { summaryEn: { contains: text, mode: 'insensitive' } }
       ]
     },
     select: ARTICLE_SELECT,

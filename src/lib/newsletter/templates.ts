@@ -7,6 +7,8 @@ type ArticlePayload = Prisma.ArticleGetPayload<{
     titleEn: true;
     excerptFa: true;
     excerptEn: true;
+    summaryFa: true;
+    summaryEn: true;
     publishedAt: true;
   };
 }>;
@@ -27,7 +29,8 @@ function renderArticleList(items: ArticlePayload[], locale: 'fa' | 'en', siteUrl
   return items
     .map((article) => {
       const title = locale === 'fa' ? article.titleFa ?? article.titleEn ?? '' : article.titleEn ?? article.titleFa ?? '';
-      const excerpt = locale === 'fa' ? article.excerptFa ?? article.excerptEn ?? '' : article.excerptEn ?? article.excerptFa ?? '';
+      const summary = locale === 'fa' ? article.summaryFa ?? article.summaryEn : article.summaryEn ?? article.summaryFa;
+      const excerpt = summary ?? (locale === 'fa' ? article.excerptFa ?? article.excerptEn ?? '' : article.excerptEn ?? article.excerptFa ?? '');
       const link = `${siteUrl}/${locale}/news/${article.slug}`;
       return { title, excerpt, link, date: article.publishedAt.toISOString().split('T')[0] };
     })

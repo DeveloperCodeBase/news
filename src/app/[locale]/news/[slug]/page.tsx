@@ -21,7 +21,9 @@ export async function generateMetadata({ params }: { params: { locale: AppLocale
   }
   const t = await getTranslations({ locale, namespace: 'article' });
   const title = getLocalizedValue(article, locale, 'title');
-  const description = getLocalizedValue(article, locale, 'excerpt');
+  const localizedSummary = getLocalizedValue(article, locale, 'summary');
+  const localizedExcerpt = getLocalizedValue(article, locale, 'excerpt');
+  const description = localizedSummary || localizedExcerpt;
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://news.vista-ai.ir';
   const url = `${siteUrl}/${locale}/news/${article.slug}`;
 
@@ -59,8 +61,10 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
 
   const title = getLocalizedValue(article!, locale, 'title');
   const content = getLocalizedValue(article!, locale, 'content');
+  const summary = getLocalizedValue(article!, locale, 'summary');
   const excerpt = getLocalizedValue(article!, locale, 'excerpt');
-  const safeContent = content || (excerpt ? `<p>${excerpt}</p>` : '');
+  const leadText = summary || excerpt;
+  const safeContent = content || (leadText ? `<p>${leadText}</p>` : '');
 
   const related = await getRelatedArticles(
     article!.id,
@@ -83,6 +87,7 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
     datePublished: article!.publishedAt.toISOString(),
     mainEntityOfPage: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://news.vista-ai.ir'}/${locale}/news/${article!.slug}`,
     image: article!.coverImageUrl,
+    description: leadText,
     author: {
       '@type': 'Organization',
       name: 'Vista AI News'
@@ -120,9 +125,9 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
       <h1 className={clsx('font-bold text-slate-50', isImmersive ? 'text-5xl leading-tight' : 'text-4xl')}>
         {title}
       </h1>
-      {excerpt && (
+      {leadText && (
         <p className={clsx('text-slate-300', isImmersive ? 'text-xl' : 'text-lg')}>
-          {excerpt}
+          {leadText}
         </p>
       )}
       <p className="text-sm text-slate-400">

@@ -15,13 +15,35 @@ const envSchema = z.object({
   INTERNAL_API_TOKEN: z.string().min(16),
   MEDIA_UPLOAD_DIR: z.string().default('public/media'),
   QUEUE_DATABASE_URL: z.string().url().optional(),
-  JOB_QUEUE_SCHEMA: z.string().optional(),
+  JOB_QUEUE_SCHEMA: z
+    .string()
+    .regex(/^[a-zA-Z0-9_]+$/)
+    .optional(),
   TREND_MODEL_PATH: z.string().optional(),
   LT_URL: z.string().optional(),
   OPENAI_API_KEY: z.string().optional(),
   GOOGLE_PROJECT_ID: z.string().optional(),
   GOOGLE_APPLICATION_CREDENTIALS: z.string().optional(),
   ALERT_EMAIL: z.string().email().optional(),
+  INGEST_CRON: z.string().default('*/5 * * * *'),
+  PUBLISH_CRON: z.string().default('*/1 * * * *'),
+  MONITOR_CRON: z.string().default('*/1 * * * *'),
+  QUEUE_BACKLOG_ALERT_THRESHOLD: z
+    .string()
+    .optional()
+    .transform((value) => {
+      if (!value) return undefined;
+      const parsed = Number(value);
+      return Number.isFinite(parsed) ? parsed : undefined;
+    }),
+  QUEUE_FAILURE_ALERT_THRESHOLD: z
+    .string()
+    .optional()
+    .transform((value) => {
+      if (!value) return undefined;
+      const parsed = Number(value);
+      return Number.isFinite(parsed) ? parsed : undefined;
+    }),
   SMTP_HOST: z.string().optional(),
   SMTP_PORT: z.string().optional(),
   SMTP_USER: z.string().optional(),
@@ -32,7 +54,10 @@ const envSchema = z.object({
   NEXT_PUBLIC_WEB_PUSH_VAPID_PUBLIC_KEY: z.string().optional(),
   WEB_PUSH_VAPID_PUBLIC_KEY: z.string().optional(),
   WEB_PUSH_VAPID_PRIVATE_KEY: z.string().optional(),
-  WEB_PUSH_CONTACT_EMAIL: z.string().optional()
+  WEB_PUSH_CONTACT_EMAIL: z.string().optional(),
+  SMS_WEBHOOK_URL: z.string().url().optional(),
+  SMS_WEBHOOK_TOKEN: z.string().optional(),
+  SMS_RECIPIENTS: z.string().optional()
 });
 
 type Env = z.infer<typeof envSchema>;

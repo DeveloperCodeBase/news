@@ -53,7 +53,7 @@ export default async function LocaleHomePage({ params }: { params: { locale: App
                   {getLocalizedValue(hero, locale, 'title')}
                 </h2>
                 <p className="text-sm text-slate-300">
-                  {getLocalizedValue(hero, locale, 'excerpt')}
+                  {getLocalizedValue(hero, locale, 'summary') || getLocalizedValue(hero, locale, 'excerpt')}
                 </p>
               </div>
             </Link>
@@ -101,6 +101,8 @@ export default async function LocaleHomePage({ params }: { params: { locale: App
               titleEn: article.titleEn,
               excerptFa: article.excerptFa,
               excerptEn: article.excerptEn,
+              summaryFa: article.summaryFa,
+              summaryEn: article.summaryEn,
               coverImageUrl: article.coverImageUrl,
               publishedAt: article.publishedAt,
               status: article.status,
@@ -120,6 +122,8 @@ export default async function LocaleHomePage({ params }: { params: { locale: App
                 titleEn: hero.titleEn,
                 excerptFa: hero.excerptFa,
                 excerptEn: hero.excerptEn,
+                summaryFa: hero.summaryFa,
+                summaryEn: hero.summaryEn,
                 coverImageUrl: hero.coverImageUrl,
                 publishedAt: hero.publishedAt,
                 status: hero.status,

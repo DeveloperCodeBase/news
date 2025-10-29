@@ -9,6 +9,9 @@ import { predictTopics } from '@/lib/news/topics';
 import sanitizeHtml from 'sanitize-html';
 import { sendAlertEmail } from '@/lib/email/mailer';
 import { enqueueJob, JOB_NAMES } from './queue';
+import { buildBilingualSummaries } from '@/lib/news/summarizer';
+import { startCronHeartbeat, finishCronHeartbeat, recordAlertEvent } from '@/lib/monitoring/heartbeat';
+import { sendAlertSms } from '@/lib/alerts/sms';
 
 function buildExcerpt(text: string, length = 260) {
   if (!text) return '';
@@ -18,6 +21,7 @@ function buildExcerpt(text: string, length = 260) {
 }
 
 export async function runIngestion() {
+  const heartbeat = await startCronHeartbeat('ingestion');
   try {
     const dbSources = await prisma.source.findMany({
       where: { active: true, blacklisted: false },
@@ -117,6 +121,25 @@ export async function runIngestion() {
           .slice(0, 6)
           .map((topic) => ({ label: topic.label, score: topic.score, source: topic.source }));
 
+        const plainFaForSummary = contentFa
+          ? sanitizeHtml(contentFa, { allowedTags: [], allowedAttributes: {} })
+          : undefined;
+        const plainEnForSummary = contentEn
+          ? sanitizeHtml(contentEn, { allowedTags: [], allowedAttributes: {} })
+          : undefined;
+        const fallbackPlain = sanitizeHtml(article.description ?? excerpt, {
+          allowedTags: [],
+          allowedAttributes: {}
+        });
+
+        const { summaryFa, summaryEn } = buildBilingualSummaries({
+          persian: plainFaForSummary ?? fallbackPlain,
+          english: plainEnForSummary ?? fallbackPlain
+        });
+
+        const finalSummaryFa = summaryFa || excerptFa || excerpt;
+        const finalSummaryEn = summaryEn || excerptEn || excerpt;
+
         await prisma.article.create({
           data: {
             slug,
@@ -125,6 +148,8 @@ export async function runIngestion() {
             titleEn: titleEn ?? article.title,
             excerptFa: excerptFa ?? excerpt,
             excerptEn: excerptEn ?? excerpt,
+            summaryFa: finalSummaryFa,
+            summaryEn: finalSummaryEn,
             contentFa: contentFa ?? article.contentHtml,
             contentEn: contentEn ?? article.contentHtml,
             coverImageUrl: article.coverImageUrl,
@@ -182,6 +207,11 @@ export async function runIngestion() {
       );
     }
 
+    await finishCronHeartbeat(heartbeat.id, 'success', {
+      startedAt: heartbeat.startedAt,
+      message: `created:${created} skipped:${skipped}`
+    });
+
     return {
       fetched: articles.length,
       created,
@@ -189,11 +219,25 @@ export async function runIngestion() {
     };
   } catch (error) {
     console.error('Ingestion failed', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    await finishCronHeartbeat(heartbeat.id, 'error', {
+      startedAt: heartbeat.startedAt,
+      message: errorMessage
+    });
     await sendAlertEmail({
       subject: 'Vista News ingestion failed',
-      html: `<p>خطا در اجرای پایپلاین جمع‌آوری اخبار:</p><pre>${
-        error instanceof Error ? error.message : 'Unknown error'
-      }</pre>`
+      html: `<p>خطا در اجرای پایپلاین جمع‌آوری اخبار:</p><pre>${errorMessage}</pre>`
+    });
+    await recordAlertEvent({
+      channel: 'system',
+      severity: 'critical',
+      subject: 'خطای پایپلاین جمع‌آوری خبر',
+      message: errorMessage,
+      metadata: { source: 'runIngestion' }
+    });
+    await sendAlertSms({
+      subject: 'اخطار پایپلاین خبر ویستا',
+      message: `پایپلاین جمع‌آوری خبر با خطا مواجه شد: ${errorMessage}`
     });
     throw error;
   }

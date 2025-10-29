@@ -65,6 +65,8 @@ model Article {
   titleEn       String?
   excerptFa     String?
   excerptEn     String?
+  summaryFa     String?
+  summaryEn     String?
   contentFa     String?
   contentEn     String?
   coverImageUrl String?
@@ -338,4 +340,50 @@ model PushSubscription {
   auth           String
   createdAt      DateTime @default(now())
   lastNotifiedAt DateTime?
+}
+
+model CronHeartbeat {
+  id         String   @id @default(cuid())
+  job        String
+  status     String
+  startedAt  DateTime @default(now())
+  finishedAt DateTime?
+  durationMs Int?
+  message    String?
+  createdAt  DateTime @default(now())
+
+  @@index([job, createdAt])
+}
+
+model QueueSnapshot {
+  id        String   @id @default(cuid())
+  queue     String
+  waiting   Int
+  active    Int
+  completed Int
+  failed    Int
+  createdAt DateTime @default(now())
+
+  @@index([queue, createdAt])
+}
+
+model AlertEvent {
+  id        String   @id @default(cuid())
+  channel   String
+  severity  String
+  subject   String
+  message   String
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  @@index([channel, createdAt])
+}
+
+model SmsNotification {
+  id         String   @id @default(cuid())
+  recipients String
+  body       String
+  status     String
+  response   String?
+  createdAt  DateTime @default(now())
 }

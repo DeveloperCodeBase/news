@@ -20,7 +20,10 @@ export async function GET(request: NextRequest) {
     results: results.map((article) => ({
       slug: article.slug,
       title: locale === 'fa' ? article.titleFa ?? article.titleEn : article.titleEn ?? article.titleFa,
-      excerpt: locale === 'fa' ? article.excerptFa ?? article.excerptEn : article.excerptEn ?? article.excerptFa,
+      excerpt:
+        locale === 'fa'
+          ? article.summaryFa ?? article.excerptFa ?? article.summaryEn ?? article.excerptEn
+          : article.summaryEn ?? article.excerptEn ?? article.summaryFa ?? article.excerptFa,
       publishedAt: article.publishedAt.toISOString(),
       source: article.source.name
     }))

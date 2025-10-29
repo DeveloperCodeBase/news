@@ -5,7 +5,8 @@ const JOB_NAMES = {
   INGEST: 'vista.ingest',
   REVALIDATE: 'vista.revalidate',
   PUBLISH_SCHEDULED: 'vista.publish',
-  TREND_REFRESH: 'vista.trend-refresh'
+  TREND_REFRESH: 'vista.trend-refresh',
+  MONITOR_HEALTH: 'vista.monitor'
 } as const;
 
 type JobName = (typeof JOB_NAMES)[keyof typeof JOB_NAMES];

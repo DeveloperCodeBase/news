@@ -9,7 +9,8 @@ export async function GET() {
   const items = articles
     .map((article) => {
       const title = getLocalizedValue(article, 'fa', 'title');
-      const description = getLocalizedValue(article, 'fa', 'excerpt');
+      const summary = getLocalizedValue(article, 'fa', 'summary');
+      const description = summary || getLocalizedValue(article, 'fa', 'excerpt');
       return `    <item>
       <title><![CDATA[${title}]]></title>
       <link>${siteUrl}/fa/news/${article.slug}</link>

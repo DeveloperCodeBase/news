@@ -16,6 +16,8 @@ type ArticleEditorProps = {
     titleEn: string;
     excerptFa: string;
     excerptEn: string;
+    summaryFa: string | null;
+    summaryEn: string | null;
     contentFa: string;
     contentEn: string;
     status: ArticleStatus;
@@ -37,6 +39,8 @@ export default function ArticleEditor({ article, taxonomies }: ArticleEditorProp
   const [titleEn, setTitleEn] = useState(article.titleEn);
   const [excerptFa, setExcerptFa] = useState(article.excerptFa);
   const [excerptEn, setExcerptEn] = useState(article.excerptEn);
+  const [summaryFa, setSummaryFa] = useState(article.summaryFa ?? article.excerptFa);
+  const [summaryEn, setSummaryEn] = useState(article.summaryEn ?? article.excerptEn);
   const [selectedCategories, setSelectedCategories] = useState(() =>
     article.categories.map(({ category }) => category.id)
   );
@@ -83,6 +87,8 @@ export default function ArticleEditor({ article, taxonomies }: ArticleEditorProp
       titleEn,
       excerptFa,
       excerptEn,
+      summaryFa,
+      summaryEn,
       contentFa: editorFa.getHTML(),
       contentEn: editorEn.getHTML(),
       status,
@@ -227,6 +233,26 @@ export default function ArticleEditor({ article, taxonomies }: ArticleEditorProp
             className="h-32 w-full rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-slate-100 focus:border-emerald-400 focus:outline-none"
             required
           />
+        </label>
+        <label className="space-y-2">
+          <span className="block text-sm text-slate-300">خلاصه هوشمند فارسی</span>
+          <textarea
+            value={summaryFa}
+            onChange={(event) => setSummaryFa(event.target.value)}
+            className="h-28 w-full rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-slate-100 focus:border-emerald-400 focus:outline-none"
+            required
+          />
+          <span className="block text-xs text-slate-500">این خلاصه در کارت‌ها و JSON-LD استفاده می‌شود.</span>
+        </label>
+        <label className="space-y-2">
+          <span className="block text-sm text-slate-300">AI Summary (English)</span>
+          <textarea
+            value={summaryEn}
+            onChange={(event) => setSummaryEn(event.target.value)}
+            className="h-28 w-full rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-slate-100 focus:border-emerald-400 focus:outline-none"
+            required
+          />
+          <span className="block text-xs text-slate-500">Used for English feeds and SEO snippet.</span>
         </label>
       </div>
 
