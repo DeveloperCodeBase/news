@@ -1,0 +1,138 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+  CONTRIBUTOR
+}
+
+enum Lang {
+  FA
+  EN
+}
+
+enum Status {
+  DRAFT
+  REVIEWED
+  PUBLISHED
+  REJECTED
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  role      Role     @default(CONTRIBUTOR)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  articles  Article[] @relation("AuthorArticles")
+}
+
+model Source {
+  id        String   @id @default(cuid())
+  name      String
+  url       String
+  feedUrl   String   @unique
+  isTrusted Boolean  @default(true)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  articles  Article[]
+}
+
+model Article {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  urlCanonical  String   @unique
+  titleFa       String
+  titleEn       String?
+  excerptFa     String?
+  excerptEn     String?
+  contentFa     String?
+  contentEn     String?
+  coverImageUrl String?
+  sourceId      String
+  source        Source   @relation(fields: [sourceId], references: [id])
+  status        Status   @default(REVIEWED)
+  authorId      String?
+  author        User?    @relation("AuthorArticles", fields: [authorId], references: [id])
+  publishedAt   DateTime @default(now())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  categories    CategoryOnArticle[]
+  tags          TagOnArticle[]
+  media         Media[]
+  translations  TranslationCache[]
+}
+
+model Category {
+  id                  String               @id @default(cuid())
+  slug                String               @unique
+  nameFa              String
+  nameEn              String?
+  descriptionFa       String?
+  descriptionEn       String?
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  articles            CategoryOnArticle[]
+}
+
+model CategoryOnArticle {
+  articleId  String
+  categoryId String
+  article    Article  @relation(fields: [articleId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  @@id([articleId, categoryId])
+}
+
+model Tag {
+  id        String          @id @default(cuid())
+  slug      String          @unique
+  nameFa    String
+  nameEn    String?
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  articles  TagOnArticle[]
+}
+
+model TagOnArticle {
+  articleId String
+  tagId     String
+  article   Article @relation(fields: [articleId], references: [id])
+  tag       Tag     @relation(fields: [tagId], references: [id])
+
+  @@id([articleId, tagId])
+}
+
+model Media {
+  id        String   @id @default(cuid())
+  url       String
+  width     Int?
+  height    Int?
+  altFa     String?
+  altEn     String?
+  articleId String?
+  article   Article? @relation(fields: [articleId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model TranslationCache {
+  id           String   @id @default(cuid())
+  hash         String   @unique
+  sourceLang   Lang
+  targetLang   Lang
+  sourceText   String
+  translated   String
+  provider     String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  articleId    String?
+  article      Article? @relation(fields: [articleId], references: [id])
+}
