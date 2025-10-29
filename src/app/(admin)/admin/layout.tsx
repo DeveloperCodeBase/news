@@ -1,36 +1,31 @@
 import { ReactNode } from 'react';
 import { redirect } from 'next/navigation';
-import { cookies } from 'next/headers';
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { getServerSession } from 'next-auth';
 import AdminShell from '@/components/admin/admin-shell';
 import { DEFAULT_LOCALE } from '@/lib/i18n/config';
-import { isEditorialRole, normalizeRole } from '@/lib/auth/permissions';
-import { ensureUser } from '@/lib/db/users';
-import { Role } from '@prisma/client';
-import type { Database } from '@/types/supabase';
+import { isEditorialRole } from '@/lib/auth/permissions';
+import { authOptions } from '@/lib/auth/options';
 
 type AdminLayoutProps = {
   children: ReactNode;
 };
 
 export default async function AdminLayout({ children }: AdminLayoutProps) {
-  const supabase = createServerComponentClient<Database>({ cookies });
-  const {
-    data: { session }
-  } = await supabase.auth.getSession();
+  const session = await getServerSession(authOptions);
 
-  if (!session) {
+  if (!session?.user?.email) {
     redirect('/login');
   }
 
-  const role = normalizeRole(session.user.user_metadata?.role);
+  const role = session.user.role;
+
   if (!role || !isEditorialRole(role)) {
     redirect(`/${DEFAULT_LOCALE}`);
   }
 
-  const email = session.user.email ?? `${session.user.id}@supabase.local`;
-  const prismaRole = Role[role as keyof typeof Role];
-  await ensureUser(session.user.id, email, prismaRole);
-
-  return <AdminShell email={email} role={role}>{children}</AdminShell>;
+  return (
+    <AdminShell email={session.user.email} role={role}>
+      {children}
+    </AdminShell>
+  );
 }

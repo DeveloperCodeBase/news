@@ -27,4 +27,6 @@ prisma/migrations/
 .DS_Store
 .idea/
 .vscode/
+public/media/*
+!public/media/.gitkeep
 

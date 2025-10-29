@@ -1,12 +1,26 @@
-import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
+import { getServerSession } from 'next-auth';
 import { prisma } from '@/lib/db/client';
 import { JOB_NAMES, enqueueJob } from '@/jobs/queue';
-import { isEditorialRole, normalizeRole } from '@/lib/auth/permissions';
+import { isEditorialRole } from '@/lib/auth/permissions';
 import { Status } from '@prisma/client';
 import { z } from 'zod';
-import type { Database } from '@/types/supabase';
+import { authOptions } from '@/lib/auth/options';
+
+const coverImageSchema = z
+  .string()
+  .refine((value) => {
+    if (!value) return false;
+    if (value.startsWith('/')) return true;
+    try {
+      new URL(value);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }, 'Invalid cover image URL')
+  .optional()
+  .nullable();
 
 const updateArticleSchema = z.object({
   titleFa: z.string().min(3),
@@ -17,21 +31,18 @@ const updateArticleSchema = z.object({
   contentEn: z.string().min(3),
   status: z.nativeEnum(Status),
   categories: z.array(z.string()),
-  tags: z.array(z.string())
+  tags: z.array(z.string()),
+  coverImageUrl: coverImageSchema
 });
 
 export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
-  const supabase = createRouteHandlerClient<Database>({ cookies });
-  const {
-    data: { session }
-  } = await supabase.auth.getSession();
+  const session = await getServerSession(authOptions);
 
-  if (!session) {
+  if (!session?.user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const role = normalizeRole(session.user.user_metadata?.role);
-  if (!role || !isEditorialRole(role)) {
+  if (!session.user.role || !isEditorialRole(session.user.role)) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
@@ -42,7 +53,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     return NextResponse.json({ error: 'Invalid payload', details: payload.error.flatten() }, { status: 400 });
   }
 
-  const { titleFa, titleEn, excerptFa, excerptEn, contentFa, contentEn, status, categories, tags } = payload.data;
+  const { titleFa, titleEn, excerptFa, excerptEn, contentFa, contentEn, status, categories, tags, coverImageUrl } = payload.data;
 
   const article = await prisma.article.update({
     where: { id: params.id },
@@ -69,7 +80,8 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
               create: tags.map((tagId) => ({ tag: { connect: { id: tagId } } }))
             }
           : {})
-      }
+      },
+      coverImageUrl: coverImageUrl ?? null
     },
     select: {
       id: true,

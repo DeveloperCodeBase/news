@@ -6,14 +6,10 @@ export const runtime = 'nodejs';
 
 export async function POST(request: NextRequest) {
   const env = getEnv();
-  const serviceKey = env.SUPABASE_SERVICE_ROLE_KEY;
-
-  if (!serviceKey) {
-    return NextResponse.json({ error: 'Service key not configured' }, { status: 500 });
-  }
+  const token = env.INTERNAL_API_TOKEN;
 
   const authorization = request.headers.get('authorization');
-  if (authorization !== `Bearer ${serviceKey}`) {
+  if (authorization !== `Bearer ${token}`) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 

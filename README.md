@@ -1,262 +1,223 @@
 # Vista AI News Magazine
 
-مجلهٔ خبری «ویستا AI» یک پلتفرم دو‌زبانهٔ مبتنی بر Next.js 14 است که با هدف گردآوری، ترجمه و انتشار سریع اخبار هوش مصنوعی طراحی شده است. این مخزن شامل لایهٔ کاربری، پنل مدیریت، پایپلاین جمع‌آوری خودکار، صف پردازش، و تست‌های کیفی است و برای اجرا روی سرورهای شخصی یا استقرار ابری (Vercel + Supabase) آماده‌سازی شده است.
+مجلهٔ خبری دو‌زبانهٔ «ویستا AI» یک پلتفرم جامع برای گردآوری، ترجمه، و انتشار اخبار هوش مصنوعی است. کل پروژه با رویکرد **لوکال‌محور** پیاده‌سازی شده است؛ تمام سرویس‌ها (پایگاه‌داده، صف، ترجمه و ذخیره‌سازی رسانه) در همان سرور اجرا می‌شوند و تنها وابستگی خارجی Google OAuth برای ورود مدیران است.
 
-## نمای کلی پروژه
+## خلاصهٔ قابلیت‌ها
 
-| حوزه | وضعیت پیاده‌سازی |
+- رابط کاربری مجله‌ای واکنش‌گرا با پشتیبانی کامل RTL، تم تیره/روشن، قهرمان خبرهای داغ، دسته‌بندی‌ها، برچسب‌ها و جست‌وجوی تمام‌متنی.
+- SEO پیشرفته: خروجی‌های RSS، Sitemap، robots.txt و JSON-LD برای هر خبر، به‌همراه hreflang برای مسیرهای فارسی/انگلیسی.
+- پایپلاین جمع‌آوری خودکار: خواندن RSS از Allowlist، نرمال‌سازی، پاکسازی HTML، جلوگیری از تکرار، طبقه‌بندی کلیدواژه‌ای و ترجمهٔ خودکار به فارسی با کش در پایگاه‌داده.
+- پنل مدیریت پیشرفته: ورود فقط با حساب‌های Gmail مجاز (تعریف شده در متغیرهای محیطی)، صف بازبینی، ویرایشگر TipTap دو‌زبانه، مدیریت وضعیت خبر، آپلود تصویر محلی با فشرده‌سازی WebP و هماهنگی کامل با صف انتشار.
+- صف وظایف `pg-boss` بر بستر Postgres برای هماهنگی اینجست و بازسازی کش مسیرها؛ Worker اختصاصی با اجرای مستقل.
+- تست‌های واحد و انتها-به-انتها (Vitest) برای ماژول‌های ترجمه و طبقه‌بندی، به‌همراه ESLint/Prettier/Husky.
+
+## پشتهٔ فنی
+
+| لایه | فناوری |
 | --- | --- |
-| رابط کاربری عمومی | صفحهٔ اصلی، لیست اخبار، صفحهٔ خبر، صفحات درباره/تماس، جست‌وجو و خروجی‌های SEO (RSS/Sitemap/Robots) پیاده‌سازی شده‌اند. |
-| بین‌المللی‌سازی | `next-intl` زبان‌های فارسی/انگلیسی را با پشتیبانی RTL، سوئیچ زبان و متون بومی مدیریت می‌کند. |
-| احراز هویت | Supabase Auth (Email/Password) با نقش‌های Admin/Editor/Contributor و Middleware محافظ مسیر `/admin`. |
-| پنل مدیریت | صف بازبینی، ویرایشگر TipTap دو‌زبانه، تنظیم وضعیت خبر، مدیریت انتشار و خروج از حساب. |
-| پایپلاین جمع‌آوری | `rss-parser` + `metascraper` + پاکسازی HTML + جلوگیری از تکرار، طبقه‌بندی کلیدواژه‌ای و ذخیره در Postgres. |
-| ترجمهٔ خودکار | رابط pluggable برای LibreTranslate، OpenAI یا Google با کش ترجمه در DB جهت جلوگیری از تکرار. |
-| صف و کران | صف `pg-boss` با Worker اختصاصی (`queue:worker`) برای هماهنگی اینجست و بازسازی کش. |
-| تست و کیفیت | تست‌های واحد برای طبقه‌بندی، تست‌های انتها-به-انتها برای ترجمه، ESLint/Prettier/Husky، TypeScript strict. |
+| UI/SSR | Next.js 14 (App Router)، React Server Components، TailwindCSS + shadcn/ui + lucide-react |
+| بین‌المللی‌سازی | `next-intl` با فارسی/انگلیسی، پشتیبانی کامل RTL و قالب‌بندی تاریخ |
+| احراز هویت | NextAuth (Google OAuth) + Prisma Adapter، کنترل نقش‌ها از طریق Allowlist ایمیل |
+| پایگاه‌داده | Postgres (محلی، Docker)، Prisma ORM |
+| صف و کران | `pg-boss` با داده مشترک در Postgres |
+| ترجمه | LibreTranslate (کانتینر محلی) با امکان سوییچ به ارائه‌دهندگان خارجی (OpenAI/Google) |
+| ذخیره‌سازی رسانه | فایل‌های محلی در مسیر `public/media` با فشرده‌سازی `sharp` |
+| تست و کیفیت | Vitest، ESLint، Prettier، Husky + lint-staged |
 
-## فناوری‌های کلیدی
+## معماری لوکال‌محور (Docker Compose)
 
-- **Next.js 14 (App Router)** برای SSR/ISR و ساختار مسیر‌های `/[locale]` و `/admin`.
-- **TailwindCSS + shadcn/ui + lucide-react** برای ساخت رابط کاربری واکنش‌گرا و قابل سفارشی‌سازی.
-- **Supabase (Auth + Postgres + Storage)** به‌عنوان بکند احراز هویت و پایگاه‌داده.
-- **Prisma** برای مدل‌سازی، مهاجرت و دسترسی به داده.
-- **pg-boss** برای صف و زمان‌بندی ایمن وظایف.
-- **RSS Parser + Metascraper + sanitize-html** جهت نرمال‌سازی محتوا.
-- **Vitest** برای پوشش تستی.
-
-## آماده‌سازی سرور از صفر (Ubuntu 22.04)
-
-دستورالعمل زیر برای سروری است که هیچ ابزار از پیش نصب‌شده‌ای ندارد. پیش‌فرض بر این است که احراز هویت و دیتابیس از Supabase تأمین می‌شود. در صورت اجرای Postgres محلی، مراحل را متناسب تغییر دهید.
-
-### ۱. به‌روزرسانی سیستم و نصب ابزار پایه
-
-```bash
-sudo apt update && sudo apt upgrade -y
-sudo apt install -y build-essential curl git unzip
+```
+[Internet]
+  └─> Reverse Proxy (اختیاری)
+        └─> web (Next.js SSR + API + Admin)
+              ├─> worker (pg-boss queue)
+              ├─> postgres (پایگاه‌داده)
+              └─> libretranslate (fa↔en)
 ```
 
-### ۲. نصب Node.js و pnpm
+- **web**: اجرای برنامه Next.js، APIهای عمومی و مدیریتی، سرو محتوا و فایل‌های رسانه‌ای.
+- **worker**: اجرای Worker صف `pg-boss` و فراخوانی اینجست/بازسازی کش.
+- **postgres**: دیتابیس اصلی پروژه و صف (اسکیما مشترک).
+- **libretranslate**: سرویس ترجمهٔ خودکار داخلی.
 
-```bash
-# نصب nvm برای مدیریت نسخه‌های Node
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-source ~/.nvm/nvm.sh
-nvm install 20
-nvm use 20
+## شروع سریع با Docker Compose
 
-# نصب pnpm (نسخهٔ اشاره‌شده در package.json)
-curl -fsSL https://get.pnpm.io/install.sh | PNPM_VERSION=10.13.1 sh -
-source ~/.bashrc
-```
+1. **دریافت کد و تنظیم محیط**
+   ```bash
+   git clone https://github.com/<YOUR_ORG>/vista-ai-news.git
+   cd vista-ai-news
+   cp .env.example .env
+   ```
+2. **ایجاد اطلاعات Google OAuth**
+   - در Google Cloud Console یک OAuth Client از نوع *Web application* بسازید.
+   - Redirect URL را روی `http://localhost:3000/api/auth/callback/google` (یا دامنهٔ خود) تنظیم کنید.
+   - مقادیر `GOOGLE_CLIENT_ID` و `GOOGLE_CLIENT_SECRET` را در `.env` قرار دهید.
+3. **تعریف ایمیل‌های مجاز**
+   - متغیر `ADMIN_EMAILS` را با حداکثر سه ایمیل Gmail که مجاز به ورود هستند پر کنید. ایمیل‌های تعریف‌شده نقش **مدیر کل** خواهند داشت.
+   - در صورت نیاز می‌توانید `EDITOR_EMAILS` و `CONTRIBUTOR_EMAILS` را نیز مقداردهی کنید.
+4. **تنظیم سایر متغیرها**
+   - `INTERNAL_API_TOKEN` را یک رشتهٔ تصادفی حداقل ۱۶ کاراکتری قرار دهید (برای احراز هویت Worker).
+   - اگر از مقادیر پیش‌فرض docker-compose استفاده می‌کنید، `DATABASE_URL` را تغییر ندهید.
+   - آدرس عمومی سایت (`NEXT_PUBLIC_SITE_URL`) و ایمیل هشدار (`ALERT_EMAIL`) را ست کنید.
+5. **راه‌اندازی سرویس‌ها**
+   ```bash
+   docker compose up -d --build
+   ```
+6. **بررسی وضعیت**
+   ```bash
+   docker compose logs -f web
+   docker compose logs -f worker
+   ```
+   پس از بالا آمدن سرویس‌ها برنامه روی `http://localhost:3000` در دسترس است.
+7. **ورود به پنل مدیریت**
+   - با یکی از ایمیل‌های تعریف‌شده در `ADMIN_EMAILS` وارد مسیر `/login` شوید.
+   - گزینهٔ ثبت‌نام غیرفعال است؛ تنها ایمیل‌های Allowlist اجازهٔ ورود دارند.
 
-### ۳. نصب Postgres (اختیاری، برای دیپلوی محلی بدون Supabase)
+> **نکته:** پس از اولین اجرا، مهاجرت‌ها و دادهٔ اولیه به‌صورت خودکار در کانتینر `web` اجرا می‌شود (`pnpm prisma migrate deploy` و `pnpm prisma db seed`).
 
-اگر قصد استفاده از Supabase را دارید این بخش را رد کنید. برای Postgres محلی:
+## راه‌اندازی سرور Ubuntu 22.04 از صفر (گام‌به‌گام)
 
-```bash
-sudo apt install -y postgresql postgresql-contrib
-sudo -u postgres psql -c "CREATE ROLE vista WITH LOGIN PASSWORD 'change_me'"
-sudo -u postgres psql -c "ALTER ROLE vista CREATEDB"
-createdb vista_ai_news -U vista
-```
+1. **پیش‌نیازها**
+   ```bash
+   sudo apt update && sudo apt upgrade -y
+   sudo apt install -y curl git ufw
+   ```
+2. **نصب Docker و Docker Compose**
+   ```bash
+   curl -fsSL https://get.docker.com | sh
+   sudo usermod -aG docker $USER && newgrp docker
+   ```
+3. **کلون و تنظیم مخزن**
+   ```bash
+   sudo mkdir -p /opt/vista-ai-news && sudo chown $USER:$USER /opt/vista-ai-news
+   cd /opt/vista-ai-news
+   git clone https://github.com/<YOUR_ORG>/vista-ai-news.git .
+   cp .env.example .env
+   ```
+4. **تکمیل `.env`**
+   - مقادیر Google OAuth، Allowlist ایمیل‌ها، `INTERNAL_API_TOKEN` و `ALERT_EMAIL` را پر کنید.
+   - در صورت استفاده از دامنه، `NEXTAUTH_URL` و `NEXT_PUBLIC_SITE_URL` را با آدرس HTTPS خود تنظیم کنید.
+5. **اجرای سرویس‌ها**
+   ```bash
+   docker compose up -d --build
+   ```
+6. **راه‌اندازی Reverse Proxy (اختیاری)**
+   ```bash
+   sudo apt install -y nginx certbot python3-certbot-nginx
+   sudo tee /etc/nginx/sites-available/vista.conf <<'NGINX'
+   server {
+     listen 80;
+     server_name news.vista-ai.ir; # دامنهٔ خود را جایگزین کنید
 
-### ۴. ایجاد پروژه در Supabase
+     location / {
+       proxy_pass http://127.0.0.1:3000;
+       proxy_set_header Host $host;
+       proxy_set_header X-Real-IP $remote_addr;
+       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+       proxy_set_header X-Forwarded-Proto $scheme;
+     }
+   }
+   NGINX
+   sudo ln -s /etc/nginx/sites-available/vista.conf /etc/nginx/sites-enabled/
+   sudo nginx -t && sudo systemctl reload nginx
+   sudo certbot --nginx -d news.vista-ai.ir --email devcodebase.dec@gmail.com --agree-tos --redirect
+   ```
+7. **فعال‌سازی فایروال**
+   ```bash
+   sudo ufw allow 'Nginx Full'
+   sudo ufw enable
+   ```
+8. **برنامه‌ریزی Cron برای اینجست خودکار**
+   Worker صف فقط مصرف‌کننده است؛ برای زمان‌بندی اینجست، یک Cron روی سرور تعریف کنید که هر ۳۰ دقیقه اندپوینت داخلی را با توکن فراخوانی کند:
+   ```bash
+   crontab -e
+   # هر ۳۰ دقیقه
+   */30 * * * * curl -s -X POST \
+     -H "Authorization: Bearer $(grep INTERNAL_API_TOKEN /opt/vista-ai-news/.env | cut -d'=' -f2)" \
+     http://127.0.0.1:3000/api/ingest/trigger >/dev/null
+   ```
+9. **پشتیبان‌گیری روزانه از دیتابیس**
+   ```bash
+   sudo mkdir -p /opt/backups/vista
+   crontab -e
+   # افزودن خط زیر
+   15 3 * * * docker exec vista_postgres pg_dump -U vista vista_ai_news | gzip > /opt/backups/vista/db-$(date +\%F).sql.gz
+   ```
 
-1. در [Supabase](https://supabase.com/) پروژهٔ جدید بسازید.
-2. در تب **Authentication → Providers** ورود ایمیل/رمز را فعال کنید.
-3. در تب **Database**، اتصال `DATABASE_URL` (pooling disabled) را یادداشت کنید.
-4. در بخش **Project Settings → API** کلیدهای `ANON_KEY` و `SERVICE_ROLE_KEY` را بردارید.
-5. یک Bucket با نام `media` در Supabase Storage بسازید و سطح دسترسی را Public قرار دهید.
-
-### ۵. کلون مخزن و تنظیم محیط
-
-```bash
-git clone https://github.com/<YOUR_ORG>/vista-ai-news.git
-cd vista-ai-news
-cp .env.example .env
-
-# مقادیر زیر را در .env تکمیل کنید
-# - DATABASE_URL (از Supabase یا Postgres محلی)
-# - SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY و همچنین NEXT_PUBLIC_SUPABASE_URL/NEXT_PUBLIC_SUPABASE_ANON_KEY
-# - INTERNAL_API_URL (برای ارتباط Worker با Next.js؛ روی همان سرور معمولاً http://127.0.0.1:3000)
-# - QUEUE_DATABASE_URL (در صورت استفاده از دیتابیس جدا برای صف) و JOB_QUEUE_SCHEMA
-# - LT_URL یا کلیدهای سرویس ترجمه (حداقل یکی)
-# - ALERT_EMAIL
-```
-
-### ۶. نصب وابستگی‌ها و آماده‌سازی پایگاه‌داده
-
-```bash
-pnpm install
-
-# اجرای مهاجرت‌ها
-pnpm prisma migrate deploy
-
-# دادهٔ اولیه (نقش‌ها، دسته‌ها، منابع و نمونه‌خبر)
-pnpm seed
-```
-
-> **نکته:** برای اتصال احراز هویت Supabase به کاربران Seed، شناسه‌های Supabase (`auth.users.id`) را با `prisma/seed.ts` هماهنگ کنید یا پس از ثبت‌نام کاربر در برنامه، نقش او را با اسکریپت `src/lib/db/users.ts` به‌روزرسانی کنید.
-
-### ۷. راه‌اندازی سرور برنامه و Worker صف
-
-```bash
-# اجرای سرور Next.js (Production)
-pnpm build
-pnpm start
-
-# در ترمینال جداگانه برای صف
-pnpm queue:worker
-```
-
-برای اجرای دائم می‌توانید از `pm2`, `systemd` یا Docker استفاده کنید. نمونهٔ `systemd` در بخش «اتومات‌سازی عملیات» آمده است.
-
-### ۸. راه‌اندازی Reverse Proxy (اختیاری اما توصیه‌شده)
-
-```bash
-sudo apt install -y nginx certbot python3-certbot-nginx
-
-# فایل /etc/nginx/sites-available/vista.conf
-sudo tee /etc/nginx/sites-available/vista.conf <<'NGINX'
-server {
-  listen 80;
-  server_name news.vista-ai.ir; # دامنهٔ خود را قرار دهید
-
-  location / {
-    proxy_pass http://127.0.0.1:3000;
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-  }
-}
-NGINX
-
-sudo ln -s /etc/nginx/sites-available/vista.conf /etc/nginx/sites-enabled/
-sudo nginx -t && sudo systemctl reload nginx
-sudo certbot --nginx -d news.vista-ai.ir --email devcodebase.dec@gmail.com --agree-tos --redirect
-```
-
-### ۹. برنامه‌ریزی کران‌ها
-
-Worker صف `pnpm queue:worker` وظایف زمان‌بندی‌شده را از طریق `pg-boss` اجرا می‌کند (اینجست هر ۳۰ دقیقه، بازسازی کش پس از انتشار). این Worker با استفاده از `SUPABASE_SERVICE_ROLE_KEY` به اندپوینت داخلی `/api/internal/revalidate` متصل می‌شود؛ بنابراین مقداردهی این متغیر و `INTERNAL_API_URL` ضروری است. برای اطمینان از اجرا پس از ریبوت، فایل‌های `systemd` نمونه:
-
-```ini
-# /etc/systemd/system/vista-web.service
-[Unit]
-Description=Vista AI News Next.js Server
-After=network.target
-
-[Service]
-WorkingDirectory=/opt/vista-ai-news
-Environment=NODE_ENV=production
-ExecStart=/usr/bin/env pnpm start
-Restart=always
-User=ubuntu
-
-[Install]
-WantedBy=multi-user.target
-```
-
-```ini
-# /etc/systemd/system/vista-worker.service
-[Unit]
-Description=Vista AI News Queue Worker
-After=network.target vista-web.service
-
-[Service]
-WorkingDirectory=/opt/vista-ai-news
-Environment=NODE_ENV=production
-ExecStart=/usr/bin/env pnpm queue:worker
-Restart=always
-User=ubuntu
-
-[Install]
-WantedBy=multi-user.target
-```
-
-```bash
-sudo systemctl daemon-reload
-sudo systemctl enable --now vista-web vista-worker
-```
-
-## تنظیمات محیطی
-
-فایل `.env.example` تمامی متغیرها را لیست کرده است. مهم‌ترین موارد:
+## متغیرهای محیطی کلیدی
 
 | متغیر | توضیح |
 | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | دامنهٔ عمومی برای لینک‌های سئو. |
-| `DATABASE_URL` | اتصال Postgres (Supabase یا محلی). |
-| `SUPABASE_URL`، `SUPABASE_SERVICE_ROLE_KEY` | دسترسی سرور به Auth و Storage. سرویس‌کی برای صف و کران الزامی است. |
-| `NEXT_PUBLIC_SUPABASE_URL`، `NEXT_PUBLIC_SUPABASE_ANON_KEY` | دسترسی کلاینت به Supabase Auth. |
-| `INTERNAL_API_URL` | آدرس داخلی برای فراخوانی API از Worker (پیش‌فرض: `http://127.0.0.1:3000`). |
-| `QUEUE_DATABASE_URL`، `JOB_QUEUE_SCHEMA` | تنظیمات صف `pg-boss` (در صورت جدا بودن از دیتابیس اصلی). |
-| `LT_URL` یا `OPENAI_API_KEY`/`GOOGLE_*` | ارائه‌دهندهٔ ترجمه. |
-| `ALERT_EMAIL` | مقصد اعلان خطاها. |
+| `NEXT_PUBLIC_SITE_URL` | دامنهٔ عمومی جهت لینک‌ها و JSON-LD. |
+| `NEXTAUTH_URL` | پایهٔ URL برای جریان OAuth (در حالت تولید باید HTTPS باشد). |
+| `NEXTAUTH_SECRET` | کلید رمزنگاری جلسات NextAuth (حداقل ۳۲ کاراکتر). |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | مقادیر OAuth گوگل. |
+| `ADMIN_EMAILS` | فهرست ایمیل‌های مجاز با نقش مدیر (جدا شده با کاما). |
+| `EDITOR_EMAILS` / `CONTRIBUTOR_EMAILS` | ایمیل‌های مجاز با نقش‌های پایین‌تر (اختیاری). |
+| `DATABASE_URL` | اتصال Postgres (برای docker-compose مقدار پیش‌فرض مناسب است). |
+| `QUEUE_DATABASE_URL` | در صورت استفاده از دیتابیس مجزا برای صف؛ در غیر این صورت خالی بگذارید. |
+| `JOB_QUEUE_SCHEMA` | اسکیما‌ی `pg-boss` (پیش‌فرض: `pgboss`). |
+| `LT_URL` | آدرس LibreTranslate (در docker-compose: `http://libretranslate:5000/translate`). |
+| `INTERNAL_API_URL` | آدرس سرویس Next.js برای فراخوانی‌های داخلی Worker (پیش‌فرض: `http://web:3000`). |
+| `INTERNAL_API_TOKEN` | توکن مشترک برای Worker/Cron جهت دسترسی به اندپوینت‌های داخلی. |
+| `MEDIA_UPLOAD_DIR` | مسیر ذخیره‌سازی رسانه (پیش‌فرض: `public/media`). |
+| `ALERT_EMAIL` | مقصد اعلان خطاها (برای اتصال به ابزارهای مانیتورینگ آینده). |
 
-## دستورهای روزمره
+## گردش‌کارهای مهم
+
+### ۱. ورود مدیران
+- مسیر `/login` تنها دکمهٔ «ورود با Google» دارد.
+- NextAuth تنها ایمیل‌های تعریف‌شده در Allowlist را می‌پذیرد و نقش کاربر را مطابق لیست تنظیم می‌کند.
+- نشست‌ها مبتنی بر JWT هستند و از پایگاه‌داده برای نگهداری اطلاعات کاربران استفاده می‌شود.
+
+### 2. پایپلاین جمع‌آوری خبر
+1. Cron با توکن داخلی اندپوینت `/api/ingest/trigger` را فراخوانی می‌کند.
+2. Worker صف `pg-boss` وظیفهٔ `vista.ingest` را اجرا کرده و نتایج را در Postgres ذخیره می‌کند.
+3. برای خبرهای منتشر‌شده، وظیفهٔ `vista.revalidate` در صف قرار می‌گیرد تا اندپوینت داخلی `/api/internal/revalidate` مسیرهای مربوطه را invalidate کند.
+
+### 3. آپلود رسانه
+- پنل مدیریت امکان بارگذاری تصویر کاور را دارد؛ فایل روی سرور فشرده و در مسیر `public/media` ذخیره می‌شود.
+- پاسخ API مسیر عمومی فایل را بازمی‌گرداند که مستقیماً از طریق Next.js سرو می‌شود.
+
+### 4. ترجمهٔ خودکار
+- LibreTranslate به‌صورت محلی اجرا می‌شود؛ در صورت تمایل می‌توانید `OPENAI_API_KEY` یا سرویس Google را مقداردهی کنید.
+- ترجمه‌ها در جدول `TranslationCache` ذخیره می‌شوند تا از درخواست‌های تکراری جلوگیری گردد.
+
+## توسعه و تست محلی (بدون Docker)
 
 ```bash
-pnpm dev             # توسعه محلی با Hot Reload
-pnpm lint            # بررسی استانداردهای کدنویسی
-pnpm typecheck       # کنترل TypeScript
-pnpm test            # اجرای همهٔ تست‌ها
-pnpm ingest          # اجرای دستی پایپلاین اینجست
-pnpm queue:worker    # راه‌اندازی Worker صف
+pnpm install
+pnpm prisma migrate dev
+pnpm prisma db seed
+pnpm dev      # اجرای برنامه روی http://localhost:3000
+pnpm queue:worker # اجرای Worker صف در ترمینال جداگانه
 ```
 
-## APIهای در دسترس
+## تست‌ها و ابزارهای کیفیت
 
-- `POST /api/ingest/trigger` – فقط ادمین؛ قرار دادن وظیفهٔ جمع‌آوری در صف.
-- `POST /api/revalidate` – بازسازی مسیرها پس از انتشار (Protected).
-- `POST /api/internal/revalidate` – فقط سرویس داخلی (Service Key) برای رفرش مسیرهای استاتیک.
-- `GET /api/search?q=&lang=` – جست‌وجوی Full-Text.
-- `GET /api/health` – بررسی وضعیت سرویس.
-- `GET /rss.xml`، `GET /sitemap.xml`، `GET /robots.txt` – خروجی‌های سئو.
+| دستور | توضیح |
+| --- | --- |
+| `pnpm lint` | اجرای ESLint روی کل پروژه. |
+| `pnpm typecheck` | بررسی TypeScript بدون خروجی فایل. |
+| `pnpm test` | اجرای مجموعهٔ کامل Vitest (واحد + e2e سبک). |
+| `pnpm test:unit` | فقط تست‌های واحد. |
+| `pnpm test:e2e` | تست‌های انتها-به-انتها برای ماژول ترجمه. |
 
-## تست و تضمین کیفیت
+## عملیات دستی
 
-- `vitest` برای واحد (`tests/unit`) و یکپارچه (`tests/e2e`).
-- پوشش اولیه روی ماژول طبقه‌بندی و ماژول ترجمه.
-- Husky `pre-commit` برای اجرای lint-staged.
-- GitHub Actions (در حال آماده‌سازی) برای lint/build/test در CI.
+| عملیات | دستور |
+| --- | --- |
+| اجرای دستی اینجست | `pnpm ingest` (یا `curl` به `/api/ingest/trigger`). |
+| بازسازی کش خبر مشخص | `curl -X POST -H "Authorization: Bearer $INTERNAL_API_TOKEN" -d '{"slug":"example"}' http://127.0.0.1:3000/api/revalidate` |
+| مشاهدهٔ وضعیت صف | `docker exec -it vista_web pnpm queue:status` *(خروجی جدول وضعیت وظایف pg-boss)* |
 
-## قابلیت‌های پیاده‌سازی‌شده
+## نقشهٔ راه پیشنهادی
 
-1. **Frontend چندزبانه:** ناوبری، کارت‌های خبر، فهرست دسته/برچسب، صفحات درباره و تماس با داده‌های شرکت «شبکه هوشمند ابتکار ویستا» و اطلاعات تماس رسمی.
-2. **جزئیات خبر با SEO کامل:** متاتگ‌ها، OpenGraph، JSON-LD نوع NewsArticle، لینک منبع و مسیرهای hreflang.
-3. **پنل مدیریت Supabase:** ورود امن، بررسی خبرهای منتظر تأیید، ویرایشگر دو زبانه با آپلود تصویر (اتصال به Supabase Storage از طریق API آپلود).
-4. **پایپلاین اینجست خودکار:** خواندن از Allowlist، نرمال‌سازی، جلوگیری از تکرار، طبقه‌بندی ساده، ترجمهٔ هوشمند، تعیین وضعیت انتشار بر اساس اعتماد منبع.
-5. **صف شغلی مبتنی بر pg-boss:** صف‌بندی ingestion و revalidate، امکان افزودن کران‌های جدید (مثلاً ایمیل یا هشدار).
-6. **تست‌ها و ابزار توسعه:** ESLint/Prettier، Vitest، TypeScript strict، Husky، lint-staged، commitlint.
-
-## نقشهٔ راه ادامهٔ توسعه
-
-1. **گسترش پنل مدیریت:**
-   - داشبورد آمار بازدید و سلامت کران‌ها.
-   - مدیریت منابع (CRUD کامل Allowlist/Blacklist) با رابط بصری.
-2. **اتوماسیون بیشتر صف:**
-   - افزودن صف برای ایمیل/وب‌هوک هشدار خطا.
-   - پیاده‌سازی Job Retry و مانیتورینگ (Better Stack یا Supabase Logs).
-3. **جست‌وجوی پیشرفته:**
-   - تکمیل ایندکس‌های TSVector و پیشنهاد برچسب‌ها.
-   - پشتیبانی از فیلترهای دسته، وضعیت و محدودهٔ زمانی.
-4. **تست‌های E2E رابط کاربری:**
-   - Playwright یا Cypress برای سناریوهای ورود، انتشار و سوییچ زبان.
-5. **مدیریت رسانه:**
-   - اتصال مستقیم آپلود به Supabase Storage با فشرده‌سازی `sharp` در Server Actions.
-6. **استقرار خودکار:**
-   - افزودن GitHub Actions برای lint/typecheck/test/build و دپلوی خودکار روی Vercel یا سرور Dockerized.
-
-## منابع و پشتیبانی
-
-- **Email:** [devcodebase.dec@gmail.com](mailto:devcodebase.dec@gmail.com)
-- **مدیرعامل:** مسعود بخشی – ۰۹۱۲۴۷۳۳۲۳۴
-- برای گزارش باگ یا درخواست قابلیت جدید، Issue در GitHub ایجاد کنید.
+- داشبورد تحلیلی بازدید و عملکرد.
+- مدیریت منابع Allowlist/Blacklist از طریق پنل.
+- امکان زمان‌بندی انتشار خبر.
+- اتصال به ارائه‌دهندهٔ ایمیل برای خبرنامه و هشدار خطا.
 
 ---
 
-© شبکه هوشمند ابتکار ویستا – تمامی حقوق محفوظ است.
-
+برای سؤالات یا گزارش اشکال می‌توانید با تیم توسعه از طریق **devcodebase.dec@gmail.com** در ارتباط باشید.

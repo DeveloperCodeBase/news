@@ -5,13 +5,13 @@ const prisma = new PrismaClient();
 async function main() {
   const seedUsers = [
     {
-      authId: '00000000-0000-4000-8000-000000000001',
       email: 'admin@vista-ai.ir',
+      name: 'Vista Admin',
       role: Role.ADMIN
     },
     {
-      authId: '00000000-0000-4000-8000-000000000002',
       email: 'editor@vista-ai.ir',
+      name: 'Vista Editor',
       role: Role.EDITOR
     }
   ];
@@ -19,7 +19,7 @@ async function main() {
   for (const user of seedUsers) {
     await prisma.user.upsert({
       where: { email: user.email },
-      update: { role: user.role },
+      update: { role: user.role, name: user.name },
       create: user
     });
   }

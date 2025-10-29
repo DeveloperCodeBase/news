@@ -1,24 +1,19 @@
-import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
+import { getServerSession } from 'next-auth';
 import { JOB_NAMES, enqueueJob } from '@/jobs/queue';
-import { isEditorialRole, normalizeRole } from '@/lib/auth/permissions';
-import type { Database } from '@/types/supabase';
+import { isEditorialRole } from '@/lib/auth/permissions';
+import { authOptions } from '@/lib/auth/options';
 
 export const runtime = 'nodejs';
 
 export async function POST(request: NextRequest) {
-  const supabase = createRouteHandlerClient<Database>({ cookies });
-  const {
-    data: { session }
-  } = await supabase.auth.getSession();
+  const session = await getServerSession(authOptions);
 
-  if (!session) {
+  if (!session?.user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const role = normalizeRole(session.user.user_metadata?.role);
-  if (!role || !isEditorialRole(role)) {
+  if (!session.user.role || !isEditorialRole(session.user.role)) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 

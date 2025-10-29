@@ -97,6 +97,7 @@ export async function getArticleForAdmin(id: string) {
       contentFa: true,
       contentEn: true,
       status: true,
+      coverImageUrl: true,
       categories: { select: { category: { select: { id: true, nameFa: true, nameEn: true } } } },
       tags: { select: { tag: { select: { id: true, nameFa: true, nameEn: true } } } }
     }

@@ -1,16 +1,31 @@
 import Link from 'next/link';
 import { ReactNode } from 'react';
+import { Role } from '@prisma/client';
 import SignOutButton from './sign-out-button';
 
 type AdminShellProps = {
   email: string;
-  role: string;
+  role: Role | string;
   children: ReactNode;
 };
 
 const navItems = [
   { href: '/admin', label: 'صف بازبینی' }
 ];
+
+function formatRole(role: Role | string) {
+  const value = typeof role === 'string' ? role.toUpperCase() : role;
+  switch (value) {
+    case Role.ADMIN:
+    case 'ADMIN':
+      return 'مدیر کل';
+    case Role.EDITOR:
+    case 'EDITOR':
+      return 'سردبیر';
+    default:
+      return 'همکار';
+  }
+}
 
 export default function AdminShell({ email, role, children }: AdminShellProps) {
   return (
@@ -20,7 +35,7 @@ export default function AdminShell({ email, role, children }: AdminShellProps) {
           <div>
             <p className="text-lg font-semibold">پنل مدیریت ویستا</p>
             <p className="text-sm text-slate-400">
-              {email} · نقش: <span className="font-medium text-emerald-400">{role}</span>
+              {email} · نقش: <span className="font-medium text-emerald-400">{formatRole(role)}</span>
             </p>
           </div>
           <SignOutButton />

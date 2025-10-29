@@ -2,12 +2,6 @@ import { getEnv } from '@/lib/env';
 
 export async function runRevalidate(slug: string) {
   const env = getEnv();
-  const serviceKey = env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!serviceKey) {
-    console.warn('SUPABASE_SERVICE_ROLE_KEY is not configured; skipping revalidation job.');
-    return;
-  }
-
   const baseUrl = env.INTERNAL_API_URL ?? env.NEXT_PUBLIC_SITE_URL ?? 'http://127.0.0.1:3000';
 
   try {
@@ -15,7 +9,7 @@ export async function runRevalidate(slug: string) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `Bearer ${serviceKey}`
+        authorization: `Bearer ${env.INTERNAL_API_TOKEN}`
       },
       body: JSON.stringify({ slug })
     });

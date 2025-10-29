@@ -21,6 +21,7 @@ type ArticleEditorProps = {
     status: ArticleStatus;
     categories: { category: Taxonomy }[];
     tags: { tag: Taxonomy }[];
+    coverImageUrl?: string | null;
   };
   taxonomies: {
     categories: Taxonomy[];
@@ -41,6 +42,8 @@ export default function ArticleEditor({ article, taxonomies }: ArticleEditorProp
   const [selectedTags, setSelectedTags] = useState(() => article.tags.map(({ tag }) => tag.id));
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [activeLocale, setActiveLocale] = useState<'fa' | 'en'>('fa');
+  const [coverImageUrl, setCoverImageUrl] = useState(article.coverImageUrl ?? '');
+  const [isUploading, setIsUploading] = useState(false);
 
   const editorFa = useEditor({
     extensions: [StarterKit],
@@ -69,7 +72,8 @@ export default function ArticleEditor({ article, taxonomies }: ArticleEditorProp
       contentEn: editorEn.getHTML(),
       status,
       categories: selectedCategories,
-      tags: selectedTags
+      tags: selectedTags,
+      coverImageUrl: coverImageUrl ? coverImageUrl : null
     };
 
     try {
@@ -89,6 +93,32 @@ export default function ArticleEditor({ article, taxonomies }: ArticleEditorProp
       console.error('Failed to update article', error);
     } finally {
       setIsSubmitting(false);
+    }
+  }
+
+  async function handleUpload(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setIsUploading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+    try {
+      const response = await fetch('/api/admin/media', {
+        method: 'POST',
+        body: formData
+      });
+
+      if (!response.ok) {
+        throw new Error('Upload failed');
+      }
+
+      const data = (await response.json()) as { url: string };
+      setCoverImageUrl(data.url);
+    } catch (error) {
+      console.error('Failed to upload media', error);
+    } finally {
+      setIsUploading(false);
+      event.target.value = '';
     }
   }
 
@@ -116,6 +146,36 @@ export default function ArticleEditor({ article, taxonomies }: ArticleEditorProp
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
+        <div className="space-y-3">
+          <label className="space-y-2">
+            <span className="block text-sm text-slate-300">تصویر کاور</span>
+            <input
+              type="url"
+              placeholder="/media/..."
+              value={coverImageUrl}
+              onChange={(event) => setCoverImageUrl(event.target.value)}
+              className="w-full rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-slate-100 focus:border-emerald-400 focus:outline-none"
+            />
+          </label>
+          <label className="flex w-full flex-col items-start gap-2 rounded-lg border border-dashed border-slate-700 bg-slate-900/70 p-4 text-slate-200">
+            <span className="text-sm">آپلود تصویر محلی (WebP خودکار)</span>
+            <input type="file" accept="image/*" onChange={handleUpload} disabled={isUploading} />
+            <span className="text-xs text-slate-500">حجم پیشنهادی &lt; 2MB</span>
+          </label>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setCoverImageUrl('')}
+              className="rounded-lg border border-slate-700 px-3 py-1 text-xs text-slate-300 hover:border-rose-400 hover:text-rose-300"
+            >
+              حذف تصویر
+            </button>
+            {isUploading ? <span className="text-xs text-emerald-400">در حال آپلود…</span> : null}
+          </div>
+          {coverImageUrl ? (
+            <img src={coverImageUrl} alt="کاور مقاله" className="max-h-40 w-full rounded-lg object-cover" />
+          ) : null}
+        </div>
         <label className="space-y-2">
           <span className="block text-sm text-slate-300">عنوان فارسی</span>
           <input
