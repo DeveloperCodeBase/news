@@ -60,6 +60,7 @@ model Article {
   sourceId      String
   source        Source   @relation(fields: [sourceId], references: [id])
   status        Status   @default(REVIEWED)
+  language      Lang     @default(EN)
   authorId      String?
   author        User?    @relation("AuthorArticles", fields: [authorId], references: [id])
   publishedAt   DateTime @default(now())

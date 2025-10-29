@@ -1,32 +1,35 @@
 import type { MetadataRoute } from 'next';
+import { getHomepageArticles } from '@/lib/db/articles';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://news.vista-ai.ir';
+  const articles = await getHomepageArticles(50);
+  const lastModified = articles[0]?.publishedAt ?? new Date();
 
-  return [
-    {
-      url: `${baseUrl}/fa`,
-      lastModified: new Date(),
-      changeFrequency: 'hourly',
-      priority: 1
-    },
-    {
-      url: `${baseUrl}/en`,
-      lastModified: new Date(),
-      changeFrequency: 'hourly',
-      priority: 0.9
-    },
-    {
-      url: `${baseUrl}/fa/contact`,
-      lastModified: new Date(),
+  const localizedRoots: MetadataRoute.Sitemap = ['fa', 'en'].map((locale) => ({
+    url: `${baseUrl}/${locale}`,
+    lastModified,
+    changeFrequency: 'hourly',
+    priority: locale === 'fa' ? 1 : 0.9
+  }));
+
+  const staticPages: MetadataRoute.Sitemap = ['about', 'contact'].flatMap((page) =>
+    ['fa', 'en'].map((locale) => ({
+      url: `${baseUrl}/${locale}/${page}`,
+      lastModified,
       changeFrequency: 'monthly',
       priority: 0.6
-    },
-    {
-      url: `${baseUrl}/fa/about`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.6
-    }
-  ];
+    }))
+  );
+
+  const articleEntries: MetadataRoute.Sitemap = articles.flatMap((article) =>
+    ['fa', 'en'].map((locale) => ({
+      url: `${baseUrl}/${locale}/news/${article.slug}`,
+      lastModified: article.publishedAt,
+      changeFrequency: 'hourly',
+      priority: 0.8
+    }))
+  );
+
+  return [...localizedRoots, ...staticPages, ...articleEntries];
 }

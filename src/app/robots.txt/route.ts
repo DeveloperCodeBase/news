@@ -1,12 +1,13 @@
 import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://news.vista-ai.ir';
   return {
     rules: {
       userAgent: '*',
-      allow: ['/', '/fa', '/en'],
+      allow: ['/', '/fa', '/en', '/fa/news', '/en/news'],
       disallow: ['/admin', '/api']
     },
-    sitemap: [`${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://news.vista-ai.ir'}/sitemap.xml`]
+    sitemap: [`${siteUrl}/sitemap.xml`]
   };
 }

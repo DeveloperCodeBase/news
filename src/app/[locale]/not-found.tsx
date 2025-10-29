@@ -1,10 +1,21 @@
-export default function LocaleNotFound() {
+import Link from 'next/link';
+import { getTranslations, getLocale } from 'next-intl/server';
+
+export default async function NotFound() {
+  const locale = (await getLocale()) ?? 'fa';
+  const t = await getTranslations({ locale, namespace: 'notFound' });
+  const direction = locale === 'fa' ? 'rtl' : 'ltr';
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-slate-950 px-6 py-12 text-center text-slate-100" dir="rtl">
-      <h1 className="text-4xl font-semibold">404</h1>
-      <p className="mt-4 max-w-md text-balance text-slate-300">
-        زبان درخواستی یا صفحهٔ موردنظر یافت نشد. لطفاً به صفحهٔ اصلی بازگردید.
-      </p>
-    </main>
+    <div className="mx-auto flex min-h-[60vh] max-w-2xl flex-col items-center justify-center gap-4 px-4 text-center" dir={direction}>
+      <h1 className="text-3xl font-bold text-slate-100">{t('title')}</h1>
+      <p className="text-slate-300">{t('description')}</p>
+      <Link
+        href={`/${locale}`}
+        className="rounded-full bg-sky-500/90 px-5 py-2 text-sm font-semibold text-slate-950 transition hover:bg-sky-400"
+      >
+        {t('cta')}
+      </Link>
+    </div>
   );
 }

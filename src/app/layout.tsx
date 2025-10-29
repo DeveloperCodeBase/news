@@ -1,16 +1,22 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
+import { inter, vazirmatn } from '@/lib/fonts';
+import { DEFAULT_LOCALE } from '@/lib/i18n/config';
 
 export const metadata: Metadata = {
   title: 'Vista AI News',
-  description: 'Bilingual AI news magazine built with Next.js 14, Prisma, and Supabase.'
+  description: 'Bilingual AI news magazine powered by automated ingestion, translation, and editorial review.'
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="fa" dir="rtl" suppressHydrationWarning>
-      <body className="min-h-screen bg-slate-950 text-slate-100">{children}</body>
+    <html lang={DEFAULT_LOCALE} suppressHydrationWarning>
+      <body
+        className={`${vazirmatn.variable} ${inter.variable} min-h-screen bg-slate-950 text-slate-100 antialiased`}
+      >
+        {children}
+      </body>
     </html>
   );
 }

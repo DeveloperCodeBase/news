@@ -1,45 +1,28 @@
-const CONTACT_INFO = {
-  ceo: 'مسعود بخشی',
-  phone: '۰۹۱۲۴۷۳۳۲۳۴',
-  email: 'devcodebase.dec@gmail.com'
-};
+import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
+import type { AppLocale } from '@/lib/i18n/config';
 
-export default function ContactPage({ params }: { params: { locale: string } }) {
-  const isFa = params.locale === 'fa';
+export default async function ContactPage({ params }: { params: { locale: AppLocale } }) {
+  const locale = params.locale;
+  const t = await getTranslations({ locale, namespace: 'contact' });
+  const direction = locale === 'fa' ? 'rtl' : 'ltr';
+
   return (
-    <main dir={isFa ? 'rtl' : 'ltr'} className="mx-auto flex min-h-screen max-w-3xl flex-col gap-8 px-6 py-16">
-      <header className="space-y-2 text-center">
-        <h1 className="text-4xl font-bold text-slate-100">
-          {isFa ? 'تماس با ما' : 'Contact Us'}
-        </h1>
-        <p className="text-slate-300">
-          {isFa
-            ? 'برای همکاری‌ها، ارسال خبر یا سوالات رسانه‌ای با ما در ارتباط باشید.'
-            : 'Reach out for partnerships, press inquiries, or editorial questions.'}
+    <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8" dir={direction}>
+      <h1 className="text-4xl font-bold text-slate-50">{t('title')}</h1>
+      <p className="mt-4 text-slate-300">{t('description')}</p>
+      <div className="mt-8 space-y-4 rounded-3xl border border-slate-800 bg-slate-900/70 p-8 text-base text-slate-200 shadow-xl shadow-slate-950/40">
+        <p>{t('company')}</p>
+        <p>{t('ceo')}</p>
+        <p>{t('phone')}</p>
+        <p>
+          {t('email')}{' '}
+          <Link className="text-sky-300 hover:text-sky-200" href="mailto:devcodebase.dec@gmail.com">
+            devcodebase.dec@gmail.com
+          </Link>
         </p>
-      </header>
-      <section className="grid gap-4 rounded-xl border border-slate-800 bg-slate-900/50 p-6 text-slate-100">
-        <div>
-          <h2 className="text-sm uppercase tracking-wide text-slate-400">
-            {isFa ? 'مدیرعامل' : 'Chief Executive Officer'}
-          </h2>
-          <p className="text-lg font-medium">{CONTACT_INFO.ceo}</p>
-        </div>
-        <div>
-          <h2 className="text-sm uppercase tracking-wide text-slate-400">
-            {isFa ? 'شماره تماس' : 'Phone'}
-          </h2>
-          <p className="text-lg font-medium ltr:font-mono">{CONTACT_INFO.phone}</p>
-        </div>
-        <div>
-          <h2 className="text-sm uppercase tracking-wide text-slate-400">
-            Email
-          </h2>
-          <a className="text-lg font-medium underline" href={`mailto:${CONTACT_INFO.email}`}>
-            {CONTACT_INFO.email}
-          </a>
-        </div>
-      </section>
-    </main>
+        <p>{t('address')}</p>
+      </div>
+    </div>
   );
 }

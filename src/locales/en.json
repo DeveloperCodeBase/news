@@ -1,0 +1,63 @@
+{
+  "meta": {
+    "title": "Vista AI News Magazine",
+    "description": "In-depth, trustworthy coverage of global artificial intelligence breakthroughs in Persian and English."
+  },
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact",
+    "categories": "Categories",
+    "latest": "Latest"
+  },
+  "home": {
+    "heroBadge": "Real-time AI coverage",
+    "heroTitle": "Vista AI bilingual news desk",
+    "heroSubtitle": "Automated ingestion, translation, and human editorial review deliver fast, reliable AI reporting for decision-makers.",
+    "ctaPrimary": "Browse today’s stories",
+    "ctaSecondary": "Project overview",
+    "latest": "Latest stories",
+    "trustedBadge": "Trusted source",
+    "untrustedBadge": "Awaiting review",
+    "readMore": "Read more",
+    "emptyState": "No stories have been published yet."
+  },
+  "article": {
+    "source": "Source",
+    "published": "Published",
+    "related": "Related stories",
+    "categories": "Related categories",
+    "tags": "Tags",
+    "original": "Show original English",
+    "translated": "Show Persian translation"
+  },
+  "contact": {
+    "title": "Contact Vista News",
+    "description": "Use the following channels to submit stories, partnership ideas, or report an issue.",
+    "company": "Vista Innovative Intelligence Network",
+    "ceo": "CEO: Masoud Bakhshi",
+    "phone": "Phone: +98 912 473 3234",
+    "email": "Email: devcodebase.dec@gmail.com",
+    "address": "Address: Tehran, Valiasr St., Shafagh Alley, No. 12"
+  },
+  "about": {
+    "title": "About",
+    "mission": "We provide executives, researchers, and practitioners with a trusted pulse on artificial intelligence breakthroughs.",
+    "vision": "Stories originate from allowlisted feeds, are normalized and translated, then reviewed by editors to guarantee accuracy.",
+    "workflow": "Vista’s pipeline unifies RSS harvesting, deduplication, smart categorization, automated translation, and an editorial review queue."
+  },
+  "footer": {
+    "rights": "All rights reserved © Vista Innovative Intelligence Network.",
+    "newsletter": "Newsletter sign-up launches soon."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The story might have been unpublished or the URL is incorrect.",
+    "cta": "Return to home"
+  },
+  "search": {
+    "placeholder": "Search news...",
+    "empty": "No results found.",
+    "results": "Search results"
+  }
+}
