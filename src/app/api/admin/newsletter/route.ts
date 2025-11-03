@@ -44,8 +44,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'No articles available' }, { status: 400 });
   }
 
-  const intro = parsed.data.intro ?? 'جدیدترین خبرهای هوش مصنوعی از مجله ویستا';
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://news.vista-ai.ir';
+  const intro = parsed.data.intro ?? 'جدیدترین خبرهای هوش مصنوعی از مجله هوش گیت';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hooshgate.ir';
   const env = getEnv();
   const resolvedRecipients = parsed.data.recipients?.length
     ? parsed.data.recipients

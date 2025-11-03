@@ -41,6 +41,14 @@ export type NormalizedArticle = {
   language: Lang;
 };
 
+type ScrapedMetadata = {
+  title?: string;
+  description?: string;
+  html?: string;
+  url?: string;
+  image?: string;
+};
+
 function detectLanguage(text: string): Lang {
   const persianRegex = /[\u0600-\u06FF]/;
   return persianRegex.test(text) ? Lang.FA : Lang.EN;
@@ -81,9 +89,16 @@ export async function fetchNews({ sources }: FetchNewsOptions): Promise<Normaliz
           console.warn(`Failed fetching article HTML for ${link}`, error);
         }
 
-        let metadata: Record<string, any> = {};
+        let metadata: ScrapedMetadata = {};
         if (html) {
-          metadata = await metascraperInstance({ html, url: link });
+          const result = await metascraperInstance({ html, url: link });
+          metadata = {
+            title: typeof result.title === 'string' ? result.title : undefined,
+            description: typeof result.description === 'string' ? result.description : undefined,
+            html: typeof result.html === 'string' ? result.html : undefined,
+            url: typeof result.url === 'string' ? result.url : undefined,
+            image: typeof result.image === 'string' ? result.image : undefined
+          };
         }
 
         const title = metadata.title || rawTitle;

@@ -3,7 +3,7 @@ import { getHomepageArticles } from '@/lib/db/articles';
 import { getLocalizedValue } from '@/lib/news/localization';
 
 export async function GET() {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://news.vista-ai.ir';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hooshgate.ir';
   const articles = await getHomepageArticles(20);
 
   const items = articles
@@ -24,7 +24,7 @@ export async function GET() {
   const feed = `<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0">
   <channel>
-    <title>Vista AI News</title>
+    <title>Hoosh Gate Magazine</title>
     <link>${siteUrl}</link>
     <description>Latest updates on artificial intelligence in Persian and English.</description>
 ${items}

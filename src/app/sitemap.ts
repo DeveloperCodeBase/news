@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next';
 import { getHomepageArticles } from '@/lib/db/articles';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://news.vista-ai.ir';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hooshgate.ir';
   const articles = await getHomepageArticles(50);
   const lastModified = articles[0]?.publishedAt ?? new Date();
 

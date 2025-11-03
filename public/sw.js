@@ -3,7 +3,7 @@ self.addEventListener('push', (event) => {
     return;
   }
   const data = event.data.json();
-  const title = data.title || 'Vista AI News';
+  const title = data.title || 'Hoosh Gate Magazine';
   const options = {
     body: data.body || 'خبر جدید منتشر شد.',
     icon: data.icon,

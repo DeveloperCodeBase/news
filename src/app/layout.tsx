@@ -5,8 +5,8 @@ import { inter, vazirmatn } from '@/lib/fonts';
 import { DEFAULT_LOCALE } from '@/lib/i18n/config';
 
 export const metadata: Metadata = {
-  title: 'Vista AI News',
-  description: 'Bilingual AI news magazine powered by automated ingestion, translation, and editorial review.'
+  title: 'Hoosh Gate Magazine',
+  description: 'Hoosh Gate delivers bilingual AI journalism powered by automated ingestion, translation, and expert editorial review.'
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

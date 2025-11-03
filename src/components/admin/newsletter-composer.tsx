@@ -13,7 +13,7 @@ type NewsletterComposerProps = {
 };
 
 export default function NewsletterComposer({ articles }: NewsletterComposerProps) {
-  const [subject, setSubject] = useState('خبرنامه ویژه ویستا AI');
+  const [subject, setSubject] = useState('خبرنامه ویژه مجله هوش گیت');
   const [intro, setIntro] = useState('در این شماره مهم‌ترین خبرهای هوش مصنوعی را مرور می‌کنیم.');
   const [selectedArticles, setSelectedArticles] = useState<string[]>(() => articles.map((article) => article.id));
   const [recipients, setRecipients] = useState('');

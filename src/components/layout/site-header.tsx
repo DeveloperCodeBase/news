@@ -17,7 +17,7 @@ export default async function SiteHeader({ locale }: { locale: AppLocale }) {
     <header className="sticky top-0 z-50 border-b border-slate-800/60 bg-slate-950/70 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-4">
         <Link href={basePath} className="text-lg font-semibold tracking-tight text-slate-100">
-          Vista AI News
+          Hoosh Gate Magazine
         </Link>
         <nav className="flex items-center gap-6 text-sm text-slate-200">
           {links.map((item) => (

@@ -2,11 +2,11 @@ import PgBoss from 'pg-boss';
 import { getEnv } from '@/lib/env';
 
 const JOB_NAMES = {
-  INGEST: 'vista.ingest',
-  REVALIDATE: 'vista.revalidate',
-  PUBLISH_SCHEDULED: 'vista.publish',
-  TREND_REFRESH: 'vista.trend-refresh',
-  MONITOR_HEALTH: 'vista.monitor'
+  INGEST: 'hooshgate.ingest',
+  REVALIDATE: 'hooshgate.revalidate',
+  PUBLISH_SCHEDULED: 'hooshgate.publish',
+  TREND_REFRESH: 'hooshgate.trend-refresh',
+  MONITOR_HEALTH: 'hooshgate.monitor'
 } as const;
 
 type JobName = (typeof JOB_NAMES)[keyof typeof JOB_NAMES];

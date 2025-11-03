@@ -1,6 +1,6 @@
-# Vista AI News Magazine
+# Hoosh Gate Magazine
 
-مجلهٔ خبری دو‌زبانهٔ «ویستا AI» یک پلتفرم جامع برای گردآوری، ترجمه، و انتشار اخبار هوش مصنوعی است. کل پروژه با رویکرد **لوکال‌محور** پیاده‌سازی شده است؛ تمام سرویس‌ها (پایگاه‌داده، صف، ترجمه و ذخیره‌سازی رسانه) در همان سرور اجرا می‌شوند و تنها وابستگی خارجی Google OAuth برای ورود مدیران است.
+مجلهٔ خبری دو‌زبانهٔ «هوش گیت» یک پلتفرم جامع برای گردآوری، ترجمه، و انتشار اخبار هوش مصنوعی است. کل پروژه با رویکرد **لوکال‌محور** پیاده‌سازی شده است؛ تمام سرویس‌ها (پایگاه‌داده، صف، ترجمه و ذخیره‌سازی رسانه) در همان سرور اجرا می‌شوند و تنها وابستگی خارجی Google OAuth برای ورود مدیران است.
 
 ## خلاصهٔ قابلیت‌ها
 
@@ -62,8 +62,8 @@
 
 1. **دریافت کد و تنظیم محیط**
    ```bash
-   git clone https://github.com/<YOUR_ORG>/vista-ai-news.git
-   cd vista-ai-news
+   git clone https://github.com/<YOUR_ORG>/hooshgate-magazine.git
+   cd hooshgate-magazine
    cp .env.example .env
    ```
 2. **ایجاد اطلاعات Google OAuth**
@@ -107,9 +107,9 @@
    ```
 3. **کلون و تنظیم مخزن**
    ```bash
-   sudo mkdir -p /opt/vista-ai-news && sudo chown $USER:$USER /opt/vista-ai-news
-   cd /opt/vista-ai-news
-   git clone https://github.com/<YOUR_ORG>/vista-ai-news.git .
+   sudo mkdir -p /opt/hooshgate-magazine && sudo chown $USER:$USER /opt/hooshgate-magazine
+   cd /opt/hooshgate-magazine
+   git clone https://github.com/<YOUR_ORG>/hooshgate-magazine.git .
    cp .env.example .env
    ```
 4. **تکمیل `.env`** (گام‌به‌گام)
@@ -133,10 +133,10 @@
 6. **راه‌اندازی Reverse Proxy (اختیاری)**
    ```bash
    sudo apt install -y nginx certbot python3-certbot-nginx
-   sudo tee /etc/nginx/sites-available/vista.conf <<'NGINX'
+   sudo tee /etc/nginx/sites-available/hooshgate.conf <<'NGINX'
    server {
      listen 80;
-     server_name news.vista-ai.ir; # دامنهٔ خود را جایگزین کنید
+     server_name hooshgate.ir; # دامنهٔ خود را جایگزین کنید
 
      location / {
        proxy_pass http://127.0.0.1:3000;
@@ -147,9 +147,9 @@
      }
    }
    NGINX
-   sudo ln -s /etc/nginx/sites-available/vista.conf /etc/nginx/sites-enabled/
+   sudo ln -s /etc/nginx/sites-available/hooshgate.conf /etc/nginx/sites-enabled/
    sudo nginx -t && sudo systemctl reload nginx
-   sudo certbot --nginx -d news.vista-ai.ir --email devcodebase.dec@gmail.com --agree-tos --redirect
+   sudo certbot --nginx -d hooshgate.ir --email devcodebase.dec@gmail.com --agree-tos --redirect
    ```
 7. **فعال‌سازی فایروال**
    ```bash
@@ -185,10 +185,10 @@ ERR_PNPM_FETCH_403 GET <registry-url>: Forbidden - 403
 > در این مخزن به‌صورت پیش‌فرض رجیستری جهانی npm استفاده می‌شود. در صورتی که همچنان خطای ۴۰۳ دریافت می‌کنید، مشکل از محدودیت شبکهٔ میزبان است و باید دسترسی خروجی (یا آینهٔ محلی) فراهم شود؛ کد پروژه نیازی به توکن یا حساب کاربری خاصی ندارد.
 9. **پشتیبان‌گیری روزانه از دیتابیس**
    ```bash
-   sudo mkdir -p /opt/backups/vista
+   sudo mkdir -p /opt/backups/hooshgate
    crontab -e
    # افزودن خط زیر
-   15 3 * * * docker exec vista_postgres pg_dump -U vista vista_ai_news | gzip > /opt/backups/vista/db-$(date +\%F).sql.gz
+   15 3 * * * docker exec hooshgate_postgres pg_dump -U hooshgate hooshgate_news | gzip > /opt/backups/hooshgate/db-$(date +\%F).sql.gz
    ```
 
 ## متغیرهای محیطی کلیدی
@@ -217,7 +217,7 @@ ERR_PNPM_FETCH_403 GET <registry-url>: Forbidden - 403
 | `SMS_RECIPIENTS` | فهرست شماره‌های مقصد پیامک (جدا شده با کاما، اعداد محلی). |
 | `SMTP_HOST` / `SMTP_PORT` | آدرس سرویس SMTP (می‌تواند Mailhog/Postal محلی باشد). |
 | `SMTP_USER` / `SMTP_PASSWORD` | در صورت نیاز به احراز هویت SMTP مقداردهی شود؛ برای Mailhog خالی بماند. |
-| `SMTP_FROM` | ایمیل فرستندهٔ خبرنامه و هشدارها (مانند `news@vista-ai.local`). |
+| `SMTP_FROM` | ایمیل فرستندهٔ خبرنامه و هشدارها (مانند `news@hooshgate-ai.local`). |
 | `NEWSLETTER_RECIPIENTS` | فهرست گیرندگان پیش‌فرض خبرنامه (جدا شده با کاما، اختیاری). |
 | `NEXT_PUBLIC_WEB_PUSH_VAPID_PUBLIC_KEY` / `WEB_PUSH_VAPID_PUBLIC_KEY` / `WEB_PUSH_VAPID_PRIVATE_KEY` | کلیدهای VAPID برای اعلان فشاری (عمومی برای کلاینت و زوج کلید خصوصی برای سرور). |
 | `WEB_PUSH_CONTACT_EMAIL` | ایمیل تماس برای VAPID (به‌صورت `mailto:example@domain.com`). |
@@ -230,9 +230,9 @@ ERR_PNPM_FETCH_403 GET <registry-url>: Forbidden - 403
 - نشست‌ها مبتنی بر JWT هستند و از پایگاه‌داده برای نگهداری اطلاعات کاربران استفاده می‌شود.
 
 ### 2. پایپلاین جمع‌آوری خبر
-1. Worker براساس `INGEST_CRON` به‌صورت خودکار job `vista.ingest` را زمان‌بندی می‌کند (در صورت نیاز می‌توانید اندپوینت `/api/ingest/trigger` را به‌صورت دستی نیز فراخوانی کنید).
-2. Worker صف `pg-boss` وظیفهٔ `vista.ingest` را اجرا کرده و نتایج را در Postgres ذخیره می‌کند.
-3. برای خبرهای منتشر‌شده، وظیفهٔ `vista.revalidate` در صف قرار می‌گیرد تا اندپوینت داخلی `/api/internal/revalidate` مسیرهای مربوطه را invalidate کند.
+1. Worker براساس `INGEST_CRON` به‌صورت خودکار job `hooshgate.ingest` را زمان‌بندی می‌کند (در صورت نیاز می‌توانید اندپوینت `/api/ingest/trigger` را به‌صورت دستی نیز فراخوانی کنید).
+2. Worker صف `pg-boss` وظیفهٔ `hooshgate.ingest` را اجرا کرده و نتایج را در Postgres ذخیره می‌کند.
+3. برای خبرهای منتشر‌شده، وظیفهٔ `hooshgate.revalidate` در صف قرار می‌گیرد تا اندپوینت داخلی `/api/internal/revalidate` مسیرهای مربوطه را invalidate کند.
 
 ### 3. آپلود رسانه
 - پنل مدیریت امکان بارگذاری تصویر کاور را دارد؛ فایل روی سرور فشرده و در مسیر `public/media` ذخیره می‌شود.
@@ -249,12 +249,12 @@ ERR_PNPM_FETCH_403 GET <registry-url>: Forbidden - 403
 
 ### 6. تحلیل ترندهای موضوعی
 - هر خبر پس از اینجست با ماژول هیبریدی (ONNX اختیاری + قواعد کلیدواژه‌ای) تحلیل موضوعی می‌شود و نتایج در `ArticleTopic` ذخیره می‌گردد.
-- Worker صف به‌صورت دوره‌ای job `vista.trend-refresh` را اجرا کرده و پنجرهٔ ۱۲ ساعتهٔ آخر را خلاصه می‌کند؛ خروجی در `TrendSnapshot` نگهداری شده و در داشبورد نمایش داده می‌شود.
+- Worker صف به‌صورت دوره‌ای job `hooshgate.trend-refresh` را اجرا کرده و پنجرهٔ ۱۲ ساعتهٔ آخر را خلاصه می‌کند؛ خروجی در `TrendSnapshot` نگهداری شده و در داشبورد نمایش داده می‌شود.
 - برای استفاده از مدل سفارشی، فایل ONNX خود را در مسیر `TREND_MODEL_PATH` قرار دهید؛ در صورت عدم وجود، موتور هیبریدی فعال است.
 
 ### 7. زمان‌بندی انتشار
 - در ویرایشگر محتوا می‌توانید وضعیت خبر را روی `SCHEDULED` گذاشته و زمان دقیق انتشار را تعیین کنید.
-- پس از ثبت، Worker صف با job `vista.publish` خبر را در لحظهٔ مشخص‌شده منتشر کرده و مسیر مربوطه را بازسازی می‌کند.
+- پس از ثبت، Worker صف با job `hooshgate.publish` خبر را در لحظهٔ مشخص‌شده منتشر کرده و مسیر مربوطه را بازسازی می‌کند.
 
 ### 8. خبرنامه و آزمایش‌های A/B
 - صفحهٔ `/admin/newsletter` امکان انتخاب اخبار و ارسال ایمیل را با استفاده از SMTP محلی یا خارجی فراهم می‌کند.
@@ -263,7 +263,7 @@ ERR_PNPM_FETCH_403 GET <registry-url>: Forbidden - 403
 
 ### 9. اعلان فشاری (Web Push)
 - کاربر پس از اجازهٔ Notification، سرویس‌ورکر `sw.js` ثبت و اشتراک او در جدول `PushSubscription` ذخیره می‌شود.
-- انتشار خودکار خبرهای زمان‌بندی‌شده (`vista.publish`) با استفاده از `web-push` به تمام مشترکان اعلان ارسال می‌کند.
+- انتشار خودکار خبرهای زمان‌بندی‌شده (`hooshgate.publish`) با استفاده از `web-push` به تمام مشترکان اعلان ارسال می‌کند.
 - برای غیرفعال‌سازی، کافی است کلیدهای VAPID را خالی بگذارید یا API `/api/notifications/subscribe` را مسدود کنید.
 
 ### 10. مانیتورینگ و هشدار
@@ -297,7 +297,7 @@ pnpm queue:worker # اجرای Worker صف در ترمینال جداگانه
 | --- | --- |
 | اجرای دستی اینجست | `pnpm ingest` (یا `curl` به `/api/ingest/trigger`). |
 | بازسازی کش خبر مشخص | `curl -X POST -H "Authorization: Bearer $INTERNAL_API_TOKEN" -d '{"slug":"example"}' http://127.0.0.1:3000/api/revalidate` |
-| مشاهدهٔ وضعیت صف | `docker exec -it vista_web pnpm queue:status` *(خروجی جدول وضعیت وظایف pg-boss)* |
+| مشاهدهٔ وضعیت صف | `docker exec -it hooshgate_web pnpm queue:status` *(خروجی جدول وضعیت وظایف pg-boss)* |
 
 ## نقشهٔ راه پیشنهادی
 

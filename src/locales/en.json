@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Vista AI News Magazine",
+    "title": "Hoosh Gate Magazine",
     "description": "In-depth, trustworthy coverage of global artificial intelligence breakthroughs in Persian and English."
   },
   "navigation": {
@@ -13,7 +13,7 @@
   },
   "home": {
     "heroBadge": "Real-time AI coverage",
-    "heroTitle": "Vista AI bilingual news desk",
+    "heroTitle": "Hoosh Gate bilingual AI news desk",
     "heroSubtitle": "Automated ingestion, translation, and human editorial review deliver fast, reliable AI reporting for decision-makers.",
     "ctaPrimary": "Browse today’s stories",
     "ctaSecondary": "Project overview",
@@ -33,9 +33,9 @@
     "translated": "Show Persian translation"
   },
   "contact": {
-    "title": "Contact Vista News",
+    "title": "Contact Hoosh Gate",
     "description": "Use the following channels to submit stories, partnership ideas, or report an issue.",
-    "company": "Vista Innovative Intelligence Network",
+    "company": "Hoosh Gate Magazine",
     "ceo": "CEO: Masoud Bakhshi",
     "phone": "Phone: +98 912 473 3234",
     "email": "Email: devcodebase.dec@gmail.com",
@@ -45,10 +45,10 @@
     "title": "About",
     "mission": "We provide executives, researchers, and practitioners with a trusted pulse on artificial intelligence breakthroughs.",
     "vision": "Stories originate from allowlisted feeds, are normalized and translated, then reviewed by editors to guarantee accuracy.",
-    "workflow": "Vista’s pipeline unifies RSS harvesting, deduplication, smart categorization, automated translation, and an editorial review queue."
+    "workflow": "Hoosh Gate's pipeline unifies RSS harvesting, deduplication, smart categorization, automated translation, and an editorial review queue."
   },
   "footer": {
-    "rights": "All rights reserved © Vista Innovative Intelligence Network.",
+    "rights": "All rights reserved © Hoosh Gate Magazine.",
     "newsletter": "Newsletter sign-up launches soon."
   },
   "notFound": {

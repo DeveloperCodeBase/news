@@ -38,7 +38,7 @@ export default function AdminShell({ email, role, children }: AdminShellProps) {
       <header className="border-b border-slate-800 bg-slate-950/70 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <div>
-            <p className="text-lg font-semibold">پنل مدیریت ویستا</p>
+            <p className="text-lg font-semibold">پنل مدیریت مجله هوش گیت</p>
             <p className="text-sm text-slate-400">
               {email} · نقش: <span className="font-medium text-emerald-400">{formatRole(role)}</span>
             </p>

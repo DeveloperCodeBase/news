@@ -9,8 +9,8 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const attachVisitorCookie = (response: NextResponse) => {
-    if (!request.cookies.get('vista_visitor')) {
-      response.cookies.set('vista_visitor', crypto.randomUUID(), {
+    if (!request.cookies.get('hooshgate_visitor')) {
+      response.cookies.set('hooshgate_visitor', crypto.randomUUID(), {
         httpOnly: false,
         sameSite: 'lax',
         path: '/',

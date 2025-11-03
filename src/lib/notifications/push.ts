@@ -33,11 +33,11 @@ export async function sendArticlePublishedNotification(article: PushArticlePaylo
     return;
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://news.vista-ai.ir';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hooshgate.ir';
   const targetLocale = article.locale ?? 'fa';
   const notificationPayload = {
     title: article.title,
-    body: article.excerpt ?? 'انتشار تازه‌ترین خبر از ویستا AI',
+    body: article.excerpt ?? 'انتشار تازه‌ترین خبر از مجله هوش گیت',
     icon: article.coverImageUrl ?? `${siteUrl}/icons/icon-512.png`,
     data: `${siteUrl}/${targetLocale}/news/${article.slug}`
   };
@@ -59,8 +59,13 @@ export async function sendArticlePublishedNotification(article: PushArticlePaylo
           where: { id: subscription.id },
           data: { lastNotifiedAt: new Date() }
         });
-      } catch (error: any) {
-        if (error?.statusCode === 404 || error?.statusCode === 410) {
+      } catch (error: unknown) {
+        if (
+          error &&
+          typeof error === 'object' &&
+          'statusCode' in error &&
+          ((error as { statusCode?: number }).statusCode === 404 || (error as { statusCode?: number }).statusCode === 410)
+        ) {
           await prisma.pushSubscription.delete({ where: { id: subscription.id } });
         } else {
           console.warn('Failed to deliver push notification', error);

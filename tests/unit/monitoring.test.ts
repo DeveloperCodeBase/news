@@ -52,13 +52,13 @@ beforeEach(() => {
 describe('collectQueueHealth', () => {
   it('records queue state without raising alerts when below thresholds', async () => {
     vi.spyOn(prisma, '$queryRawUnsafe').mockResolvedValue([
-      { name: 'vista.ingest', waiting: 2, active: 1, completed: 10, failed: 0 }
+      { name: 'hooshgate.ingest', waiting: 2, active: 1, completed: 10, failed: 0 }
     ]);
 
     await collectQueueHealth();
 
     expect(recordQueueSnapshotMock).toHaveBeenCalledWith({
-      queue: 'vista.ingest',
+      queue: 'hooshgate.ingest',
       waiting: 2,
       active: 1,
       completed: 10,
@@ -77,13 +77,13 @@ describe('collectQueueHealth', () => {
 
   it('sends alerts when backlog or failures exceed thresholds', async () => {
     vi.spyOn(prisma, '$queryRawUnsafe').mockResolvedValue([
-      { name: 'vista.ingest', waiting: 12, active: 2, completed: 18, failed: 3 }
+      { name: 'hooshgate.ingest', waiting: 12, active: 2, completed: 18, failed: 3 }
     ]);
 
     await collectQueueHealth();
 
     expect(recordQueueSnapshotMock).toHaveBeenCalledWith({
-      queue: 'vista.ingest',
+      queue: 'hooshgate.ingest',
       waiting: 12,
       active: 2,
       completed: 18,
@@ -94,18 +94,18 @@ describe('collectQueueHealth', () => {
       expect.objectContaining({
         channel: 'system',
         severity: 'critical',
-        subject: expect.stringContaining('vista.ingest')
+        subject: expect.stringContaining('hooshgate.ingest')
       })
     );
 
     expect(sendAlertEmailMock).toHaveBeenCalledWith({
-      subject: expect.stringContaining('vista.ingest'),
-      html: expect.stringContaining('vista.ingest')
+      subject: expect.stringContaining('hooshgate.ingest'),
+      html: expect.stringContaining('hooshgate.ingest')
     });
 
     expect(sendAlertSmsMock).toHaveBeenCalledWith({
-      subject: expect.stringContaining('vista.ingest'),
-      message: expect.stringContaining('vista.ingest')
+      subject: expect.stringContaining('hooshgate.ingest'),
+      message: expect.stringContaining('hooshgate.ingest')
     });
   });
 

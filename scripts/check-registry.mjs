@@ -16,7 +16,7 @@ async function main() {
     const response = await fetch(target, {
       method: 'GET',
       headers: {
-        'user-agent': 'vista-ai-news-registry-check/1.0',
+        'user-agent': 'hooshgate-registry-check/1.0',
         accept: 'application/json',
       },
       signal: controller.signal,

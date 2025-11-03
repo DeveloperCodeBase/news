@@ -190,8 +190,8 @@ export async function runIngestion() {
           }
         });
         created += 1;
-      } catch (error: any) {
-        if (error?.code === 'P2002') {
+      } catch (error: unknown) {
+        if (error && typeof error === 'object' && 'code' in error && (error as { code?: string }).code === 'P2002') {
           skipped += 1;
         } else {
           console.error('Failed to insert article', error);
@@ -225,7 +225,7 @@ export async function runIngestion() {
       message: errorMessage
     });
     await sendAlertEmail({
-      subject: 'Vista News ingestion failed',
+      subject: 'Hoosh Gate ingestion failed',
       html: `<p>خطا در اجرای پایپلاین جمع‌آوری اخبار:</p><pre>${errorMessage}</pre>`
     });
     await recordAlertEvent({
@@ -236,7 +236,7 @@ export async function runIngestion() {
       metadata: { source: 'runIngestion' }
     });
     await sendAlertSms({
-      subject: 'اخطار پایپلاین خبر ویستا',
+      subject: 'اخطار پایپلاین خبر هوش گیت',
       message: `پایپلاین جمع‌آوری خبر با خطا مواجه شد: ${errorMessage}`
     });
     throw error;

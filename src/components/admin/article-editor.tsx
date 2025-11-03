@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { EditorContent, useEditor } from '@tiptap/react';
@@ -195,7 +196,15 @@ export default function ArticleEditor({ article, taxonomies }: ArticleEditorProp
             {isUploading ? <span className="text-xs text-emerald-400">در حال آپلود…</span> : null}
           </div>
           {coverImageUrl ? (
-            <img src={coverImageUrl} alt="کاور مقاله" className="max-h-40 w-full rounded-lg object-cover" />
+            <div className="relative h-40 w-full overflow-hidden rounded-lg">
+              <Image
+                src={coverImageUrl}
+                alt="کاور مقاله"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
           ) : null}
         </div>
         <label className="space-y-2">

@@ -50,7 +50,7 @@ export default function ArticleCard({ article, locale }: ArticleCardProps) {
           />
         </div>
       ) : (
-        <div className="flex h-48 items-center justify-center bg-slate-800 text-slate-400">Vista AI</div>
+        <div className="flex h-48 items-center justify-center bg-slate-800 text-slate-400">Hoosh Gate</div>
       )}
       <div className="flex flex-1 flex-col gap-3 p-5">
         <div className="flex items-center justify-between text-xs text-slate-400">

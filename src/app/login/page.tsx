@@ -1,7 +1,7 @@
 import LoginForm from '@/components/auth/login-form';
 
 export const metadata = {
-  title: 'ورود مدیران - Vista AI News',
+  title: 'ورود مدیران - مجله هوش گیت',
   description: 'Sign in to manage AI news ingestion, review, and publication.'
 };
 

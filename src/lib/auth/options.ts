@@ -47,7 +47,7 @@ export const authOptions: NextAuthOptions = {
               image: user.image ?? null
             }
           });
-        } catch (error) {
+        } catch {
           await prisma.user.upsert({
             where: { email },
             update: { role, name: user.name ?? email, image: user.image ?? null },

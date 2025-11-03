@@ -12,13 +12,13 @@ const prisma = new PrismaClient();
 async function main() {
   const seedUsers = [
     {
-      email: 'admin@vista-ai.ir',
-      name: 'Vista Admin',
+      email: 'admin@hooshgate.ir',
+      name: 'Hoosh Gate Admin',
       role: Role.ADMIN
     },
     {
-      email: 'editor@vista-ai.ir',
-      name: 'Vista Editor',
+      email: 'editor@hooshgate.ir',
+      name: 'Hoosh Gate Editor',
       role: Role.EDITOR
     }
   ];
@@ -159,7 +159,7 @@ async function main() {
         '<p>در رویدادی مشترک میان اتحادیه اروپا و شرکت‌های بزرگ فناوری، سازوکاری برای ارزیابی ریسک و گزارش‌دهی شفاف مدل‌های بزرگ AI تدوین شد.</p>',
       contentEn:
         '<p>During a joint summit with the EU and leading tech firms, a new risk evaluation and transparency framework for frontier AI models was established.</p>',
-      coverImageUrl: 'https://news.vista-ai.ir/images/ai-safety.jpg',
+      coverImageUrl: 'https://hooshgate.ir/images/ai-safety.jpg',
       sourceFeedUrl: 'https://deepmind.google/feeds/news',
       categories: ['policy', 'safety'],
       tags: ['open-source', 'llm'],
@@ -184,7 +184,7 @@ async function main() {
       },
       create: {
         slug: article.slug,
-        urlCanonical: `https://news.vista-ai.ir/${article.slug}`,
+        urlCanonical: `https://hooshgate.ir/${article.slug}`,
         titleFa: article.titleFa,
         titleEn: article.titleEn,
         excerptFa: article.excerptFa,

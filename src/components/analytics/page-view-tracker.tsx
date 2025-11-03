@@ -6,7 +6,7 @@ function getVisitorKey(articleId: string) {
   if (typeof window === 'undefined') {
     return articleId;
   }
-  const storageKey = `vista-article-${articleId}`;
+  const storageKey = `hooshgate-article-${articleId}`;
   const existing = window.sessionStorage.getItem(storageKey);
   if (existing) {
     return existing;
@@ -73,7 +73,7 @@ export default function PageViewTracker({ articleId, experimentKey, variantKey }
     return () => {
       flush();
     };
-  }, [articleId]);
+  }, [articleId, experimentKey, variantKey]);
 
   return null;
 }

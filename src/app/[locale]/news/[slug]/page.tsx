@@ -19,12 +19,11 @@ export async function generateMetadata({ params }: { params: { locale: AppLocale
   if (!article) {
     return {};
   }
-  const t = await getTranslations({ locale, namespace: 'article' });
   const title = getLocalizedValue(article, locale, 'title');
   const localizedSummary = getLocalizedValue(article, locale, 'summary');
   const localizedExcerpt = getLocalizedValue(article, locale, 'excerpt');
   const description = localizedSummary || localizedExcerpt;
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://news.vista-ai.ir';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hooshgate.ir';
   const url = `${siteUrl}/${locale}/news/${article.slug}`;
 
   const images = article.coverImageUrl ? [{ url: article.coverImageUrl }] : undefined;
@@ -71,7 +70,7 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
     article!.categories.map((item) => item.category.id)
   );
 
-  const visitorKey = cookies().get('vista_visitor')?.value ?? 'anonymous';
+  const visitorKey = cookies().get('hooshgate_visitor')?.value ?? 'anonymous';
   const experiment = await resolveExperimentVariant('article-template', visitorKey);
   const experimentKey = experiment ? 'article-template' : undefined;
   const variantKey = experiment?.key ?? 'classic';
@@ -85,19 +84,19 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
     '@type': 'NewsArticle',
     headline: title,
     datePublished: article!.publishedAt.toISOString(),
-    mainEntityOfPage: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://news.vista-ai.ir'}/${locale}/news/${article!.slug}`,
+    mainEntityOfPage: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hooshgate.ir'}/${locale}/news/${article!.slug}`,
     image: article!.coverImageUrl,
     description: leadText,
     author: {
       '@type': 'Organization',
-      name: 'Vista AI News'
+      name: 'Hoosh Gate Magazine'
     },
     publisher: {
       '@type': 'Organization',
-      name: 'Vista AI News',
+      name: 'Hoosh Gate Magazine',
       logo: {
         '@type': 'ImageObject',
-        url: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://news.vista-ai.ir'}/logo.png`
+        url: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hooshgate.ir'}/logo.png`
       }
     }
   };
