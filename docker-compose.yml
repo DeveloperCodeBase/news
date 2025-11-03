@@ -1,0 +1,64 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: vista_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: vista_ai_news
+      POSTGRES_USER: vista
+      POSTGRES_PASSWORD: change_this_strong_pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U vista -d vista_ai_news']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  libretranslate:
+    image: libretranslate/libretranslate:latest
+    container_name: vista_libretranslate
+    command: ['--load-only', 'en,fa', '--local-storage', '/var/lib/libretranslate']
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      target: runner
+    container_name: vista_web
+    depends_on:
+      postgres:
+        condition: service_healthy
+      libretranslate:
+        condition: service_started
+    env_file: .env
+    ports:
+      - '3000:3000'
+    volumes:
+      - uploads:/app/public/media
+    command: >
+      sh -c "pnpm prisma db push && pnpm prisma db seed && pnpm start"
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: .
+      target: runner
+    container_name: vista_worker
+    depends_on:
+      postgres:
+        condition: service_healthy
+      web:
+        condition: service_started
+    env_file: .env
+    volumes:
+      - uploads:/app/public/media
+    command: >
+      sh -c "pnpm prisma db push && pnpm queue:worker"
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  uploads:

@@ -1,0 +1,71 @@
+import webPush from 'web-push';
+import { prisma } from '@/lib/db/client';
+import { getEnv } from '@/lib/env';
+
+let configured = false;
+
+function ensureConfigured() {
+  if (configured) return true;
+  const env = getEnv();
+  if (!env.WEB_PUSH_VAPID_PUBLIC_KEY || !env.WEB_PUSH_VAPID_PRIVATE_KEY || !env.WEB_PUSH_CONTACT_EMAIL) {
+    return false;
+  }
+  webPush.setVapidDetails(env.WEB_PUSH_CONTACT_EMAIL, env.WEB_PUSH_VAPID_PUBLIC_KEY, env.WEB_PUSH_VAPID_PRIVATE_KEY);
+  configured = true;
+  return true;
+}
+
+export type PushArticlePayload = {
+  slug: string;
+  title: string;
+  excerpt?: string | null;
+  coverImageUrl?: string | null;
+  locale?: 'fa' | 'en';
+};
+
+export async function sendArticlePublishedNotification(article: PushArticlePayload) {
+  if (!ensureConfigured()) {
+    return;
+  }
+
+  const subscriptions = await prisma.pushSubscription.findMany();
+  if (subscriptions.length === 0) {
+    return;
+  }
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://news.vista-ai.ir';
+  const targetLocale = article.locale ?? 'fa';
+  const notificationPayload = {
+    title: article.title,
+    body: article.excerpt ?? 'انتشار تازه‌ترین خبر از ویستا AI',
+    icon: article.coverImageUrl ?? `${siteUrl}/icons/icon-512.png`,
+    data: `${siteUrl}/${targetLocale}/news/${article.slug}`
+  };
+
+  await Promise.all(
+    subscriptions.map(async (subscription) => {
+      try {
+        await webPush.sendNotification(
+          {
+            endpoint: subscription.endpoint,
+            keys: {
+              p256dh: subscription.p256dh,
+              auth: subscription.auth
+            }
+          },
+          JSON.stringify(notificationPayload)
+        );
+        await prisma.pushSubscription.update({
+          where: { id: subscription.id },
+          data: { lastNotifiedAt: new Date() }
+        });
+      } catch (error: any) {
+        if (error?.statusCode === 404 || error?.statusCode === 410) {
+          await prisma.pushSubscription.delete({ where: { id: subscription.id } });
+        } else {
+          console.warn('Failed to deliver push notification', error);
+        }
+      }
+    })
+  );
+}
