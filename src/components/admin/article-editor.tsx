@@ -14,13 +14,13 @@ type ArticleEditorProps = {
     id: string;
     slug: string;
     titleFa: string;
-    titleEn: string;
-    excerptFa: string;
-    excerptEn: string;
+    titleEn: string | null;
+    excerptFa: string | null;
+    excerptEn: string | null;
     summaryFa: string | null;
     summaryEn: string | null;
-    contentFa: string;
-    contentEn: string;
+    contentFa: string | null;
+    contentEn: string | null;
     status: ArticleStatus;
     scheduledFor?: string | null;
     categories: { category: Taxonomy }[];
@@ -36,12 +36,16 @@ type ArticleEditorProps = {
 export default function ArticleEditor({ article, taxonomies }: ArticleEditorProps) {
   const router = useRouter();
   const [status, setStatus] = useState<ArticleStatus>(article.status);
-  const [titleFa, setTitleFa] = useState(article.titleFa);
-  const [titleEn, setTitleEn] = useState(article.titleEn);
-  const [excerptFa, setExcerptFa] = useState(article.excerptFa);
-  const [excerptEn, setExcerptEn] = useState(article.excerptEn);
-  const [summaryFa, setSummaryFa] = useState(article.summaryFa ?? article.excerptFa);
-  const [summaryEn, setSummaryEn] = useState(article.summaryEn ?? article.excerptEn);
+  const [titleFa, setTitleFa] = useState<string>(article.titleFa);
+  const [titleEn, setTitleEn] = useState<string>(article.titleEn ?? '');
+  const [excerptFa, setExcerptFa] = useState<string>(article.excerptFa ?? '');
+  const [excerptEn, setExcerptEn] = useState<string>(article.excerptEn ?? '');
+  const [summaryFa, setSummaryFa] = useState<string>(
+    article.summaryFa ?? article.excerptFa ?? ''
+  );
+  const [summaryEn, setSummaryEn] = useState<string>(
+    article.summaryEn ?? article.excerptEn ?? ''
+  );
   const [selectedCategories, setSelectedCategories] = useState(() =>
     article.categories.map(({ category }) => category.id)
   );
@@ -62,12 +66,12 @@ export default function ArticleEditor({ article, taxonomies }: ArticleEditorProp
 
   const editorFa = useEditor({
     extensions: [StarterKit],
-    content: article.contentFa
+    content: article.contentFa ?? ''
   });
 
   const editorEn = useEditor({
     extensions: [StarterKit],
-    content: article.contentEn
+    content: article.contentEn ?? ''
   });
 
   const categories = useMemo(() => taxonomies.categories, [taxonomies.categories]);
