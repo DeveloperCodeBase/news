@@ -7,6 +7,8 @@ type LocalizableRecord = Record<string, unknown> & {
   excerptEn?: string | null;
   summaryFa?: string | null;
   summaryEn?: string | null;
+  contentFa?: string | null;
+  contentEn?: string | null;
   nameFa?: string;
   nameEn?: string | null;
 };
@@ -14,7 +16,7 @@ type LocalizableRecord = Record<string, unknown> & {
 export function getLocalizedValue(
   record: LocalizableRecord,
   locale: AppLocale,
-  field: 'title' | 'excerpt' | 'summary' | 'name'
+  field: 'title' | 'excerpt' | 'summary' | 'name' | 'content'
 ): string {
   const faKey = `${field}Fa` as keyof LocalizableRecord;
   const enKey = `${field}En` as keyof LocalizableRecord;
