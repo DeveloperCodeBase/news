@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
   const identifier = crypto.randomUUID();
   const arrayBuffer = await file.arrayBuffer();
   const baseBuffer = Buffer.from(arrayBuffer);
-  let outputBuffer: Uint8Array = baseBuffer;
+  let outputBuffer = baseBuffer;
   let filename = `${identifier}.webp`;
 
   try {
