@@ -36,11 +36,11 @@ export async function POST(request: NextRequest) {
   const identifier = crypto.randomUUID();
   const arrayBuffer = await file.arrayBuffer();
   const baseBuffer = Buffer.from(arrayBuffer);
-  let outputBuffer = baseBuffer;
+  let outputBuffer: Uint8Array = baseBuffer;
   let filename = `${identifier}.webp`;
 
   try {
-    outputBuffer = await sharp(new Uint8Array(arrayBuffer)).rotate().webp({ quality: 85 }).toBuffer();
+    outputBuffer = await sharp(baseBuffer).rotate().webp({ quality: 85 }).toBuffer();
   } catch (error) {
     console.warn('Image optimization failed, using original buffer.', error);
     filename = `${identifier}${originalExtension || '.bin'}`;
