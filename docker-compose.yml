@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   postgres:
     image: postgres:16
@@ -39,7 +37,7 @@ services:
     volumes:
       - uploads:/app/public/media
     command: >
-      sh -c "pnpm prisma db push && pnpm prisma db seed && pnpm start"
+      sh -c "pnpm prisma migrate deploy && pnpm prisma db seed && pnpm start"
     restart: unless-stopped
 
   worker:
@@ -56,7 +54,7 @@ services:
     volumes:
       - uploads:/app/public/media
     command: >
-      sh -c "pnpm prisma db push && pnpm queue:worker"
+      sh -c "pnpm prisma migrate deploy && pnpm queue:worker"
     restart: unless-stopped
 
 volumes:
