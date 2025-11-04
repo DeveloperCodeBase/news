@@ -34,14 +34,17 @@ export async function POST(request: NextRequest) {
 
   const originalExtension = path.extname(file.name)?.toLowerCase() || '';
   const identifier = crypto.randomUUID();
-  let outputBuffer = Buffer.from(await file.arrayBuffer());
+  const arrayBuffer = await file.arrayBuffer();
+  const baseBuffer = Buffer.from(arrayBuffer);
+  let outputBuffer = baseBuffer;
   let filename = `${identifier}.webp`;
 
   try {
-    outputBuffer = await sharp(outputBuffer).rotate().webp({ quality: 85 }).toBuffer();
+    outputBuffer = await sharp(new Uint8Array(arrayBuffer)).rotate().webp({ quality: 85 }).toBuffer();
   } catch (error) {
     console.warn('Image optimization failed, using original buffer.', error);
     filename = `${identifier}${originalExtension || '.bin'}`;
+    outputBuffer = baseBuffer;
   }
 
   const outputPath = path.join(uploadDir, filename);
