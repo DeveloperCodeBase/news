@@ -31,13 +31,31 @@ export async function POST(request: NextRequest) {
   const articles = parsed.data.articleIds?.length
     ? await prisma.article.findMany({
         where: { id: { in: parsed.data.articleIds } },
-        select: { slug: true, titleFa: true, titleEn: true, excerptFa: true, excerptEn: true, publishedAt: true }
+        select: {
+          slug: true,
+          titleFa: true,
+          titleEn: true,
+          excerptFa: true,
+          excerptEn: true,
+          summaryFa: true,
+          summaryEn: true,
+          publishedAt: true
+        }
       })
     : await prisma.article.findMany({
         where: { status: Status.PUBLISHED },
         orderBy: { publishedAt: 'desc' },
         take: 5,
-        select: { slug: true, titleFa: true, titleEn: true, excerptFa: true, excerptEn: true, publishedAt: true }
+        select: {
+          slug: true,
+          titleFa: true,
+          titleEn: true,
+          excerptFa: true,
+          excerptEn: true,
+          summaryFa: true,
+          summaryEn: true,
+          publishedAt: true
+        }
       });
 
   if (articles.length === 0) {
