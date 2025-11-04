@@ -1,14 +1,18 @@
 import type { NextWebVitalsMetric } from 'next/app';
 
+type MetricRating = 'good' | 'needs-improvement' | 'poor';
+
 export function reportWebVitals(metric: NextWebVitalsMetric) {
   if (typeof window === 'undefined') {
     return;
   }
 
+  const rating =
+    'rating' in metric ? (metric as { rating: MetricRating | undefined }).rating : undefined;
   const payload = {
     metric: metric.name,
     value: metric.value,
-    rating: metric.rating,
+    rating,
     delta: 'delta' in metric ? metric.delta : undefined,
     navigationType: metric.entries?.[0]?.navigationType,
     route: window.location.pathname
