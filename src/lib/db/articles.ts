@@ -1,6 +1,7 @@
 import { prisma } from './client';
 import { Status, ExperimentStatus } from '@prisma/client';
 import type { AppLocale } from '@/lib/i18n/config';
+import { withPrismaConnectionFallback } from './errors';
 
 const ARTICLE_SELECT = {
   id: true,
@@ -60,13 +61,19 @@ const ARTICLE_SELECT = {
   }
 } as const;
 
-export async function getHomepageArticles(limit = 12) {
-  return prisma.article.findMany({
-    where: { status: Status.PUBLISHED },
-    orderBy: { publishedAt: 'desc' },
-    take: limit,
-    select: ARTICLE_SELECT
-  });
+type HomepageArticles = Awaited<ReturnType<typeof prisma.article.findMany>>;
+
+export async function getHomepageArticles(limit = 12): Promise<HomepageArticles> {
+  return withPrismaConnectionFallback(
+    () =>
+      prisma.article.findMany({
+        where: { status: Status.PUBLISHED },
+        orderBy: { publishedAt: 'desc' },
+        take: limit,
+        select: ARTICLE_SELECT
+      }),
+    [] as HomepageArticles
+  );
 }
 
 export async function getReviewQueueArticles(limit = 25) {
@@ -261,21 +268,27 @@ export async function searchArticles(query: string, locale: AppLocale, limit = 1
   });
 }
 
+type CategoryResults = Awaited<ReturnType<typeof prisma.category.findMany>>;
+
 export async function getCategorySummaries(locale: AppLocale, limit = 6) {
-  const categories = await prisma.category.findMany({
-    select: {
-      id: true,
-      slug: true,
-      nameFa: true,
-      nameEn: true,
-      articles: {
-        where: { article: { status: Status.PUBLISHED } },
-        select: { articleId: true }
-      }
-    },
-    orderBy: { articles: { _count: 'desc' } },
-    take: limit
-  });
+  const categories = await withPrismaConnectionFallback(
+    () =>
+      prisma.category.findMany({
+        select: {
+          id: true,
+          slug: true,
+          nameFa: true,
+          nameEn: true,
+          articles: {
+            where: { article: { status: Status.PUBLISHED } },
+            select: { articleId: true }
+          }
+        },
+        orderBy: { articles: { _count: 'desc' } },
+        take: limit
+      }),
+    [] as CategoryResults
+  );
 
   return categories.map((category) => ({
     slug: category.slug,

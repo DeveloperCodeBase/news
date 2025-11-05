@@ -3,7 +3,9 @@ import type { AppLocale } from '@/lib/i18n/config';
 import { getHomepageArticles } from '@/lib/db/articles';
 import ArticleCard from '@/components/articles/article-card';
 
-export const revalidate = 600;
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const fetchCache = 'force-no-store';
 
 export default async function NewsIndexPage({ params }: { params: { locale: AppLocale } }) {
   const locale = params.locale;

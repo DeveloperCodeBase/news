@@ -6,6 +6,9 @@ import { DEFAULT_LOCALE } from '@/lib/i18n/config';
 import { isEditorialRole } from '@/lib/auth/permissions';
 import { authOptions } from '@/lib/auth/options';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 type AdminLayoutProps = {
   children: ReactNode;
 };

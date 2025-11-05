@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { getHomepageArticles } from '@/lib/db/articles';
 import { getLocalizedValue } from '@/lib/news/localization';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hooshgate.ir';
   const articles = await getHomepageArticles(20);
