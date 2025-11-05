@@ -18,6 +18,7 @@ export function reportWebVitals(metric: NextWebVitalsMetric) {
     value: metric.value,
     rating,
     delta: 'delta' in metric ? metric.delta : undefined,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     navigationType: (metric as any).entries?.[0]?.navigationType,
     route: window.location.pathname
   };
