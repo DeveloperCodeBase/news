@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/db/client';
+import type { Prisma } from '@prisma/client';
 
 export type CronStatus = 'running' | 'success' | 'error';
 
@@ -63,7 +64,7 @@ export async function recordAlertEvent({
   severity: 'info' | 'warning' | 'critical';
   subject: string;
   message: string;
-  metadata?: Record<string, unknown>;
+  metadata?: Prisma.InputJsonValue;
 }) {
   await prisma.alertEvent.create({
     data: {
