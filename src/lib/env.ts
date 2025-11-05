@@ -14,7 +14,12 @@ const envSchema = z.object({
   INTERNAL_API_URL: z.string().url().optional(),
   INTERNAL_API_TOKEN: z.string().min(16),
   MEDIA_UPLOAD_DIR: z.string().default('public/media'),
-  QUEUE_DATABASE_URL: z.string().url().optional(),
+  QUEUE_DATABASE_URL: z
+    .preprocess((value) => {
+      if (typeof value !== 'string') return value;
+      const trimmed = value.trim();
+      return trimmed.length === 0 ? undefined : trimmed;
+    }, z.string().url().optional()),
   JOB_QUEUE_SCHEMA: z
     .string()
     .regex(/^[a-zA-Z0-9_]+$/)
