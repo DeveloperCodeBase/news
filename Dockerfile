@@ -39,7 +39,10 @@ COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/src ./src
-RUN mkdir -p public/media
+COPY --from=builder /app/scripts ./scripts
+RUN mkdir -p public/media \
+  && chown -R node:node /app
 USER node
 EXPOSE 3000
+ENTRYPOINT ["./scripts/docker-entrypoint.sh"]
 CMD ["pnpm", "start"]

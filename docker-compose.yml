@@ -36,8 +36,6 @@ services:
       - '3000:3000'
     volumes:
       - uploads:/app/public/media
-    command: >
-      sh -c "pnpm prisma migrate deploy && pnpm prisma db seed && pnpm start"
     restart: unless-stopped
 
   worker:
@@ -51,10 +49,11 @@ services:
       web:
         condition: service_started
     env_file: .env
+    environment:
+      RUN_SEED: 'false'
     volumes:
       - uploads:/app/public/media
-    command: >
-      sh -c "pnpm prisma migrate deploy && pnpm queue:worker"
+    command: ["pnpm", "queue:worker"]
     restart: unless-stopped
 
 volumes:
