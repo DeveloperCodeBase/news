@@ -1,5 +1,5 @@
 import { prisma } from './client';
-import { Status, ExperimentStatus } from '@prisma/client';
+import { Prisma, Status, ExperimentStatus } from '@prisma/client';
 import type { AppLocale } from '@/lib/i18n/config';
 import { withPrismaConnectionFallback } from './errors';
 
@@ -61,7 +61,8 @@ const ARTICLE_SELECT = {
   }
 } as const;
 
-type HomepageArticles = Awaited<ReturnType<typeof prisma.article.findMany>>;
+type HomepageArticle = Prisma.ArticleGetPayload<{ select: typeof ARTICLE_SELECT }>;
+type HomepageArticles = HomepageArticle[];
 
 export async function getHomepageArticles(limit = 12): Promise<HomepageArticles> {
   return withPrismaConnectionFallback(
