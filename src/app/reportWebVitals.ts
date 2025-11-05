@@ -18,7 +18,7 @@ export function reportWebVitals(metric: NextWebVitalsMetric) {
     value: metric.value,
     rating,
     delta: 'delta' in metric ? metric.delta : undefined,
-    navigationType: metric.entries?.[0]?.navigationType,
+    navigationType: (metric as any).entries?.[0]?.navigationType,
     route: window.location.pathname
   };
 
