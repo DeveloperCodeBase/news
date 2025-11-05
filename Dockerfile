@@ -1,11 +1,23 @@
 # syntax=docker/dockerfile:1.7
-FROM node:20-alpine AS base
+FROM node:20-bookworm-slim AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 
+# Runtime dependencies required for Prisma engines
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+      ca-certificates \
+      openssl \
+    && rm -rf /var/lib/apt/lists/*
+
 FROM base AS deps
 WORKDIR /app
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+      python3 \
+      build-essential \
+    && rm -rf /var/lib/apt/lists/*
 COPY package.json ./
 RUN pnpm install
 
