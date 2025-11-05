@@ -1,17 +1,19 @@
+import type { AbstractIntlMessages } from 'next-intl';
 import { getRequestConfig } from 'next-intl/server';
-import { DEFAULT_LOCALE, SUPPORTED_LOCALES, type AppLocale } from './config';
+import { DEFAULT_LOCALE, isLocale } from './config';
 
-export default getRequestConfig(async ({ requestLocale }) => {
-  let locale = requestLocale;
+export default getRequestConfig(async ({ locale }) => {
+  let resolvedLocale = locale;
 
-  if (!locale || !SUPPORTED_LOCALES.includes(locale as AppLocale)) {
-    locale = DEFAULT_LOCALE;
+  if (!resolvedLocale || !isLocale(resolvedLocale)) {
+    resolvedLocale = DEFAULT_LOCALE;
   }
 
-  const messages = await import(`@/locales/${locale}.json`).then((module) => module.default);
+  const messages = (await import(`@/locales/${resolvedLocale}.json`))
+    .default as AbstractIntlMessages;
 
   return {
-    locale,
+    locale: resolvedLocale,
     messages
   };
 });
