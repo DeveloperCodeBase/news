@@ -268,15 +268,12 @@ export async function getCategorySummaries(locale: AppLocale, limit = 6) {
       slug: true,
       nameFa: true,
       nameEn: true,
-      _count: {
-        select: {
-          CategoryOnArticle: {
-            where: { article: { status: Status.PUBLISHED } }
-          }
-        }
+      articles: {
+        where: { article: { status: Status.PUBLISHED } },
+        select: { articleId: true }
       }
     },
-    orderBy: { CategoryOnArticle: { _count: 'desc' } },
+    orderBy: { articles: { _count: 'desc' } },
     take: limit
   });
 
@@ -284,7 +281,7 @@ export async function getCategorySummaries(locale: AppLocale, limit = 6) {
     slug: category.slug,
     nameFa: category.nameFa,
     nameEn: category.nameEn,
-    count: category._count.CategoryOnArticle
+    count: category.articles.length
   }));
 }
 
