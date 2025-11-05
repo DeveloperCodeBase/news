@@ -21,8 +21,17 @@ export async function startQueueWorker() {
     return result;
   });
 
+  const extractField = (value: unknown, field: string): string | undefined => {
+    if (!value || typeof value !== 'object') {
+      return undefined;
+    }
+    const record = value as Record<string, unknown>;
+    const fieldValue = record[field];
+    return typeof fieldValue === 'string' && fieldValue.length > 0 ? fieldValue : undefined;
+  };
+
   await boss.work(JOB_NAMES.REVALIDATE, async (job) => {
-    const slug = job.data.slug as string | undefined;
+    const slug = extractField(job.data, 'slug');
     if (!slug) {
       return;
     }
@@ -30,7 +39,7 @@ export async function startQueueWorker() {
   });
 
   await boss.work(JOB_NAMES.PUBLISH_SCHEDULED, async (job) => {
-    const articleId = job.data.articleId as string | undefined;
+    const articleId = extractField(job.data, 'articleId');
     if (!articleId) {
       await releaseDueArticles();
       return;
