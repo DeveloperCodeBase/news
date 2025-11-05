@@ -9,7 +9,7 @@ export function isPrismaConnectionError(error: unknown): boolean {
     return true;
   }
 
-  const message = typeof error === 'object' && error !== null && 'message' in error ? String((error as any).message) : '';
+  const message = extractMessage(error);
 
   return message.includes("Can't reach database server") || message.includes('Unable to require');
 }
@@ -25,4 +25,19 @@ export async function withPrismaConnectionFallback<T>(factory: () => Promise<T>,
 
     throw error;
   }
+}
+
+function extractMessage(error: unknown): string {
+  if (typeof error === 'object' && error !== null && 'message' in error) {
+    const { message } = error as { message?: unknown };
+    if (typeof message === 'string') {
+      return message;
+    }
+
+    if (message != null) {
+      return String(message);
+    }
+  }
+
+  return '';
 }
