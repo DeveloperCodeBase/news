@@ -269,14 +269,18 @@ export async function searchArticles(query: string, locale: AppLocale, limit = 1
   });
 }
 
-type CategoryResults = Awaited<ReturnType<typeof prisma.category.findMany>>;
+type CategorySummaryRecord = {
+  slug: string;
+  nameFa: string;
+  nameEn: string | null;
+  articles: { articleId: string }[];
+};
 
 export async function getCategorySummaries(locale: AppLocale, limit = 6) {
   const categories = await withPrismaConnectionFallback(
     () =>
       prisma.category.findMany({
         select: {
-          id: true,
           slug: true,
           nameFa: true,
           nameEn: true,
@@ -288,7 +292,7 @@ export async function getCategorySummaries(locale: AppLocale, limit = 6) {
         orderBy: { articles: { _count: 'desc' } },
         take: limit
       }),
-    [] as CategoryResults
+    [] as CategorySummaryRecord[]
   );
 
   return categories.map((category) => ({
