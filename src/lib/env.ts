@@ -60,7 +60,11 @@ const envSchema = z.object({
   WEB_PUSH_VAPID_PUBLIC_KEY: z.string().optional(),
   WEB_PUSH_VAPID_PRIVATE_KEY: z.string().optional(),
   WEB_PUSH_CONTACT_EMAIL: z.string().optional(),
-  SMS_WEBHOOK_URL: z.string().url().optional(),
+  SMS_WEBHOOK_URL: z.preprocess((value) => {
+    if (typeof value !== 'string') return value;
+    const trimmed = value.trim();
+    return trimmed.length === 0 ? undefined : trimmed;
+  }, z.string().url().optional()),
   SMS_WEBHOOK_TOKEN: z.string().optional(),
   SMS_RECIPIENTS: z.string().optional()
 });
