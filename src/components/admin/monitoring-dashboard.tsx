@@ -55,6 +55,10 @@ type MonitoringData = {
   ingestion: IngestionSnapshot;
 };
 
+const EMPTY_QUEUE_SNAPSHOTS: QueueSnapshot[] = [];
+const EMPTY_HEARTBEATS: CronHeartbeat[] = [];
+const EMPTY_ALERTS: AlertEvent[] = [];
+
 function formatTime(value: string | Date) {
   const date = typeof value === 'string' ? new Date(value) : value;
   return new Intl.DateTimeFormat('fa-IR', {
@@ -92,9 +96,9 @@ export default function MonitoringDashboard({ initialData }: { initialData: Moni
   });
 
   const data = query.data ?? initialData ?? null;
-  const queueSnapshots = data?.queueSnapshots ?? [];
-  const heartbeatsSource = data?.heartbeats ?? [];
-  const alertsSource = data?.alerts ?? [];
+  const queueSnapshots = data?.queueSnapshots;
+  const heartbeatsSource = data?.heartbeats;
+  const alertsSource = data?.alerts;
   const ingestion = data?.ingestion ?? {
     lastRunAt: null,
     lastSuccessAt: null,
@@ -105,6 +109,9 @@ export default function MonitoringDashboard({ initialData }: { initialData: Moni
   };
 
   const latestQueues = useMemo(() => {
+    if (!queueSnapshots || queueSnapshots.length === 0) {
+      return EMPTY_QUEUE_SNAPSHOTS;
+    }
     const map = new Map<string, QueueSnapshot>();
     for (const snapshot of queueSnapshots) {
       if (!map.has(snapshot.queue)) {
@@ -114,8 +121,14 @@ export default function MonitoringDashboard({ initialData }: { initialData: Moni
     return Array.from(map.values());
   }, [queueSnapshots]);
 
-  const heartbeats = useMemo(() => heartbeatsSource.slice(0, 20), [heartbeatsSource]);
-  const alerts = useMemo(() => alertsSource.slice(0, 15), [alertsSource]);
+  const heartbeats = useMemo(
+    () => (heartbeatsSource && heartbeatsSource.length ? heartbeatsSource.slice(0, 20) : EMPTY_HEARTBEATS),
+    [heartbeatsSource]
+  );
+  const alerts = useMemo(
+    () => (alertsSource && alertsSource.length ? alertsSource.slice(0, 15) : EMPTY_ALERTS),
+    [alertsSource]
+  );
 
   if (query.isError) {
     return (

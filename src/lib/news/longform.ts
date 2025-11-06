@@ -33,7 +33,14 @@ const allowedTags = [
   'a'
 ];
 
-const allowedAttributes: sanitizeHtml.Attributes = {
+type SanitizeHtmlOptions = Parameters<typeof sanitizeHtml>[1];
+type AllowedAttributeSetting =
+  SanitizeHtmlOptions extends { allowedAttributes?: infer T }
+    ? T
+    : never;
+type AllowedAttributeMap = Extract<AllowedAttributeSetting, Record<string, unknown>>;
+
+const allowedAttributes: AllowedAttributeMap = {
   a: ['href', 'rel', 'target']
 };
 
