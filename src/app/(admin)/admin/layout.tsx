@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import { getServerSession } from 'next-auth';
 import AdminShell from '@/components/admin/admin-shell';
+import AdminProviders from '@/components/admin/admin-providers';
 import { DEFAULT_LOCALE, SUPPORTED_LOCALES, type AppLocale } from '@/lib/i18n/config';
 import { isEditorialRole } from '@/lib/auth/permissions';
 import { authOptions } from '@/lib/auth/options';
@@ -33,8 +34,10 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
     : DEFAULT_LOCALE;
 
   return (
-    <AdminShell email={session.user.email} role={role} locale={locale}>
-      {children}
-    </AdminShell>
+    <AdminProviders>
+      <AdminShell email={session.user.email} role={role} locale={locale}>
+        {children}
+      </AdminShell>
+    </AdminProviders>
   );
 }
