@@ -1,5 +1,5 @@
 import { prisma } from './client';
-import { Prisma, Status, ExperimentStatus } from '@prisma/client';
+import { Prisma, Status, ExperimentStatus, Lang } from '@prisma/client';
 import type { AppLocale } from '@/lib/i18n/config';
 import { withPrismaConnectionFallback } from './errors';
 
@@ -77,22 +77,103 @@ export async function getHomepageArticles(limit = 12): Promise<HomepageArticles>
   );
 }
 
-export async function getReviewQueueArticles(limit = 25) {
-  return prisma.article.findMany({
-    where: { status: { in: [Status.REVIEWED, Status.DRAFT] } },
-    orderBy: [{ status: 'asc' }, { updatedAt: 'desc' }],
-    take: limit,
-    select: {
-      id: true,
-      slug: true,
-      titleFa: true,
-      titleEn: true,
-      status: true,
-      publishedAt: true,
-      scheduledFor: true,
-      source: { select: { name: true } }
+export type ReviewQueueArticle = {
+  id: string;
+  slug: string;
+  titleFa: string;
+  titleEn: string | null;
+  summaryFa: string | null;
+  summaryEn: string | null;
+  status: Status;
+  language: Lang;
+  publishedAt: Date;
+  updatedAt: Date;
+  scheduledFor: Date | null;
+  source: { name: string } | null;
+};
+
+export type ReviewQueueStats = {
+  reviewed: number;
+  draft: number;
+  scheduled: number;
+  pendingReview: number;
+};
+
+export type ReviewQueueSnapshot = {
+  articles: ReviewQueueArticle[];
+  stats: ReviewQueueStats;
+};
+
+export type ReviewQueueFilters = {
+  statuses?: Status[];
+  language?: Lang;
+  search?: string;
+  limit?: number;
+};
+
+export async function getReviewQueueSnapshot(filters: ReviewQueueFilters = {}): Promise<ReviewQueueSnapshot> {
+  const statuses = (filters.statuses?.length ? filters.statuses : [Status.REVIEWED, Status.DRAFT]).map((status) =>
+    status
+  );
+
+  const where: Prisma.ArticleWhereInput = {
+    status: { in: statuses }
+  };
+
+  if (filters.language) {
+    where.language = filters.language;
+  }
+
+  const search = filters.search?.trim();
+  if (search) {
+    where.OR = [
+      { titleFa: { contains: search, mode: 'insensitive' } },
+      { titleEn: { contains: search, mode: 'insensitive' } },
+      { source: { name: { contains: search, mode: 'insensitive' } } }
+    ];
+  }
+
+  const take = filters.limit ?? 25;
+
+  const [articles, reviewedCount, draftCount, scheduledCount] = await Promise.all([
+    prisma.article.findMany({
+      where,
+      orderBy: [{ status: 'asc' }, { updatedAt: 'desc' }],
+      take,
+      select: {
+        id: true,
+        slug: true,
+        titleFa: true,
+        titleEn: true,
+        summaryFa: true,
+        summaryEn: true,
+        status: true,
+        language: true,
+        publishedAt: true,
+        updatedAt: true,
+        scheduledFor: true,
+        source: { select: { name: true } }
+      }
+    }),
+    prisma.article.count({ where: { status: Status.REVIEWED } }),
+    prisma.article.count({ where: { status: Status.DRAFT } }),
+    prisma.article.count({ where: { status: Status.SCHEDULED } })
+  ]);
+
+  return {
+    articles,
+    stats: {
+      reviewed: reviewedCount,
+      draft: draftCount,
+      scheduled: scheduledCount,
+      pendingReview: reviewedCount + draftCount
     }
-  });
+  };
+}
+
+export async function getReviewQueueArticles(limit = 25) {
+  const snapshot = await getReviewQueueSnapshot({ limit });
+  return snapshot.articles;
 }
 
 export async function getArticleBySlug(slug: string) {

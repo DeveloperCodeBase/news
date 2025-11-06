@@ -2,6 +2,7 @@
 
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import clsx from 'clsx';
 
 type CronHeartbeat = {
   id: string;
@@ -33,13 +34,28 @@ type AlertEvent = {
   createdAt: string | Date;
 };
 
+type IngestionSnapshot = {
+  lastRunAt: string | null;
+  lastSuccessAt: string | null;
+  lastErrorAt: string | null;
+  lastErrorMessage: string | null;
+  lastRunMetrics: {
+    fetched?: number;
+    created?: number;
+    skipped?: number;
+    pendingReview?: number;
+  } | null;
+  pendingReviewCount: number;
+};
+
 type MonitoringData = {
   heartbeats: CronHeartbeat[];
   queueSnapshots: QueueSnapshot[];
   alerts: AlertEvent[];
+  ingestion: IngestionSnapshot;
 };
 
-function formatDate(value: string | Date) {
+function formatTime(value: string | Date) {
   const date = typeof value === 'string' ? new Date(value) : value;
   return new Intl.DateTimeFormat('fa-IR', {
     hour: '2-digit',
@@ -48,9 +64,22 @@ function formatDate(value: string | Date) {
   }).format(date);
 }
 
+function formatDateTime(value: string | null) {
+  if (!value) return 'نامشخص';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return 'نامشخص';
+  }
+  return new Intl.DateTimeFormat('fa-IR', {
+    dateStyle: 'short',
+    timeStyle: 'short'
+  }).format(date);
+}
+
 export default function MonitoringDashboard({ initialData }: { initialData: MonitoringData }) {
+  const queryKey = ['monitoring'];
   const query = useQuery<MonitoringData>({
-    queryKey: ['monitoring'],
+    queryKey,
     queryFn: async () => {
       const response = await fetch('/api/admin/monitoring');
       if (!response.ok) {
@@ -62,11 +91,35 @@ export default function MonitoringDashboard({ initialData }: { initialData: Moni
     refetchInterval: 15000
   });
 
+  if (query.isError) {
+    return (
+      <div className="rounded-2xl border border-rose-500/40 bg-rose-950/10 p-6 text-sm text-rose-200">
+        <p className="font-semibold">خطا در بارگیری داده‌های مانیتورینگ</p>
+        <p className="mt-2 text-rose-100/70">لطفاً اتصال شبکه یا وضعیت سرور را بررسی کنید و سپس دوباره تلاش کنید.</p>
+        <button
+          type="button"
+          onClick={() => query.refetch()}
+          className="mt-4 inline-flex items-center rounded-lg border border-rose-400/40 px-4 py-2 text-xs font-medium text-rose-50 hover:bg-rose-500/10"
+        >
+          تلاش مجدد
+        </button>
+      </div>
+    );
+  }
+
   const data = query.data ?? initialData;
+
+  if (!data) {
+    return (
+      <div className="rounded-2xl border border-slate-800/60 bg-slate-950/70 p-6 text-sm text-slate-300">
+        اطلاعاتی برای نمایش وجود ندارد.
+      </div>
+    );
+  }
 
   const latestQueues = useMemo(() => {
     const map = new Map<string, QueueSnapshot>();
-    for (const snapshot of data.queueSnapshots) {
+    for (const snapshot of data.queueSnapshots ?? []) {
       if (!map.has(snapshot.queue)) {
         map.set(snapshot.queue, snapshot);
       }
@@ -74,9 +127,84 @@ export default function MonitoringDashboard({ initialData }: { initialData: Moni
     return Array.from(map.values());
   }, [data.queueSnapshots]);
 
+  const heartbeats = useMemo(() => data.heartbeats.slice(0, 20), [data.heartbeats]);
+  const alerts = useMemo(() => data.alerts.slice(0, 15), [data.alerts]);
+  const { ingestion } = data;
+
+  const isRefreshing = query.isFetching && !query.isLoading;
+
   return (
     <div className="space-y-6">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <div className="rounded-2xl border border-slate-800/60 bg-slate-950/70 p-4">
+          <p className="text-xs text-slate-500">آخرین اجرای پایپلاین</p>
+          <h3 className="mt-2 text-lg font-semibold text-slate-100">{formatDateTime(ingestion.lastRunAt)}</h3>
+          <dl className="mt-4 grid grid-cols-2 gap-3 text-xs text-slate-300">
+            <div>
+              <dt className="text-slate-500">اخبار جدید</dt>
+              <dd className="text-lg font-semibold text-emerald-300">
+                {ingestion.lastRunMetrics?.created ?? 0}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-slate-500">مجموع جمع‌آوری</dt>
+              <dd className="text-lg font-semibold text-slate-100">
+                {ingestion.lastRunMetrics?.fetched ?? 0}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-slate-500">تکراری</dt>
+              <dd className="text-lg font-semibold text-amber-300">
+                {ingestion.lastRunMetrics?.skipped ?? 0}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-slate-500">در انتظار بازبینی</dt>
+              <dd className="text-lg font-semibold text-slate-100">
+                {ingestion.lastRunMetrics?.pendingReview ?? ingestion.pendingReviewCount}
+              </dd>
+            </div>
+          </dl>
+          <p className="mt-3 text-[11px] text-slate-500">
+            {isRefreshing ? 'در حال بروزرسانی داده‌ها…' : `آخرین بروزرسانی: ${formatDateTime(ingestion.lastSuccessAt)}`}
+          </p>
+        </div>
+
+        <div className="rounded-2xl border border-slate-800/60 bg-slate-950/70 p-4">
+          <p className="text-xs text-slate-500">صف اخبار در انتظار تأیید</p>
+          <h3 className="mt-2 text-3xl font-semibold text-slate-50">{ingestion.pendingReviewCount}</h3>
+          <p className="mt-2 text-xs text-slate-400">
+            مجموع مقالاتی که برای بازبینی انسانی در صف هستند.
+          </p>
+        </div>
+
+        <div className="rounded-2xl border border-slate-800/60 bg-slate-950/70 p-4">
+          <p className="text-xs text-slate-500">آخرین اجرای موفق</p>
+          <h3 className="mt-2 text-base font-semibold text-slate-100">{formatDateTime(ingestion.lastSuccessAt)}</h3>
+          <p className="mt-3 text-xs text-slate-500">پایپلاین هر ۱۵ دقیقه اجرا می‌شود.</p>
+        </div>
+
+        <div className="rounded-2xl border border-slate-800/60 bg-slate-950/70 p-4">
+          <p className="text-xs text-slate-500">آخرین خطای ثبت‌شده</p>
+          {ingestion.lastErrorAt ? (
+            <>
+              <h3 className="mt-2 text-sm font-semibold text-rose-200">{formatDateTime(ingestion.lastErrorAt)}</h3>
+              <p className="mt-2 line-clamp-3 text-xs text-rose-100/80">
+                {ingestion.lastErrorMessage ?? 'خطای نامشخص'}
+              </p>
+            </>
+          ) : (
+            <p className="mt-2 text-sm text-emerald-200">هیچ خطای اخیر ثبت نشده است.</p>
+          )}
+        </div>
+      </div>
+
       <div className="grid gap-4 md:grid-cols-3">
+        {latestQueues.length === 0 ? (
+          <div className="rounded-2xl border border-slate-800/60 bg-slate-950/70 p-4 text-sm text-slate-400 md:col-span-3">
+            داده‌ای برای صف‌های کاری در دسترس نیست.
+          </div>
+        ) : null}
         {latestQueues.map((queue) => {
           const warn = queue.failed > 0 || queue.waiting > 50;
           return (
@@ -108,7 +236,7 @@ export default function MonitoringDashboard({ initialData }: { initialData: Moni
                   <dd className={`text-lg font-semibold ${queue.failed > 0 ? 'text-rose-300' : 'text-slate-100'}`}>{queue.failed}</dd>
                 </div>
               </dl>
-              <p className="mt-3 text-[11px] text-slate-500">آخرین بروزرسانی: {formatDate(queue.createdAt)}</p>
+              <p className="mt-3 text-[11px] text-slate-500">آخرین بروزرسانی: {formatTime(queue.createdAt)}</p>
             </div>
           );
         })}
@@ -121,11 +249,17 @@ export default function MonitoringDashboard({ initialData }: { initialData: Moni
             <span className="text-xs text-slate-500">آخرین ۲۰ اجرا</span>
           </div>
           <div className="mt-4 space-y-3">
-            {data.heartbeats.map((heartbeat) => (
-              <div key={heartbeat.id} className="flex items-center justify-between rounded-xl border border-slate-800/60 bg-slate-900/70 px-3 py-2 text-sm">
+            {heartbeats.map((heartbeat) => (
+              <div
+                key={heartbeat.id}
+                className={clsx(
+                  'flex items-center justify-between rounded-xl border border-slate-800/60 bg-slate-900/70 px-3 py-2 text-sm',
+                  heartbeat.job === 'ingestion' && 'border-sky-500/40'
+                )}
+              >
                 <div>
                   <p className="font-semibold text-slate-100">{heartbeat.job}</p>
-                  <p className="text-xs text-slate-500">{formatDate(heartbeat.startedAt)}</p>
+                  <p className="text-xs text-slate-500">{formatTime(heartbeat.startedAt)}</p>
                 </div>
                 <div className="text-right">
                   <p
@@ -145,6 +279,9 @@ export default function MonitoringDashboard({ initialData }: { initialData: Moni
                 </div>
               </div>
             ))}
+            {heartbeats.length === 0 && (
+              <p className="text-xs text-slate-500">اجرای ثبت شده‌ای برای کران‌ها موجود نیست.</p>
+            )}
           </div>
         </div>
 
@@ -154,7 +291,7 @@ export default function MonitoringDashboard({ initialData }: { initialData: Moni
             <span className="text-xs text-slate-500">آخرین ۱۵ رویداد</span>
           </div>
           <div className="mt-4 space-y-3">
-            {data.alerts.map((alert) => (
+            {alerts.map((alert) => (
               <div key={alert.id} className="rounded-xl border border-slate-800/70 bg-slate-900/80 px-3 py-2 text-sm">
                 <div className="flex items-center justify-between">
                   <span
@@ -168,12 +305,12 @@ export default function MonitoringDashboard({ initialData }: { initialData: Moni
                   >
                     {alert.subject}
                   </span>
-                  <span className="text-[11px] text-slate-500">{formatDate(alert.createdAt)}</span>
+                  <span className="text-[11px] text-slate-500">{formatTime(alert.createdAt)}</span>
                 </div>
                 <p className="mt-2 text-xs text-slate-400">{alert.message}</p>
               </div>
             ))}
-            {data.alerts.length === 0 && <p className="text-xs text-slate-500">هشدار فعالی وجود ندارد.</p>}
+            {alerts.length === 0 && <p className="text-xs text-slate-500">هشدار فعالی وجود ندارد.</p>}
           </div>
         </div>
       </div>

@@ -15,14 +15,21 @@ export async function startCronHeartbeat(job: string, message?: string) {
   return record;
 }
 
-export async function finishCronHeartbeat(
-  id: string,
-  status: CronStatus,
-  payload?: { message?: string; startedAt?: Date }
-) {
+type FinishPayload = {
+  message?: string | Record<string, unknown>;
+  startedAt?: Date;
+};
+
+export async function finishCronHeartbeat(id: string, status: CronStatus, payload?: FinishPayload) {
   const finishedAt = new Date();
   const startedAt = payload?.startedAt;
   const durationMs = startedAt ? finishedAt.getTime() - startedAt.getTime() : undefined;
+  const messageValue =
+    typeof payload?.message === 'string'
+      ? payload.message
+      : payload?.message
+      ? JSON.stringify(payload.message)
+      : undefined;
 
   await prisma.cronHeartbeat.update({
     where: { id },
@@ -30,7 +37,7 @@ export async function finishCronHeartbeat(
       status,
       finishedAt,
       durationMs,
-      message: payload?.message ?? undefined
+      message: messageValue
     }
   });
 }

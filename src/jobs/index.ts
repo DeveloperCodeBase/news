@@ -12,6 +12,7 @@ import { enqueueJob, JOB_NAMES } from './queue';
 import { buildBilingualSummaries } from '@/lib/news/summarizer';
 import { startCronHeartbeat, finishCronHeartbeat, recordAlertEvent } from '@/lib/monitoring/heartbeat';
 import { sendAlertSms } from '@/lib/alerts/sms';
+import { generateLongformArticle } from '@/lib/news/longform';
 
 function buildExcerpt(text: string, length = 260) {
   if (!text) return '';
@@ -67,6 +68,17 @@ export async function runIngestion() {
 
       const excerpt = buildExcerpt(article.description);
 
+      const longform = await generateLongformArticle({
+        title: article.title,
+        summary: article.description,
+        rawHtml: article.contentHtml,
+        language: article.language,
+        sourceName: article.source.name,
+        publishedAt: article.publishedAt
+      });
+
+      const enrichedContentHtml = longform?.html ?? article.contentHtml;
+
       let titleFa: string | null = null;
       let excerptFa: string | null = null;
       let contentFa: string | null = null;
@@ -77,12 +89,12 @@ export async function runIngestion() {
       if (article.language === Lang.FA) {
         titleFa = article.title;
         excerptFa = excerpt;
-        contentFa = article.contentHtml;
+        contentFa = enrichedContentHtml;
       } else {
         titleEn = article.title;
         excerptEn = excerpt;
-        contentEn = article.contentHtml;
-        const plainContent = sanitizeHtml(article.contentHtml || article.description, {
+        contentEn = enrichedContentHtml;
+        const plainContent = sanitizeHtml(enrichedContentHtml || article.description, {
           allowedTags: [],
           allowedAttributes: {}
         });
@@ -107,6 +119,15 @@ export async function runIngestion() {
         const plainExcerpt = sanitizeHtml(excerpt, { allowedTags: [], allowedAttributes: {} });
         const { translated: translatedExcerpt } = await translateWithCache({ text: plainExcerpt, sourceLang: Lang.FA, targetLang: Lang.EN });
         excerptEn = translatedExcerpt ?? null;
+        if (!contentEn && contentFa) {
+          const plainFaContent = sanitizeHtml(contentFa, { allowedTags: [], allowedAttributes: {} });
+          const { translated: translatedContent } = await translateWithCache({
+            text: plainFaContent,
+            sourceLang: Lang.FA,
+            targetLang: Lang.EN
+          });
+          contentEn = translatedContent ?? null;
+        }
       }
 
       try {
@@ -199,6 +220,10 @@ export async function runIngestion() {
       }
     }
 
+    const pendingReviewCount = await prisma.article.count({
+      where: { status: { in: [Status.REVIEWED, Status.DRAFT] } }
+    });
+
     if (created > 0) {
       await enqueueJob(
         JOB_NAMES.TREND_REFRESH,
@@ -209,13 +234,19 @@ export async function runIngestion() {
 
     await finishCronHeartbeat(heartbeat.id, 'success', {
       startedAt: heartbeat.startedAt,
-      message: `created:${created} skipped:${skipped}`
+      message: {
+        fetched: articles.length,
+        created,
+        skipped,
+        pendingReview: pendingReviewCount
+      }
     });
 
     return {
       fetched: articles.length,
       created,
-      skipped
+      skipped,
+      pendingReview: pendingReviewCount
     };
   } catch (error) {
     console.error('Ingestion failed', error);

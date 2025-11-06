@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { Role } from '@prisma/client';
 import { authOptions } from '@/lib/auth/options';
-import { prisma } from '@/lib/db/client';
+import { getMonitoringSnapshot } from '@/lib/monitoring/snapshot';
 import { normalizeRole } from '@/lib/auth/permissions';
 
 export async function GET() {
@@ -16,11 +16,7 @@ export async function GET() {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
-  const [heartbeats, queueSnapshots, alerts] = await Promise.all([
-    prisma.cronHeartbeat.findMany({ orderBy: { createdAt: 'desc' }, take: 20 }),
-    prisma.queueSnapshot.findMany({ orderBy: { createdAt: 'desc' }, take: 20 }),
-    prisma.alertEvent.findMany({ orderBy: { createdAt: 'desc' }, take: 15 })
-  ]);
+  const snapshot = await getMonitoringSnapshot();
 
-  return NextResponse.json({ heartbeats, queueSnapshots, alerts });
+  return NextResponse.json(snapshot);
 }

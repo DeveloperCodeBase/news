@@ -1,12 +1,10 @@
 import MonitoringDashboard from '@/components/admin/monitoring-dashboard';
-import { prisma } from '@/lib/db/client';
+import { getMonitoringSnapshot } from '@/lib/monitoring/snapshot';
+
+export const dynamic = 'force-dynamic';
 
 export default async function MonitoringPage() {
-  const [heartbeats, queueSnapshots, alerts] = await Promise.all([
-    prisma.cronHeartbeat.findMany({ orderBy: { createdAt: 'desc' }, take: 20 }),
-    prisma.queueSnapshot.findMany({ orderBy: { createdAt: 'desc' }, take: 20 }),
-    prisma.alertEvent.findMany({ orderBy: { createdAt: 'desc' }, take: 15 })
-  ]);
+  const snapshot = await getMonitoringSnapshot();
 
   return (
     <section className="space-y-6">
@@ -16,7 +14,7 @@ export default async function MonitoringPage() {
           وضعیت صف‌ها، کران‌ها و هشدارها به‌روزرسانی لحظه‌ای برای اطمینان از انتشار بدون خطا.
         </p>
       </header>
-      <MonitoringDashboard initialData={{ heartbeats, queueSnapshots, alerts }} />
+      <MonitoringDashboard initialData={snapshot} />
     </section>
   );
 }

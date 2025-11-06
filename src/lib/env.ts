@@ -30,7 +30,7 @@ const envSchema = z.object({
   GOOGLE_PROJECT_ID: z.string().optional(),
   GOOGLE_APPLICATION_CREDENTIALS: z.string().optional(),
   ALERT_EMAIL: z.string().email().optional(),
-  INGEST_CRON: z.string().default('*/5 * * * *'),
+  INGEST_CRON: z.string().default('*/15 * * * *'),
   PUBLISH_CRON: z.string().default('*/1 * * * *'),
   MONITOR_CRON: z.string().default('*/1 * * * *'),
   QUEUE_BACKLOG_ALERT_THRESHOLD: z
