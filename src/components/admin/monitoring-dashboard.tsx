@@ -96,9 +96,6 @@ export default function MonitoringDashboard({ initialData }: { initialData: Moni
   });
 
   const data = query.data ?? initialData ?? null;
-  const queueSnapshots = data?.queueSnapshots;
-  const heartbeatsSource = data?.heartbeats;
-  const alertsSource = data?.alerts;
   const ingestion = data?.ingestion ?? {
     lastRunAt: null,
     lastSuccessAt: null,
@@ -109,26 +106,28 @@ export default function MonitoringDashboard({ initialData }: { initialData: Moni
   };
 
   const latestQueues = useMemo(() => {
-    if (!queueSnapshots || queueSnapshots.length === 0) {
+    const snapshots = data?.queueSnapshots;
+    if (!snapshots || snapshots.length === 0) {
       return EMPTY_QUEUE_SNAPSHOTS;
     }
     const map = new Map<string, QueueSnapshot>();
-    for (const snapshot of queueSnapshots) {
+    for (const snapshot of snapshots) {
       if (!map.has(snapshot.queue)) {
         map.set(snapshot.queue, snapshot);
       }
     }
     return Array.from(map.values());
-  }, [queueSnapshots]);
+  }, [data]);
 
-  const heartbeats = useMemo(
-    () => (heartbeatsSource && heartbeatsSource.length ? heartbeatsSource.slice(0, 20) : EMPTY_HEARTBEATS),
-    [heartbeatsSource]
-  );
-  const alerts = useMemo(
-    () => (alertsSource && alertsSource.length ? alertsSource.slice(0, 15) : EMPTY_ALERTS),
-    [alertsSource]
-  );
+  const heartbeats = useMemo(() => {
+    const source = data?.heartbeats;
+    return source && source.length ? source.slice(0, 20) : EMPTY_HEARTBEATS;
+  }, [data]);
+
+  const alerts = useMemo(() => {
+    const source = data?.alerts;
+    return source && source.length ? source.slice(0, 15) : EMPTY_ALERTS;
+  }, [data]);
 
   if (query.isError) {
     return (

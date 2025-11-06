@@ -33,11 +33,8 @@ const allowedTags = [
   'a'
 ];
 
-type SanitizeHtmlOptions = Parameters<typeof sanitizeHtml>[1];
-type AllowedAttributeSetting =
-  SanitizeHtmlOptions extends { allowedAttributes?: infer T }
-    ? T
-    : never;
+type SanitizeHtmlOptions = NonNullable<Parameters<typeof sanitizeHtml>[1]>;
+type AllowedAttributeSetting = NonNullable<SanitizeHtmlOptions['allowedAttributes']>;
 type AllowedAttributeMap = Extract<AllowedAttributeSetting, Record<string, unknown>>;
 
 const allowedAttributes: AllowedAttributeMap = {
