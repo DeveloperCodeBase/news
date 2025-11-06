@@ -72,7 +72,6 @@ export default function ReviewQueue({ initialSnapshot }: ReviewQueueProps) {
       return (await response.json()) as ReviewQueueSnapshot;
     },
     initialData: initialSnapshot,
-    keepPreviousData: true,
     refetchInterval: 60000
   });
 
