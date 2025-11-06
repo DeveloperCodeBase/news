@@ -1,5 +1,5 @@
 #!/bin/sh
-set -euo pipefail
+set -eu
 
 RUN_MIGRATIONS="${RUN_MIGRATIONS:-true}"
 RUN_SEED="${RUN_SEED:-true}"
