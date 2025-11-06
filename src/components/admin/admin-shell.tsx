@@ -1,11 +1,12 @@
-import Link from 'next/link';
 import { ReactNode } from 'react';
 import { Role } from '@prisma/client';
-import SignOutButton from './sign-out-button';
+import type { AppLocale } from '@/lib/i18n/config';
+import AdminHeader from './admin-header';
 
 type AdminShellProps = {
   email: string;
   role: Role | string;
+  locale: AppLocale;
   children: ReactNode;
 };
 
@@ -32,28 +33,24 @@ function formatRole(role: Role | string) {
   }
 }
 
-export default function AdminShell({ email, role, children }: AdminShellProps) {
+export default function AdminShell({ email, role, locale, children }: AdminShellProps) {
+  const direction = locale === 'fa' ? 'rtl' : 'ltr';
+
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-100">
-      <header className="border-b border-slate-800 bg-slate-950/70 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <div>
-            <p className="text-lg font-semibold">پنل مدیریت مجله هوش گیت</p>
-            <p className="text-sm text-slate-400">
-              {email} · نقش: <span className="font-medium text-emerald-400">{formatRole(role)}</span>
-            </p>
-          </div>
-          <SignOutButton />
-        </div>
-        <nav className="mx-auto flex max-w-6xl space-x-6 px-6 pb-2 rtl:space-x-reverse">
-          {navItems.map((item) => (
-            <Link key={item.href} href={item.href} className="text-sm text-slate-300 hover:text-slate-50">
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-      </header>
-      <main className="mx-auto max-w-6xl px-6 py-10">{children}</main>
+    <div
+      dir={direction}
+      lang={locale}
+      className="min-h-screen bg-slate-900 text-slate-100"
+    >
+      <AdminHeader
+        email={email}
+        locale={locale}
+        navItems={navItems}
+        roleLabel={formatRole(role)}
+      />
+      <main className="mx-auto w-full max-w-6xl px-4 pb-16 pt-6 sm:px-6 lg:px-8">
+        <div className="space-y-8">{children}</div>
+      </main>
     </div>
   );
 }

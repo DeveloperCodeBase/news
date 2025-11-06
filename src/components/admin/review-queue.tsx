@@ -49,7 +49,10 @@ export default function ReviewQueue({ articles }: ReviewQueueProps) {
   return (
     <div className="divide-y divide-slate-800 overflow-hidden rounded-xl border border-slate-800">
       {items.map((article) => (
-        <article key={article.id} className="flex flex-col gap-4 bg-slate-900/60 p-6 md:flex-row md:items-center md:justify-between">
+        <article
+          key={article.id}
+          className="flex flex-col gap-4 bg-slate-900/60 p-6 md:flex-row md:items-center md:justify-between"
+        >
           <div>
             <p className="text-lg font-semibold text-slate-100">
               {article.titleFa || article.titleEn || 'بدون عنوان'}
@@ -64,7 +67,7 @@ export default function ReviewQueue({ articles }: ReviewQueueProps) {
               ویرایش و بررسی کامل
             </Link>
           </div>
-          <div className="flex gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row">
             <button
               type="button"
               onClick={() => updateStatus(article.id, 'PUBLISHED')}

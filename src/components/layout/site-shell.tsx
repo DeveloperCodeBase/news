@@ -9,10 +9,16 @@ export default function SiteShell({ children, locale }: { children: ReactNode; l
   const vapidKey = process.env.NEXT_PUBLIC_WEB_PUSH_VAPID_PUBLIC_KEY;
 
   return (
-    <div data-locale={locale} data-dir={direction} className="flex min-h-screen flex-col bg-slate-950">
+    <div
+      data-locale={locale}
+      data-dir={direction}
+      dir={direction}
+      lang={locale}
+      className="flex min-h-screen flex-col bg-slate-950"
+    >
       <PushBootstrap vapidKey={vapidKey} />
       <SiteHeader locale={locale} />
-      <main dir={direction} className="flex-1 bg-gradient-to-b from-slate-950 via-slate-950 to-slate-900">
+      <main className="flex-1 bg-gradient-to-b from-slate-950 via-slate-950 to-slate-900">
         {children}
       </main>
       <SiteFooter locale={locale} />

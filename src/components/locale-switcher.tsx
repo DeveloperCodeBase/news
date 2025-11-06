@@ -29,7 +29,7 @@ export default function LocaleSwitcher({ locale }: LocaleSwitcherProps) {
   };
 
   return (
-    <div className="flex items-center gap-2 rounded-full border border-slate-700/60 px-2 py-1 text-xs">
+    <div className="flex flex-shrink-0 items-center gap-2 rounded-full border border-slate-700/60 px-2 py-1 text-xs">
       {SUPPORTED_LOCALES.map((code) => (
         <button
           key={code}

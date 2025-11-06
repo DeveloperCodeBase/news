@@ -151,7 +151,7 @@ export default function ArticleEditor({ article, taxonomies }: ArticleEditorProp
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="flex gap-4">
+      <div className="flex flex-wrap gap-3 sm:flex-nowrap">
         <button
           type="button"
           onClick={() => setActiveLocale('fa')}

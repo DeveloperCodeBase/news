@@ -131,7 +131,8 @@ export default function SourceManager({ initialSources }: SourceManagerProps) {
         {error ? <p className="mt-3 text-sm text-rose-400">{error}</p> : null}
       </form>
       <div className="overflow-hidden rounded-2xl border border-slate-800">
-        <table className="min-w-full divide-y divide-slate-800 bg-slate-950/40 text-sm text-slate-200">
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-slate-800 bg-slate-950/40 text-sm text-slate-200">
           <thead className="bg-slate-900/80">
             <tr>
               <th className="px-4 py-3 text-right font-medium">نام</th>
@@ -211,7 +212,8 @@ export default function SourceManager({ initialSources }: SourceManagerProps) {
               </tr>
             ))}
           </tbody>
-        </table>
+          </table>
+        </div>
       </div>
       {isPending ? <p className="text-xs text-slate-400">در حال به‌روزرسانی…</p> : null}
     </div>
