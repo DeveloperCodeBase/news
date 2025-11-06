@@ -1,4 +1,6 @@
 #!/bin/sh
+# POSIX sh does not support "pipefail", so we stick to -e (exit on error)
+# and -u (treat unset variables as errors) for predictable execution.
 set -eu
 
 RUN_MIGRATIONS="${RUN_MIGRATIONS:-true}"
