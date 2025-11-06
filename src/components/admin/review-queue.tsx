@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import clsx from 'clsx';
-import type { Lang, Status } from '@prisma/client';
+import type { Lang } from '@prisma/client';
 import type { ReviewQueueSnapshot } from '@/lib/db/articles';
 import type { ArticleStatus } from '@/lib/news/status';
 

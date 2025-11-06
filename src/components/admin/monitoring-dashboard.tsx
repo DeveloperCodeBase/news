@@ -91,6 +91,32 @@ export default function MonitoringDashboard({ initialData }: { initialData: Moni
     refetchInterval: 15000
   });
 
+  const data = query.data ?? initialData ?? null;
+  const queueSnapshots = data?.queueSnapshots ?? [];
+  const heartbeatsSource = data?.heartbeats ?? [];
+  const alertsSource = data?.alerts ?? [];
+  const ingestion = data?.ingestion ?? {
+    lastRunAt: null,
+    lastSuccessAt: null,
+    lastErrorAt: null,
+    lastErrorMessage: null,
+    lastRunMetrics: null,
+    pendingReviewCount: 0
+  };
+
+  const latestQueues = useMemo(() => {
+    const map = new Map<string, QueueSnapshot>();
+    for (const snapshot of queueSnapshots) {
+      if (!map.has(snapshot.queue)) {
+        map.set(snapshot.queue, snapshot);
+      }
+    }
+    return Array.from(map.values());
+  }, [queueSnapshots]);
+
+  const heartbeats = useMemo(() => heartbeatsSource.slice(0, 20), [heartbeatsSource]);
+  const alerts = useMemo(() => alertsSource.slice(0, 15), [alertsSource]);
+
   if (query.isError) {
     return (
       <div className="rounded-2xl border border-rose-500/40 bg-rose-950/10 p-6 text-sm text-rose-200">
@@ -107,8 +133,6 @@ export default function MonitoringDashboard({ initialData }: { initialData: Moni
     );
   }
 
-  const data = query.data ?? initialData;
-
   if (!data) {
     return (
       <div className="rounded-2xl border border-slate-800/60 bg-slate-950/70 p-6 text-sm text-slate-300">
@@ -116,20 +140,6 @@ export default function MonitoringDashboard({ initialData }: { initialData: Moni
       </div>
     );
   }
-
-  const latestQueues = useMemo(() => {
-    const map = new Map<string, QueueSnapshot>();
-    for (const snapshot of data.queueSnapshots ?? []) {
-      if (!map.has(snapshot.queue)) {
-        map.set(snapshot.queue, snapshot);
-      }
-    }
-    return Array.from(map.values());
-  }, [data.queueSnapshots]);
-
-  const heartbeats = useMemo(() => data.heartbeats.slice(0, 20), [data.heartbeats]);
-  const alerts = useMemo(() => data.alerts.slice(0, 15), [data.alerts]);
-  const { ingestion } = data;
 
   const isRefreshing = query.isFetching && !query.isLoading;
 
