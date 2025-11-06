@@ -33,7 +33,7 @@ const allowedTags = [
   'a'
 ];
 
-const allowedAttributes: sanitizeHtml.IAttributes = {
+const allowedAttributes: sanitizeHtml.Attributes = {
   a: ['href', 'rel', 'target']
 };
 
