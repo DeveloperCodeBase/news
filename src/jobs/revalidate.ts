@@ -1,4 +1,4 @@
-import { getEnv } from '@/lib/env';
+import { getEnv } from '../lib/env';
 
 export async function runRevalidate(slug: string) {
   const env = getEnv();

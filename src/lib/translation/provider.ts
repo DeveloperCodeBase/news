@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
-import { prisma } from '@/lib/db/client';
-import { getEnv } from '@/lib/env';
+import { prisma } from '../db/client';
+import { getEnv } from '../env';
 import type { Lang } from '@prisma/client';
 
 type TranslationProvider = {

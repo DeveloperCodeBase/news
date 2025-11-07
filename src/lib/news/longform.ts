@@ -1,7 +1,7 @@
 import OpenAI from 'openai';
 import sanitizeHtml from 'sanitize-html';
 import { Lang } from '@prisma/client';
-import { getEnv } from '@/lib/env';
+import { getEnv } from '../env';
 
 let cachedClient: OpenAI | null = null;
 
@@ -33,12 +33,14 @@ const allowedTags = [
   'a'
 ];
 
-type SanitizeHtmlOptions = NonNullable<Parameters<typeof sanitizeHtml>[1]>;
-type AllowedAttributeSetting = NonNullable<SanitizeHtmlOptions['allowedAttributes']>;
-type AllowedAttributeMap = Extract<AllowedAttributeSetting, Record<string, unknown>>;
-
-const allowedAttributes: AllowedAttributeMap = {
-  a: ['href', 'rel', 'target']
+const sanitizeOptions: NonNullable<Parameters<typeof sanitizeHtml>[1]> = {
+  allowedTags,
+  allowedAttributes: {
+    a: ['href', 'rel', 'target']
+  },
+  transformTags: {
+    h1: 'h2'
+  }
 };
 
 export type LongformPayload = {
@@ -104,13 +106,7 @@ ${prompt}`
       return null;
     }
 
-    const cleaned = sanitizeHtml(raw, {
-      allowedTags,
-      allowedAttributes,
-      transformTags: {
-        h1: 'h2'
-      }
-    }).trim();
+    const cleaned = sanitizeHtml(raw, sanitizeOptions).trim();
 
     if (!cleaned) {
       return null;

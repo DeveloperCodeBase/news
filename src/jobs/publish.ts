@@ -1,9 +1,9 @@
-import { prisma } from '@/lib/db/client';
+import { prisma } from '../lib/db/client';
 import { Status } from '@prisma/client';
 import { enqueueJob, JOB_NAMES } from './queue';
-import { sendArticlePublishedNotification } from '@/lib/notifications/push';
-import { startCronHeartbeat, finishCronHeartbeat, recordAlertEvent } from '@/lib/monitoring/heartbeat';
-import { sendAlertSms } from '@/lib/alerts/sms';
+import { sendArticlePublishedNotification } from '../lib/notifications/push';
+import { startCronHeartbeat, finishCronHeartbeat, recordAlertEvent } from '../lib/monitoring/heartbeat';
+import { sendAlertSms } from '../lib/alerts/sms';
 
 export async function publishScheduledArticle(articleId: string) {
   const heartbeat = await startCronHeartbeat('publish.article');

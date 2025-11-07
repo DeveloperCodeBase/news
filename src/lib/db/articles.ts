@@ -1,6 +1,6 @@
 import { prisma } from './client';
 import { Prisma, Status, ExperimentStatus, Lang } from '@prisma/client';
-import type { AppLocale } from '@/lib/i18n/config';
+import type { AppLocale } from '../i18n/config';
 import { withPrismaConnectionFallback } from './errors';
 
 const ARTICLE_SELECT = {

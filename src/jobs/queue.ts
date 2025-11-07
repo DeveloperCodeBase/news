@@ -1,5 +1,5 @@
 import PgBoss from 'pg-boss';
-import { getEnv } from '@/lib/env';
+import { getEnv } from '../lib/env';
 
 const JOB_NAMES = {
   INGEST: 'hooshgate.ingest',

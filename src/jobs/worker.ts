@@ -4,7 +4,7 @@ import { runRevalidate } from './revalidate';
 import { publishScheduledArticle, releaseDueArticles } from './publish';
 import { refreshTrendSnapshot } from './trends';
 import { collectQueueHealth } from './monitoring';
-import { getEnv } from '@/lib/env';
+import { getEnv } from '../lib/env';
 
 export async function startQueueWorker() {
   const boss = await getBoss();

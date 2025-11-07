@@ -1,4 +1,4 @@
-import type { AppLocale } from '@/lib/i18n/config';
+import type { AppLocale } from '../i18n/config';
 
 type LocalizableRecord = Record<string, unknown> & {
   titleFa?: string;

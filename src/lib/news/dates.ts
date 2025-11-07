@@ -1,4 +1,4 @@
-import type { AppLocale } from '@/lib/i18n/config';
+import type { AppLocale } from '../i18n/config';
 
 const LOCALE_MAP: Record<AppLocale, string> = {
   fa: 'fa-IR',

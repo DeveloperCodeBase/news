@@ -1,6 +1,6 @@
-import { getEnv } from '@/lib/env';
-import { prisma } from '@/lib/db/client';
-import { recordAlertEvent } from '@/lib/monitoring/heartbeat';
+import { getEnv } from '../env';
+import { prisma } from '../db/client';
+import { recordAlertEvent } from '../monitoring/heartbeat';
 
 export async function sendAlertSms({
   subject,

@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/db/client';
+import { prisma } from '../db/client';
 import type { Prisma } from '@prisma/client';
 
 export type CronStatus = 'running' | 'success' | 'error';

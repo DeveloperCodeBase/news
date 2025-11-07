@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import { getEnv } from '@/lib/env';
+import { getEnv } from '../env';
 
 let transporterPromise: ReturnType<typeof nodemailer.createTransport> | null = null;
 

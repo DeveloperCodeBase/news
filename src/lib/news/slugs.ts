@@ -1,5 +1,5 @@
 import slugify from '@sindresorhus/slugify';
-import { prisma } from '@/lib/db/client';
+import { prisma } from '../db/client';
 
 export async function generateUniqueArticleSlug(title: string, publishedAt: Date): Promise<string> {
   const base = slugify(title, { decamelize: false, separator: '-' }).slice(0, 80);

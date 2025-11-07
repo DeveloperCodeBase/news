@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import type { InferenceSession, Tensor } from 'onnxruntime-node';
-import { getEnv } from '@/lib/env';
+import { getEnv } from '../env';
 import { classifyText } from './classifier';
 
 export type TopicPrediction = {

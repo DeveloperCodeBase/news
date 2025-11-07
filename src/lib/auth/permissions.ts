@@ -1,5 +1,5 @@
 import { Role } from '@prisma/client';
-import { getEnv } from '@/lib/env';
+import { getEnv } from '../env';
 
 function parseEmails(value?: string) {
   if (!value) return [] as string[];

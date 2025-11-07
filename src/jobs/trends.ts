@@ -1,7 +1,7 @@
 import { Status } from '@prisma/client';
-import { prisma } from '@/lib/db/client';
-import { predictTopics } from '@/lib/news/topics';
-import { startCronHeartbeat, finishCronHeartbeat } from '@/lib/monitoring/heartbeat';
+import { prisma } from '../lib/db/client';
+import { predictTopics } from '../lib/news/topics';
+import { startCronHeartbeat, finishCronHeartbeat } from '../lib/monitoring/heartbeat';
 
 export async function refreshTrendSnapshot(windowMinutes = 720) {
   const heartbeat = await startCronHeartbeat('trends.refresh');

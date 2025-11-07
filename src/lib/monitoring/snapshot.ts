@@ -1,6 +1,6 @@
 import { Status } from '@prisma/client';
-import { prisma } from '@/lib/db/client';
-import { withPrismaConnectionFallback } from '@/lib/db/errors';
+import { prisma } from '../db/client';
+import { withPrismaConnectionFallback } from '../db/errors';
 
 export type HeartbeatRecord = {
   id: string;

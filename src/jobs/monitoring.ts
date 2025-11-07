@@ -1,9 +1,9 @@
-import { prisma } from '@/lib/db/client';
-import { getEnv } from '@/lib/env';
+import { prisma } from '../lib/db/client';
+import { getEnv } from '../lib/env';
 import { JOB_NAMES } from './queue';
-import { recordQueueSnapshot, recordAlertEvent, startCronHeartbeat, finishCronHeartbeat } from '@/lib/monitoring/heartbeat';
-import { sendAlertEmail } from '@/lib/email/mailer';
-import { sendAlertSms } from '@/lib/alerts/sms';
+import { recordQueueSnapshot, recordAlertEvent, startCronHeartbeat, finishCronHeartbeat } from '../lib/monitoring/heartbeat';
+import { sendAlertEmail } from '../lib/email/mailer';
+import { sendAlertSms } from '../lib/alerts/sms';
 
 const QUEUE_NAMES = Object.values(JOB_NAMES);
 

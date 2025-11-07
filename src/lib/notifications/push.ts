@@ -1,6 +1,6 @@
 import webPush from 'web-push';
-import { prisma } from '@/lib/db/client';
-import { getEnv } from '@/lib/env';
+import { prisma } from '../db/client';
+import { getEnv } from '../env';
 
 let configured = false;
 

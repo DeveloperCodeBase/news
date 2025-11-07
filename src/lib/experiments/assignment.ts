@@ -1,5 +1,5 @@
 import crypto from 'node:crypto';
-import { prisma } from '@/lib/db/client';
+import { prisma } from '../db/client';
 import type { ExperimentVariant } from '@prisma/client';
 
 export type AssignedVariant = {

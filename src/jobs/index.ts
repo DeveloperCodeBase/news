@@ -1,18 +1,18 @@
 import { Status, Lang } from '@prisma/client';
 import { fetchNews } from './fetch-news';
-import { ALLOWLISTED_SOURCES } from '@/lib/news/sources';
-import { prisma } from '@/lib/db/client';
-import { classifyText } from '@/lib/news/classifier';
-import { generateUniqueArticleSlug } from '@/lib/news/slugs';
-import { translateWithCache } from '@/lib/translation/provider';
-import { predictTopics } from '@/lib/news/topics';
+import { ALLOWLISTED_SOURCES } from '../lib/news/sources';
+import { prisma } from '../lib/db/client';
+import { classifyText } from '../lib/news/classifier';
+import { generateUniqueArticleSlug } from '../lib/news/slugs';
+import { translateWithCache } from '../lib/translation/provider';
+import { predictTopics } from '../lib/news/topics';
 import sanitizeHtml from 'sanitize-html';
-import { sendAlertEmail } from '@/lib/email/mailer';
+import { sendAlertEmail } from '../lib/email/mailer';
 import { enqueueJob, JOB_NAMES } from './queue';
-import { buildBilingualSummaries } from '@/lib/news/summarizer';
-import { startCronHeartbeat, finishCronHeartbeat, recordAlertEvent } from '@/lib/monitoring/heartbeat';
-import { sendAlertSms } from '@/lib/alerts/sms';
-import { generateLongformArticle } from '@/lib/news/longform';
+import { buildBilingualSummaries } from '../lib/news/summarizer';
+import { startCronHeartbeat, finishCronHeartbeat, recordAlertEvent } from '../lib/monitoring/heartbeat';
+import { sendAlertSms } from '../lib/alerts/sms';
+import { generateLongformArticle } from '../lib/news/longform';
 
 function buildExcerpt(text: string, length = 260) {
   if (!text) return '';

@@ -1,8 +1,8 @@
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { Role } from '@prisma/client';
-import { prisma } from '@/lib/db/client';
-import { getEnv } from '@/lib/env';
-import { isEmailAllowed, roleForEmail } from '@/lib/auth/permissions';
+import { prisma } from '../db/client';
+import { getEnv } from '../env';
+import { isEmailAllowed, roleForEmail } from './permissions';
 import GoogleProvider from 'next-auth/providers/google';
 import type { NextAuthOptions } from 'next-auth';
 

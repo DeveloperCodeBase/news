@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/db/client';
+import { prisma } from './client';
 import { Status } from '@prisma/client';
 
 export async function getActiveSources() {
