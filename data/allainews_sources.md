@@ -1,0 +1,1101 @@
+# AI News Sources (sample seed)
+- OpenAI Blog US Edition | https://openai-blog-us.ai | rss=https://openai-blog-us.ai/feed | lang=en | region=US | tags=ai,llm,industry | notes=Known AI channel
+- DeepMind Discover UK Edition | https://deepmind-discover-uk.ai | rss=https://deepmind-discover-uk.ai/feed | lang=en | region=UK | tags=ai,robotics,innovation | notes=Known AI channel
+- Anthropic Newsroom CA Edition | https://anthropic-newsroom-ca.ai | rss=https://anthropic-newsroom-ca.ai/feed | lang=en | region=CA | tags=ai,policy,ethics | notes=Known AI channel
+- Meta AI Research FR Edition | https://meta-ai-research-fr.ai | rss=https://meta-ai-research-fr.ai/feed | lang=fr | region=FR | tags=ai,vision,deep-learning | notes=Known AI channel
+- Microsoft AI Blog DE Edition | https://microsoft-ai-blog-de.ai | rss=https://microsoft-ai-blog-de.ai/feed | lang=de | region=DE | tags=ai,nlp,language | notes=Known AI channel
+- Google AI SE Edition | https://google-ai-se.ai | rss=https://google-ai-se.ai/feed | lang=sv | region=SE | tags=ai,mlops,engineering | notes=Known AI channel
+- Hugging Face Blog FI Edition | https://hugging-face-blog-fi.ai | rss=https://hugging-face-blog-fi.ai/feed | lang=fi | region=FI | tags=ai,startup,venture | notes=Known AI channel
+- NVIDIA AI News NO Edition | https://nvidia-ai-news-no.ai | rss=https://nvidia-ai-news-no.ai/feed | lang=no | region=NO | tags=ai,data-science,analytics | notes=Known AI channel
+- MIT AI Lab DK Edition | https://mit-ai-lab-dk.ai | rss=https://mit-ai-lab-dk.ai/feed | lang=da | region=DK | tags=ai,healthcare,science | notes=Known AI channel
+- Stanford HAI IS Edition | https://stanford-hai-is.ai | rss=https://stanford-hai-is.ai/feed | lang=is | region=IS | tags=ai,machine-learning,research | notes=Known AI channel
+- Berkeley AI Research ZA Edition | https://berkeley-ai-research-za.ai | rss=https://berkeley-ai-research-za.ai/feed | lang=en | region=ZA | tags=ai,llm,industry | notes=Known AI channel
+- Oxford AI NG Edition | https://oxford-ai-ng.ai | rss=https://oxford-ai-ng.ai/feed | lang=en | region=NG | tags=ai,robotics,innovation | notes=Known AI channel
+- Cambridge AI KE Edition | https://cambridge-ai-ke.ai | rss=https://cambridge-ai-ke.ai/feed | lang=en | region=KE | tags=ai,policy,ethics | notes=Known AI channel
+- Carnegie Mellon AI EG Edition | https://carnegie-mellon-ai-eg.ai | rss=https://carnegie-mellon-ai-eg.ai/feed | lang=ar | region=EG | tags=ai,vision,deep-learning | notes=Known AI channel
+- Tsinghua AI Lab AE Edition | https://tsinghua-ai-lab-ae.ai | rss=https://tsinghua-ai-lab-ae.ai/feed | lang=ar | region=AE | tags=ai,nlp,language | notes=Known AI channel
+- Peking University AI QA Edition | https://peking-university-ai-qa.ai | rss=https://peking-university-ai-qa.ai/feed | lang=ar | region=QA | tags=ai,mlops,engineering | notes=Known AI channel
+- Tokyo AI Lab SA Edition | https://tokyo-ai-lab-sa.ai | rss=https://tokyo-ai-lab-sa.ai/feed | lang=ar | region=SA | tags=ai,startup,venture | notes=Known AI channel
+- Seoul AI Research IR Edition | https://seoul-ai-research-ir.ai | rss=https://seoul-ai-research-ir.ai/feed | lang=fa | region=IR | tags=ai,data-science,analytics | notes=Known AI channel
+- Singapore AI TR Edition | https://singapore-ai-tr.ai | rss=https://singapore-ai-tr.ai/feed | lang=tr | region=TR | tags=ai,healthcare,science | notes=Known AI channel
+- Sydney AI Lab IL Edition | https://sydney-ai-lab-il.ai | rss=https://sydney-ai-lab-il.ai/feed | lang=he | region=IL | tags=ai,machine-learning,research | notes=Known AI channel
+- Toronto AI IN Edition | https://toronto-ai-in.ai | rss=https://toronto-ai-in.ai/feed | lang=en | region=IN | tags=ai,llm,industry | notes=Known AI channel
+- Montreal AI SG Edition | https://montreal-ai-sg.ai | rss=https://montreal-ai-sg.ai/feed | lang=en | region=SG | tags=ai,robotics,innovation | notes=Known AI channel
+- Vancouver AI MY Edition | https://vancouver-ai-my.ai | rss=https://vancouver-ai-my.ai/feed | lang=ms | region=MY | tags=ai,policy,ethics | notes=Known AI channel
+- São Paulo AI ID Edition | https://são-paulo-ai-id.ai | rss=https://são-paulo-ai-id.ai/feed | lang=id | region=ID | tags=ai,vision,deep-learning | notes=Known AI channel
+- Buenos Aires AI TH Edition | https://buenos-aires-ai-th.ai | rss=https://buenos-aires-ai-th.ai/feed | lang=th | region=TH | tags=ai,nlp,language | notes=Known AI channel
+- Mexico City AI VN Edition | https://mexico-city-ai-vn.ai | rss=https://mexico-city-ai-vn.ai/feed | lang=vi | region=VN | tags=ai,mlops,engineering | notes=Known AI channel
+- Madrid AI PH Edition | https://madrid-ai-ph.ai | rss=https://madrid-ai-ph.ai/feed | lang=en | region=PH | tags=ai,startup,venture | notes=Known AI channel
+- Barcelona AI HK Edition | https://barcelona-ai-hk.ai | rss=https://barcelona-ai-hk.ai/feed | lang=zh | region=HK | tags=ai,data-science,analytics | notes=Known AI channel
+- Paris AI Research TW Edition | https://paris-ai-research-tw.ai | rss=https://paris-ai-research-tw.ai/feed | lang=zh | region=TW | tags=ai,healthcare,science | notes=Known AI channel
+- Berlin AI CN Edition | https://berlin-ai-cn.ai | rss=https://berlin-ai-cn.ai/feed | lang=zh | region=CN | tags=ai,machine-learning,research | notes=Known AI channel
+- Munich AI JP Edition | https://munich-ai-jp.ai | rss=https://munich-ai-jp.ai/feed | lang=ja | region=JP | tags=ai,llm,industry | notes=Known AI channel
+- Zurich AI KR Edition | https://zurich-ai-kr.ai | rss=https://zurich-ai-kr.ai/feed | lang=ko | region=KR | tags=ai,robotics,innovation | notes=Known AI channel
+- Vienna AI AU Edition | https://vienna-ai-au.ai | rss=https://vienna-ai-au.ai/feed | lang=en | region=AU | tags=ai,policy,ethics | notes=Known AI channel
+- Warsaw AI NZ Edition | https://warsaw-ai-nz.ai | rss=https://warsaw-ai-nz.ai/feed | lang=en | region=NZ | tags=ai,vision,deep-learning | notes=Known AI channel
+- Prague AI BR Edition | https://prague-ai-br.ai | rss=https://prague-ai-br.ai/feed | lang=pt | region=BR | tags=ai,nlp,language | notes=Known AI channel
+- Stockholm AI AR Edition | https://stockholm-ai-ar.ai | rss=https://stockholm-ai-ar.ai/feed | lang=es | region=AR | tags=ai,mlops,engineering | notes=Known AI channel
+- Helsinki AI MX Edition | https://helsinki-ai-mx.ai | rss=https://helsinki-ai-mx.ai/feed | lang=es | region=MX | tags=ai,startup,venture | notes=Known AI channel
+- Copenhagen AI ES Edition | https://copenhagen-ai-es.ai | rss=https://copenhagen-ai-es.ai/feed | lang=es | region=ES | tags=ai,data-science,analytics | notes=Known AI channel
+- Oslo AI PT Edition | https://oslo-ai-pt.ai | rss=https://oslo-ai-pt.ai/feed | lang=pt | region=PT | tags=ai,healthcare,science | notes=Known AI channel
+- Reykjavik AI IT Edition | https://reykjavik-ai-it.ai | rss=https://reykjavik-ai-it.ai/feed | lang=it | region=IT | tags=ai,machine-learning,research | notes=Known AI channel
+- Cape Town AI CH Edition | https://cape-town-ai-ch.ai | rss=https://cape-town-ai-ch.ai/feed | lang=de | region=CH | tags=ai,llm,industry | notes=Known AI channel
+- Johannesburg AI AT Edition | https://johannesburg-ai-at.ai | rss=https://johannesburg-ai-at.ai/feed | lang=de | region=AT | tags=ai,robotics,innovation | notes=Known AI channel
+- Nairobi AI CZ Edition | https://nairobi-ai-cz.ai | rss=https://nairobi-ai-cz.ai/feed | lang=cs | region=CZ | tags=ai,policy,ethics | notes=Known AI channel
+- Lagos AI PL Edition | https://lagos-ai-pl.ai | rss=https://lagos-ai-pl.ai/feed | lang=pl | region=PL | tags=ai,vision,deep-learning | notes=Known AI channel
+- Cairo AI HU Edition | https://cairo-ai-hu.ai | rss=https://cairo-ai-hu.ai/feed | lang=hu | region=HU | tags=ai,nlp,language | notes=Known AI channel
+- Dubai AI RO Edition | https://dubai-ai-ro.ai | rss=https://dubai-ai-ro.ai/feed | lang=ro | region=RO | tags=ai,mlops,engineering | notes=Known AI channel
+- Abu Dhabi AI BG Edition | https://abu-dhabi-ai-bg.ai | rss=https://abu-dhabi-ai-bg.ai/feed | lang=bg | region=BG | tags=ai,startup,venture | notes=Known AI channel
+- Doha AI GR Edition | https://doha-ai-gr.ai | rss=https://doha-ai-gr.ai/feed | lang=el | region=GR | tags=ai,data-science,analytics | notes=Known AI channel
+- Riyadh AI RU Edition | https://riyadh-ai-ru.ai | rss=https://riyadh-ai-ru.ai/feed | lang=ru | region=RU | tags=ai,healthcare,science | notes=Known AI channel
+- Tel Aviv AI UA Edition | https://tel-aviv-ai-ua.ai | rss=https://tel-aviv-ai-ua.ai/feed | lang=uk | region=UA | tags=ai,machine-learning,research | notes=Known AI channel
+- Istanbul AI BY Edition | https://istanbul-ai-by.ai | rss=https://istanbul-ai-by.ai/feed | lang=be | region=BY | tags=ai,llm,industry | notes=Known AI channel
+- Bangalore AI KZ Edition | https://bangalore-ai-kz.ai | rss=https://bangalore-ai-kz.ai/feed | lang=kk | region=KZ | tags=ai,robotics,innovation | notes=Known AI channel
+- Delhi AI UZ Edition | https://delhi-ai-uz.ai | rss=https://delhi-ai-uz.ai/feed | lang=uz | region=UZ | tags=ai,policy,ethics | notes=Known AI channel
+- Mumbai AI PK Edition | https://mumbai-ai-pk.ai | rss=https://mumbai-ai-pk.ai/feed | lang=en | region=PK | tags=ai,vision,deep-learning | notes=Known AI channel
+- Chennai AI BD Edition | https://chennai-ai-bd.ai | rss=https://chennai-ai-bd.ai/feed | lang=bn | region=BD | tags=ai,nlp,language | notes=Known AI channel
+- Hyderabad AI LK Edition | https://hyderabad-ai-lk.ai | rss=https://hyderabad-ai-lk.ai/feed | lang=en | region=LK | tags=ai,mlops,engineering | notes=Known AI channel
+- Kolkata AI NP Edition | https://kolkata-ai-np.ai | rss=https://kolkata-ai-np.ai/feed | lang=ne | region=NP | tags=ai,startup,venture | notes=Known AI channel
+- Jakarta AI AF Edition | https://jakarta-ai-af.ai | rss=https://jakarta-ai-af.ai/feed | lang=fa | region=AF | tags=ai,data-science,analytics | notes=Known AI channel
+- Bangkok AI DZ Edition | https://bangkok-ai-dz.ai | rss=https://bangkok-ai-dz.ai/feed | lang=ar | region=DZ | tags=ai,healthcare,science | notes=Known AI channel
+- Kuala Lumpur AI MA Edition | https://kuala-lumpur-ai-ma.ai | rss=https://kuala-lumpur-ai-ma.ai/feed | lang=ar | region=MA | tags=ai,machine-learning,research | notes=Known AI channel
+- Ho Chi Minh AI TN Edition | https://ho-chi-minh-ai-tn.ai | rss=https://ho-chi-minh-ai-tn.ai/feed | lang=ar | region=TN | tags=ai,llm,industry | notes=Known AI channel
+- Manila AI ET Edition | https://manila-ai-et.ai | rss=https://manila-ai-et.ai/feed | lang=en | region=ET | tags=ai,robotics,innovation | notes=Known AI channel
+- Hong Kong AI GH Edition | https://hong-kong-ai-gh.ai | rss=https://hong-kong-ai-gh.ai/feed | lang=en | region=GH | tags=ai,policy,ethics | notes=Known AI channel
+- Taipei AI TZ Edition | https://taipei-ai-tz.ai | rss=https://taipei-ai-tz.ai/feed | lang=en | region=TZ | tags=ai,vision,deep-learning | notes=Known AI channel
+- Shenzhen AI US Edition | https://shenzhen-ai-us.ai | rss=https://shenzhen-ai-us.ai/feed | lang=en | region=US | tags=ai,nlp,language | notes=Known AI channel
+- Guangzhou AI UK Edition | https://guangzhou-ai-uk.ai | rss=https://guangzhou-ai-uk.ai/feed | lang=en | region=UK | tags=ai,mlops,engineering | notes=Known AI channel
+- Chengdu AI CA Edition | https://chengdu-ai-ca.ai | rss=https://chengdu-ai-ca.ai/feed | lang=en | region=CA | tags=ai,startup,venture | notes=Known AI channel
+- Beijing AI FR Edition | https://beijing-ai-fr.ai | rss=https://beijing-ai-fr.ai/feed | lang=fr | region=FR | tags=ai,data-science,analytics | notes=Known AI channel
+- Shanghai AI DE Edition | https://shanghai-ai-de.ai | rss=https://shanghai-ai-de.ai/feed | lang=de | region=DE | tags=ai,healthcare,science | notes=Known AI channel
+- Shenyang AI SE Edition | https://shenyang-ai-se.ai | rss=https://shenyang-ai-se.ai/feed | lang=sv | region=SE | tags=ai,machine-learning,research | notes=Known AI channel
+- Wuhan AI FI Edition | https://wuhan-ai-fi.ai | rss=https://wuhan-ai-fi.ai/feed | lang=fi | region=FI | tags=ai,llm,industry | notes=Known AI channel
+- Xi'an AI NO Edition | https://xian-ai-no.ai | rss=https://xian-ai-no.ai/feed | lang=no | region=NO | tags=ai,robotics,innovation | notes=Known AI channel
+- Chongqing AI DK Edition | https://chongqing-ai-dk.ai | rss=https://chongqing-ai-dk.ai/feed | lang=da | region=DK | tags=ai,policy,ethics | notes=Known AI channel
+- Nanjing AI IS Edition | https://nanjing-ai-is.ai | rss=https://nanjing-ai-is.ai/feed | lang=is | region=IS | tags=ai,vision,deep-learning | notes=Known AI channel
+- Hangzhou AI ZA Edition | https://hangzhou-ai-za.ai | rss=https://hangzhou-ai-za.ai/feed | lang=en | region=ZA | tags=ai,nlp,language | notes=Known AI channel
+- Suzhou AI NG Edition | https://suzhou-ai-ng.ai | rss=https://suzhou-ai-ng.ai/feed | lang=en | region=NG | tags=ai,mlops,engineering | notes=Known AI channel
+- Changsha AI KE Edition | https://changsha-ai-ke.ai | rss=https://changsha-ai-ke.ai/feed | lang=en | region=KE | tags=ai,startup,venture | notes=Known AI channel
+- Harbin AI EG Edition | https://harbin-ai-eg.ai | rss=https://harbin-ai-eg.ai/feed | lang=ar | region=EG | tags=ai,data-science,analytics | notes=Known AI channel
+- Kunming AI AE Edition | https://kunming-ai-ae.ai | rss=https://kunming-ai-ae.ai/feed | lang=ar | region=AE | tags=ai,healthcare,science | notes=Known AI channel
+- Urumqi AI QA Edition | https://urumqi-ai-qa.ai | rss=https://urumqi-ai-qa.ai/feed | lang=ar | region=QA | tags=ai,machine-learning,research | notes=Known AI channel
+- Islamabad AI SA Edition | https://islamabad-ai-sa.ai | rss=https://islamabad-ai-sa.ai/feed | lang=ar | region=SA | tags=ai,llm,industry | notes=Known AI channel
+- Karachi AI IR Edition | https://karachi-ai-ir.ai | rss=https://karachi-ai-ir.ai/feed | lang=fa | region=IR | tags=ai,robotics,innovation | notes=Known AI channel
+- Lahore AI TR Edition | https://lahore-ai-tr.ai | rss=https://lahore-ai-tr.ai/feed | lang=tr | region=TR | tags=ai,policy,ethics | notes=Known AI channel
+- Dhaka AI IL Edition | https://dhaka-ai-il.ai | rss=https://dhaka-ai-il.ai/feed | lang=he | region=IL | tags=ai,vision,deep-learning | notes=Known AI channel
+- Kathmandu AI IN Edition | https://kathmandu-ai-in.ai | rss=https://kathmandu-ai-in.ai/feed | lang=en | region=IN | tags=ai,nlp,language | notes=Known AI channel
+- Colombo AI SG Edition | https://colombo-ai-sg.ai | rss=https://colombo-ai-sg.ai/feed | lang=en | region=SG | tags=ai,mlops,engineering | notes=Known AI channel
+- Tehran AI MY Edition | https://tehran-ai-my.ai | rss=https://tehran-ai-my.ai/feed | lang=ms | region=MY | tags=ai,startup,venture | notes=Known AI channel
+- Shiraz AI ID Edition | https://shiraz-ai-id.ai | rss=https://shiraz-ai-id.ai/feed | lang=id | region=ID | tags=ai,data-science,analytics | notes=Known AI channel
+- Tabriz AI TH Edition | https://tabriz-ai-th.ai | rss=https://tabriz-ai-th.ai/feed | lang=th | region=TH | tags=ai,healthcare,science | notes=Known AI channel
+- Mashhad AI VN Edition | https://mashhad-ai-vn.ai | rss=https://mashhad-ai-vn.ai/feed | lang=vi | region=VN | tags=ai,machine-learning,research | notes=Known AI channel
+- Isfahan AI PH Edition | https://isfahan-ai-ph.ai | rss=https://isfahan-ai-ph.ai/feed | lang=en | region=PH | tags=ai,llm,industry | notes=Known AI channel
+- Yerevan AI HK Edition | https://yerevan-ai-hk.ai | rss=https://yerevan-ai-hk.ai/feed | lang=zh | region=HK | tags=ai,robotics,innovation | notes=Known AI channel
+- Tbilisi AI TW Edition | https://tbilisi-ai-tw.ai | rss=https://tbilisi-ai-tw.ai/feed | lang=zh | region=TW | tags=ai,policy,ethics | notes=Known AI channel
+- Baku AI CN Edition | https://baku-ai-cn.ai | rss=https://baku-ai-cn.ai/feed | lang=zh | region=CN | tags=ai,vision,deep-learning | notes=Known AI channel
+- Almaty AI JP Edition | https://almaty-ai-jp.ai | rss=https://almaty-ai-jp.ai/feed | lang=ja | region=JP | tags=ai,nlp,language | notes=Known AI channel
+- Astana AI KR Edition | https://astana-ai-kr.ai | rss=https://astana-ai-kr.ai/feed | lang=ko | region=KR | tags=ai,mlops,engineering | notes=Known AI channel
+- Bishkek AI AU Edition | https://bishkek-ai-au.ai | rss=https://bishkek-ai-au.ai/feed | lang=en | region=AU | tags=ai,startup,venture | notes=Known AI channel
+- Tashkent AI NZ Edition | https://tashkent-ai-nz.ai | rss=https://tashkent-ai-nz.ai/feed | lang=en | region=NZ | tags=ai,data-science,analytics | notes=Known AI channel
+- Ashgabat AI BR Edition | https://ashgabat-ai-br.ai | rss=https://ashgabat-ai-br.ai/feed | lang=pt | region=BR | tags=ai,healthcare,science | notes=Known AI channel
+- Ulaanbaatar AI AR Edition | https://ulaanbaatar-ai-ar.ai | rss=https://ulaanbaatar-ai-ar.ai/feed | lang=es | region=AR | tags=ai,machine-learning,research | notes=Known AI channel
+- Hanoi AI MX Edition | https://hanoi-ai-mx.ai | rss=https://hanoi-ai-mx.ai/feed | lang=es | region=MX | tags=ai,llm,industry | notes=Known AI channel
+- OpenAI Blog ES Edition | https://openai-blog-es.ai | rss=https://openai-blog-es.ai/feed | lang=es | region=ES | tags=ai,robotics,innovation | notes=Global AI coverage
+- DeepMind Discover PT Edition | https://deepmind-discover-pt.ai | rss=https://deepmind-discover-pt.ai/feed | lang=pt | region=PT | tags=ai,policy,ethics | notes=Global AI coverage
+- Anthropic Newsroom IT Edition | https://anthropic-newsroom-it.ai | rss=https://anthropic-newsroom-it.ai/feed | lang=it | region=IT | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Meta AI Research CH Edition | https://meta-ai-research-ch.ai | rss=https://meta-ai-research-ch.ai/feed | lang=de | region=CH | tags=ai,nlp,language | notes=Global AI coverage
+- Microsoft AI Blog AT Edition | https://microsoft-ai-blog-at.ai | rss=https://microsoft-ai-blog-at.ai/feed | lang=de | region=AT | tags=ai,mlops,engineering | notes=Global AI coverage
+- Google AI CZ Edition | https://google-ai-cz.ai | rss=https://google-ai-cz.ai/feed | lang=cs | region=CZ | tags=ai,startup,venture | notes=Global AI coverage
+- Hugging Face Blog PL Edition | https://hugging-face-blog-pl.ai | rss=https://hugging-face-blog-pl.ai/feed | lang=pl | region=PL | tags=ai,data-science,analytics | notes=Global AI coverage
+- NVIDIA AI News HU Edition | https://nvidia-ai-news-hu.ai | rss=https://nvidia-ai-news-hu.ai/feed | lang=hu | region=HU | tags=ai,healthcare,science | notes=Global AI coverage
+- MIT AI Lab RO Edition | https://mit-ai-lab-ro.ai | rss=https://mit-ai-lab-ro.ai/feed | lang=ro | region=RO | tags=ai,machine-learning,research | notes=Global AI coverage
+- Stanford HAI BG Edition | https://stanford-hai-bg.ai | rss=https://stanford-hai-bg.ai/feed | lang=bg | region=BG | tags=ai,llm,industry | notes=Global AI coverage
+- Berkeley AI Research GR Edition | https://berkeley-ai-research-gr.ai | rss=https://berkeley-ai-research-gr.ai/feed | lang=el | region=GR | tags=ai,robotics,innovation | notes=Global AI coverage
+- Oxford AI RU Edition | https://oxford-ai-ru.ai | rss=https://oxford-ai-ru.ai/feed | lang=ru | region=RU | tags=ai,policy,ethics | notes=Global AI coverage
+- Cambridge AI UA Edition | https://cambridge-ai-ua.ai | rss=https://cambridge-ai-ua.ai/feed | lang=uk | region=UA | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Carnegie Mellon AI BY Edition | https://carnegie-mellon-ai-by.ai | rss=https://carnegie-mellon-ai-by.ai/feed | lang=be | region=BY | tags=ai,nlp,language | notes=Global AI coverage
+- Tsinghua AI Lab KZ Edition | https://tsinghua-ai-lab-kz.ai | rss=https://tsinghua-ai-lab-kz.ai/feed | lang=kk | region=KZ | tags=ai,mlops,engineering | notes=Global AI coverage
+- Peking University AI UZ Edition | https://peking-university-ai-uz.ai | rss=https://peking-university-ai-uz.ai/feed | lang=uz | region=UZ | tags=ai,startup,venture | notes=Global AI coverage
+- Tokyo AI Lab PK Edition | https://tokyo-ai-lab-pk.ai | rss=https://tokyo-ai-lab-pk.ai/feed | lang=en | region=PK | tags=ai,data-science,analytics | notes=Global AI coverage
+- Seoul AI Research BD Edition | https://seoul-ai-research-bd.ai | rss=https://seoul-ai-research-bd.ai/feed | lang=bn | region=BD | tags=ai,healthcare,science | notes=Global AI coverage
+- Singapore AI LK Edition | https://singapore-ai-lk.ai | rss=https://singapore-ai-lk.ai/feed | lang=en | region=LK | tags=ai,machine-learning,research | notes=Global AI coverage
+- Sydney AI Lab NP Edition | https://sydney-ai-lab-np.ai | rss=https://sydney-ai-lab-np.ai/feed | lang=ne | region=NP | tags=ai,llm,industry | notes=Global AI coverage
+- Toronto AI AF Edition | https://toronto-ai-af.ai | rss=https://toronto-ai-af.ai/feed | lang=fa | region=AF | tags=ai,robotics,innovation | notes=Global AI coverage
+- Montreal AI DZ Edition | https://montreal-ai-dz.ai | rss=https://montreal-ai-dz.ai/feed | lang=ar | region=DZ | tags=ai,policy,ethics | notes=Global AI coverage
+- Vancouver AI MA Edition | https://vancouver-ai-ma.ai | rss=https://vancouver-ai-ma.ai/feed | lang=ar | region=MA | tags=ai,vision,deep-learning | notes=Global AI coverage
+- São Paulo AI TN Edition | https://são-paulo-ai-tn.ai | rss=https://são-paulo-ai-tn.ai/feed | lang=ar | region=TN | tags=ai,nlp,language | notes=Global AI coverage
+- Buenos Aires AI ET Edition | https://buenos-aires-ai-et.ai | rss=https://buenos-aires-ai-et.ai/feed | lang=en | region=ET | tags=ai,mlops,engineering | notes=Global AI coverage
+- Mexico City AI GH Edition | https://mexico-city-ai-gh.ai | rss=https://mexico-city-ai-gh.ai/feed | lang=en | region=GH | tags=ai,startup,venture | notes=Global AI coverage
+- Madrid AI TZ Edition | https://madrid-ai-tz.ai | rss=https://madrid-ai-tz.ai/feed | lang=en | region=TZ | tags=ai,data-science,analytics | notes=Global AI coverage
+- Barcelona AI US Edition | https://barcelona-ai-us.ai | rss=https://barcelona-ai-us.ai/feed | lang=en | region=US | tags=ai,healthcare,science | notes=Global AI coverage
+- Paris AI Research UK Edition | https://paris-ai-research-uk.ai | rss=https://paris-ai-research-uk.ai/feed | lang=en | region=UK | tags=ai,machine-learning,research | notes=Global AI coverage
+- Berlin AI CA Edition | https://berlin-ai-ca.ai | rss=https://berlin-ai-ca.ai/feed | lang=en | region=CA | tags=ai,llm,industry | notes=Global AI coverage
+- Munich AI FR Edition | https://munich-ai-fr.ai | rss=https://munich-ai-fr.ai/feed | lang=fr | region=FR | tags=ai,robotics,innovation | notes=Global AI coverage
+- Zurich AI DE Edition | https://zurich-ai-de.ai | rss=https://zurich-ai-de.ai/feed | lang=de | region=DE | tags=ai,policy,ethics | notes=Global AI coverage
+- Vienna AI SE Edition | https://vienna-ai-se.ai | rss=https://vienna-ai-se.ai/feed | lang=sv | region=SE | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Warsaw AI FI Edition | https://warsaw-ai-fi.ai | rss=https://warsaw-ai-fi.ai/feed | lang=fi | region=FI | tags=ai,nlp,language | notes=Global AI coverage
+- Prague AI NO Edition | https://prague-ai-no.ai | rss=https://prague-ai-no.ai/feed | lang=no | region=NO | tags=ai,mlops,engineering | notes=Global AI coverage
+- Stockholm AI DK Edition | https://stockholm-ai-dk.ai | rss=https://stockholm-ai-dk.ai/feed | lang=da | region=DK | tags=ai,startup,venture | notes=Global AI coverage
+- Helsinki AI IS Edition | https://helsinki-ai-is.ai | rss=https://helsinki-ai-is.ai/feed | lang=is | region=IS | tags=ai,data-science,analytics | notes=Global AI coverage
+- Copenhagen AI ZA Edition | https://copenhagen-ai-za.ai | rss=https://copenhagen-ai-za.ai/feed | lang=en | region=ZA | tags=ai,healthcare,science | notes=Global AI coverage
+- Oslo AI NG Edition | https://oslo-ai-ng.ai | rss=https://oslo-ai-ng.ai/feed | lang=en | region=NG | tags=ai,machine-learning,research | notes=Global AI coverage
+- Reykjavik AI KE Edition | https://reykjavik-ai-ke.ai | rss=https://reykjavik-ai-ke.ai/feed | lang=en | region=KE | tags=ai,llm,industry | notes=Global AI coverage
+- Cape Town AI EG Edition | https://cape-town-ai-eg.ai | rss=https://cape-town-ai-eg.ai/feed | lang=ar | region=EG | tags=ai,robotics,innovation | notes=Global AI coverage
+- Johannesburg AI AE Edition | https://johannesburg-ai-ae.ai | rss=https://johannesburg-ai-ae.ai/feed | lang=ar | region=AE | tags=ai,policy,ethics | notes=Global AI coverage
+- Nairobi AI QA Edition | https://nairobi-ai-qa.ai | rss=https://nairobi-ai-qa.ai/feed | lang=ar | region=QA | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Lagos AI SA Edition | https://lagos-ai-sa.ai | rss=https://lagos-ai-sa.ai/feed | lang=ar | region=SA | tags=ai,nlp,language | notes=Global AI coverage
+- Cairo AI IR Edition | https://cairo-ai-ir.ai | rss=https://cairo-ai-ir.ai/feed | lang=fa | region=IR | tags=ai,mlops,engineering | notes=Global AI coverage
+- Dubai AI TR Edition | https://dubai-ai-tr.ai | rss=https://dubai-ai-tr.ai/feed | lang=tr | region=TR | tags=ai,startup,venture | notes=Global AI coverage
+- Abu Dhabi AI IL Edition | https://abu-dhabi-ai-il.ai | rss=https://abu-dhabi-ai-il.ai/feed | lang=he | region=IL | tags=ai,data-science,analytics | notes=Global AI coverage
+- Doha AI IN Edition | https://doha-ai-in.ai | rss=https://doha-ai-in.ai/feed | lang=en | region=IN | tags=ai,healthcare,science | notes=Global AI coverage
+- Riyadh AI SG Edition | https://riyadh-ai-sg.ai | rss=https://riyadh-ai-sg.ai/feed | lang=en | region=SG | tags=ai,machine-learning,research | notes=Global AI coverage
+- Tel Aviv AI MY Edition | https://tel-aviv-ai-my.ai | rss=https://tel-aviv-ai-my.ai/feed | lang=ms | region=MY | tags=ai,llm,industry | notes=Global AI coverage
+- Istanbul AI ID Edition | https://istanbul-ai-id.ai | rss=https://istanbul-ai-id.ai/feed | lang=id | region=ID | tags=ai,robotics,innovation | notes=Global AI coverage
+- Bangalore AI TH Edition | https://bangalore-ai-th.ai | rss=https://bangalore-ai-th.ai/feed | lang=th | region=TH | tags=ai,policy,ethics | notes=Global AI coverage
+- Delhi AI VN Edition | https://delhi-ai-vn.ai | rss=https://delhi-ai-vn.ai/feed | lang=vi | region=VN | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Mumbai AI PH Edition | https://mumbai-ai-ph.ai | rss=https://mumbai-ai-ph.ai/feed | lang=en | region=PH | tags=ai,nlp,language | notes=Global AI coverage
+- Chennai AI HK Edition | https://chennai-ai-hk.ai | rss=https://chennai-ai-hk.ai/feed | lang=zh | region=HK | tags=ai,mlops,engineering | notes=Global AI coverage
+- Hyderabad AI TW Edition | https://hyderabad-ai-tw.ai | rss=https://hyderabad-ai-tw.ai/feed | lang=zh | region=TW | tags=ai,startup,venture | notes=Global AI coverage
+- Kolkata AI CN Edition | https://kolkata-ai-cn.ai | rss=https://kolkata-ai-cn.ai/feed | lang=zh | region=CN | tags=ai,data-science,analytics | notes=Global AI coverage
+- Jakarta AI JP Edition | https://jakarta-ai-jp.ai | rss=https://jakarta-ai-jp.ai/feed | lang=ja | region=JP | tags=ai,healthcare,science | notes=Global AI coverage
+- Bangkok AI KR Edition | https://bangkok-ai-kr.ai | rss=https://bangkok-ai-kr.ai/feed | lang=ko | region=KR | tags=ai,machine-learning,research | notes=Global AI coverage
+- Kuala Lumpur AI AU Edition | https://kuala-lumpur-ai-au.ai | rss=https://kuala-lumpur-ai-au.ai/feed | lang=en | region=AU | tags=ai,llm,industry | notes=Global AI coverage
+- Ho Chi Minh AI NZ Edition | https://ho-chi-minh-ai-nz.ai | rss=https://ho-chi-minh-ai-nz.ai/feed | lang=en | region=NZ | tags=ai,robotics,innovation | notes=Global AI coverage
+- Manila AI BR Edition | https://manila-ai-br.ai | rss=https://manila-ai-br.ai/feed | lang=pt | region=BR | tags=ai,policy,ethics | notes=Global AI coverage
+- Hong Kong AI AR Edition | https://hong-kong-ai-ar.ai | rss=https://hong-kong-ai-ar.ai/feed | lang=es | region=AR | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Taipei AI MX Edition | https://taipei-ai-mx.ai | rss=https://taipei-ai-mx.ai/feed | lang=es | region=MX | tags=ai,nlp,language | notes=Global AI coverage
+- Shenzhen AI ES Edition | https://shenzhen-ai-es.ai | rss=https://shenzhen-ai-es.ai/feed | lang=es | region=ES | tags=ai,mlops,engineering | notes=Global AI coverage
+- Guangzhou AI PT Edition | https://guangzhou-ai-pt.ai | rss=https://guangzhou-ai-pt.ai/feed | lang=pt | region=PT | tags=ai,startup,venture | notes=Global AI coverage
+- Chengdu AI IT Edition | https://chengdu-ai-it.ai | rss=https://chengdu-ai-it.ai/feed | lang=it | region=IT | tags=ai,data-science,analytics | notes=Global AI coverage
+- Beijing AI CH Edition | https://beijing-ai-ch.ai | rss=https://beijing-ai-ch.ai/feed | lang=de | region=CH | tags=ai,healthcare,science | notes=Global AI coverage
+- Shanghai AI AT Edition | https://shanghai-ai-at.ai | rss=https://shanghai-ai-at.ai/feed | lang=de | region=AT | tags=ai,machine-learning,research | notes=Global AI coverage
+- Shenyang AI CZ Edition | https://shenyang-ai-cz.ai | rss=https://shenyang-ai-cz.ai/feed | lang=cs | region=CZ | tags=ai,llm,industry | notes=Global AI coverage
+- Wuhan AI PL Edition | https://wuhan-ai-pl.ai | rss=https://wuhan-ai-pl.ai/feed | lang=pl | region=PL | tags=ai,robotics,innovation | notes=Global AI coverage
+- Xi'an AI HU Edition | https://xian-ai-hu.ai | rss=https://xian-ai-hu.ai/feed | lang=hu | region=HU | tags=ai,policy,ethics | notes=Global AI coverage
+- Chongqing AI RO Edition | https://chongqing-ai-ro.ai | rss=https://chongqing-ai-ro.ai/feed | lang=ro | region=RO | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Nanjing AI BG Edition | https://nanjing-ai-bg.ai | rss=https://nanjing-ai-bg.ai/feed | lang=bg | region=BG | tags=ai,nlp,language | notes=Global AI coverage
+- Hangzhou AI GR Edition | https://hangzhou-ai-gr.ai | rss=https://hangzhou-ai-gr.ai/feed | lang=el | region=GR | tags=ai,mlops,engineering | notes=Global AI coverage
+- Suzhou AI RU Edition | https://suzhou-ai-ru.ai | rss=https://suzhou-ai-ru.ai/feed | lang=ru | region=RU | tags=ai,startup,venture | notes=Global AI coverage
+- Changsha AI UA Edition | https://changsha-ai-ua.ai | rss=https://changsha-ai-ua.ai/feed | lang=uk | region=UA | tags=ai,data-science,analytics | notes=Global AI coverage
+- Harbin AI BY Edition | https://harbin-ai-by.ai | rss=https://harbin-ai-by.ai/feed | lang=be | region=BY | tags=ai,healthcare,science | notes=Global AI coverage
+- Kunming AI KZ Edition | https://kunming-ai-kz.ai | rss=https://kunming-ai-kz.ai/feed | lang=kk | region=KZ | tags=ai,machine-learning,research | notes=Global AI coverage
+- Urumqi AI UZ Edition | https://urumqi-ai-uz.ai | rss=https://urumqi-ai-uz.ai/feed | lang=uz | region=UZ | tags=ai,llm,industry | notes=Global AI coverage
+- Islamabad AI PK Edition | https://islamabad-ai-pk.ai | rss=https://islamabad-ai-pk.ai/feed | lang=en | region=PK | tags=ai,robotics,innovation | notes=Global AI coverage
+- Karachi AI BD Edition | https://karachi-ai-bd.ai | rss=https://karachi-ai-bd.ai/feed | lang=bn | region=BD | tags=ai,policy,ethics | notes=Global AI coverage
+- Lahore AI LK Edition | https://lahore-ai-lk.ai | rss=https://lahore-ai-lk.ai/feed | lang=en | region=LK | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Dhaka AI NP Edition | https://dhaka-ai-np.ai | rss=https://dhaka-ai-np.ai/feed | lang=ne | region=NP | tags=ai,nlp,language | notes=Global AI coverage
+- Kathmandu AI AF Edition | https://kathmandu-ai-af.ai | rss=https://kathmandu-ai-af.ai/feed | lang=fa | region=AF | tags=ai,mlops,engineering | notes=Global AI coverage
+- Colombo AI DZ Edition | https://colombo-ai-dz.ai | rss=https://colombo-ai-dz.ai/feed | lang=ar | region=DZ | tags=ai,startup,venture | notes=Global AI coverage
+- Tehran AI MA Edition | https://tehran-ai-ma.ai | rss=https://tehran-ai-ma.ai/feed | lang=ar | region=MA | tags=ai,data-science,analytics | notes=Global AI coverage
+- Shiraz AI TN Edition | https://shiraz-ai-tn.ai | rss=https://shiraz-ai-tn.ai/feed | lang=ar | region=TN | tags=ai,healthcare,science | notes=Global AI coverage
+- Tabriz AI ET Edition | https://tabriz-ai-et.ai | rss=https://tabriz-ai-et.ai/feed | lang=en | region=ET | tags=ai,machine-learning,research | notes=Global AI coverage
+- Mashhad AI GH Edition | https://mashhad-ai-gh.ai | rss=https://mashhad-ai-gh.ai/feed | lang=en | region=GH | tags=ai,llm,industry | notes=Global AI coverage
+- Isfahan AI TZ Edition | https://isfahan-ai-tz.ai | rss=https://isfahan-ai-tz.ai/feed | lang=en | region=TZ | tags=ai,robotics,innovation | notes=Global AI coverage
+- Yerevan AI US Edition | https://yerevan-ai-us.ai | rss=https://yerevan-ai-us.ai/feed | lang=en | region=US | tags=ai,policy,ethics | notes=Global AI coverage
+- Tbilisi AI UK Edition | https://tbilisi-ai-uk.ai | rss=https://tbilisi-ai-uk.ai/feed | lang=en | region=UK | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Baku AI CA Edition | https://baku-ai-ca.ai | rss=https://baku-ai-ca.ai/feed | lang=en | region=CA | tags=ai,nlp,language | notes=Global AI coverage
+- Almaty AI FR Edition | https://almaty-ai-fr.ai | rss=https://almaty-ai-fr.ai/feed | lang=fr | region=FR | tags=ai,mlops,engineering | notes=Global AI coverage
+- Astana AI DE Edition | https://astana-ai-de.ai | rss=https://astana-ai-de.ai/feed | lang=de | region=DE | tags=ai,startup,venture | notes=Global AI coverage
+- Bishkek AI SE Edition | https://bishkek-ai-se.ai | rss=https://bishkek-ai-se.ai/feed | lang=sv | region=SE | tags=ai,data-science,analytics | notes=Global AI coverage
+- Tashkent AI FI Edition | https://tashkent-ai-fi.ai | rss=https://tashkent-ai-fi.ai/feed | lang=fi | region=FI | tags=ai,healthcare,science | notes=Global AI coverage
+- Ashgabat AI NO Edition | https://ashgabat-ai-no.ai | rss=https://ashgabat-ai-no.ai/feed | lang=no | region=NO | tags=ai,machine-learning,research | notes=Global AI coverage
+- Ulaanbaatar AI DK Edition | https://ulaanbaatar-ai-dk.ai | rss=https://ulaanbaatar-ai-dk.ai/feed | lang=da | region=DK | tags=ai,llm,industry | notes=Global AI coverage
+- Hanoi AI IS Edition | https://hanoi-ai-is.ai | rss=https://hanoi-ai-is.ai/feed | lang=is | region=IS | tags=ai,robotics,innovation | notes=Global AI coverage
+- OpenAI Blog ZA Edition | https://openai-blog-za.ai | rss=https://openai-blog-za.ai/feed | lang=en | region=ZA | tags=ai,policy,ethics | notes=Global AI coverage
+- DeepMind Discover NG Edition | https://deepmind-discover-ng.ai | rss=https://deepmind-discover-ng.ai/feed | lang=en | region=NG | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Anthropic Newsroom KE Edition | https://anthropic-newsroom-ke.ai | rss=https://anthropic-newsroom-ke.ai/feed | lang=en | region=KE | tags=ai,nlp,language | notes=Global AI coverage
+- Meta AI Research EG Edition | https://meta-ai-research-eg.ai | rss=https://meta-ai-research-eg.ai/feed | lang=ar | region=EG | tags=ai,mlops,engineering | notes=Global AI coverage
+- Microsoft AI Blog AE Edition | https://microsoft-ai-blog-ae.ai | rss=https://microsoft-ai-blog-ae.ai/feed | lang=ar | region=AE | tags=ai,startup,venture | notes=Global AI coverage
+- Google AI QA Edition | https://google-ai-qa.ai | rss=https://google-ai-qa.ai/feed | lang=ar | region=QA | tags=ai,data-science,analytics | notes=Global AI coverage
+- Hugging Face Blog SA Edition | https://hugging-face-blog-sa.ai | rss=https://hugging-face-blog-sa.ai/feed | lang=ar | region=SA | tags=ai,healthcare,science | notes=Global AI coverage
+- NVIDIA AI News IR Edition | https://nvidia-ai-news-ir.ai | rss=https://nvidia-ai-news-ir.ai/feed | lang=fa | region=IR | tags=ai,machine-learning,research | notes=Global AI coverage
+- MIT AI Lab TR Edition | https://mit-ai-lab-tr.ai | rss=https://mit-ai-lab-tr.ai/feed | lang=tr | region=TR | tags=ai,llm,industry | notes=Global AI coverage
+- Stanford HAI IL Edition | https://stanford-hai-il.ai | rss=https://stanford-hai-il.ai/feed | lang=he | region=IL | tags=ai,robotics,innovation | notes=Global AI coverage
+- Berkeley AI Research IN Edition | https://berkeley-ai-research-in.ai | rss=https://berkeley-ai-research-in.ai/feed | lang=en | region=IN | tags=ai,policy,ethics | notes=Global AI coverage
+- Oxford AI SG Edition | https://oxford-ai-sg.ai | rss=https://oxford-ai-sg.ai/feed | lang=en | region=SG | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Cambridge AI MY Edition | https://cambridge-ai-my.ai | rss=https://cambridge-ai-my.ai/feed | lang=ms | region=MY | tags=ai,nlp,language | notes=Global AI coverage
+- Carnegie Mellon AI ID Edition | https://carnegie-mellon-ai-id.ai | rss=https://carnegie-mellon-ai-id.ai/feed | lang=id | region=ID | tags=ai,mlops,engineering | notes=Global AI coverage
+- Tsinghua AI Lab TH Edition | https://tsinghua-ai-lab-th.ai | rss=https://tsinghua-ai-lab-th.ai/feed | lang=th | region=TH | tags=ai,startup,venture | notes=Global AI coverage
+- Peking University AI VN Edition | https://peking-university-ai-vn.ai | rss=https://peking-university-ai-vn.ai/feed | lang=vi | region=VN | tags=ai,data-science,analytics | notes=Global AI coverage
+- Tokyo AI Lab PH Edition | https://tokyo-ai-lab-ph.ai | rss=https://tokyo-ai-lab-ph.ai/feed | lang=en | region=PH | tags=ai,healthcare,science | notes=Global AI coverage
+- Seoul AI Research HK Edition | https://seoul-ai-research-hk.ai | rss=https://seoul-ai-research-hk.ai/feed | lang=zh | region=HK | tags=ai,machine-learning,research | notes=Global AI coverage
+- Singapore AI TW Edition | https://singapore-ai-tw.ai | rss=https://singapore-ai-tw.ai/feed | lang=zh | region=TW | tags=ai,llm,industry | notes=Global AI coverage
+- Sydney AI Lab CN Edition | https://sydney-ai-lab-cn.ai | rss=https://sydney-ai-lab-cn.ai/feed | lang=zh | region=CN | tags=ai,robotics,innovation | notes=Global AI coverage
+- Toronto AI JP Edition | https://toronto-ai-jp.ai | rss=https://toronto-ai-jp.ai/feed | lang=ja | region=JP | tags=ai,policy,ethics | notes=Global AI coverage
+- Montreal AI KR Edition | https://montreal-ai-kr.ai | rss=https://montreal-ai-kr.ai/feed | lang=ko | region=KR | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Vancouver AI AU Edition | https://vancouver-ai-au.ai | rss=https://vancouver-ai-au.ai/feed | lang=en | region=AU | tags=ai,nlp,language | notes=Global AI coverage
+- São Paulo AI NZ Edition | https://são-paulo-ai-nz.ai | rss=https://são-paulo-ai-nz.ai/feed | lang=en | region=NZ | tags=ai,mlops,engineering | notes=Global AI coverage
+- Buenos Aires AI BR Edition | https://buenos-aires-ai-br.ai | rss=https://buenos-aires-ai-br.ai/feed | lang=pt | region=BR | tags=ai,startup,venture | notes=Global AI coverage
+- Mexico City AI AR Edition | https://mexico-city-ai-ar.ai | rss=https://mexico-city-ai-ar.ai/feed | lang=es | region=AR | tags=ai,data-science,analytics | notes=Global AI coverage
+- Madrid AI MX Edition | https://madrid-ai-mx.ai | rss=https://madrid-ai-mx.ai/feed | lang=es | region=MX | tags=ai,healthcare,science | notes=Global AI coverage
+- Barcelona AI ES Edition | https://barcelona-ai-es.ai | rss=https://barcelona-ai-es.ai/feed | lang=es | region=ES | tags=ai,machine-learning,research | notes=Global AI coverage
+- Paris AI Research PT Edition | https://paris-ai-research-pt.ai | rss=https://paris-ai-research-pt.ai/feed | lang=pt | region=PT | tags=ai,llm,industry | notes=Global AI coverage
+- Berlin AI IT Edition | https://berlin-ai-it.ai | rss=https://berlin-ai-it.ai/feed | lang=it | region=IT | tags=ai,robotics,innovation | notes=Global AI coverage
+- Munich AI CH Edition | https://munich-ai-ch.ai | rss=https://munich-ai-ch.ai/feed | lang=de | region=CH | tags=ai,policy,ethics | notes=Global AI coverage
+- Zurich AI AT Edition | https://zurich-ai-at.ai | rss=https://zurich-ai-at.ai/feed | lang=de | region=AT | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Vienna AI CZ Edition | https://vienna-ai-cz.ai | rss=https://vienna-ai-cz.ai/feed | lang=cs | region=CZ | tags=ai,nlp,language | notes=Global AI coverage
+- Warsaw AI PL Edition | https://warsaw-ai-pl.ai | rss=https://warsaw-ai-pl.ai/feed | lang=pl | region=PL | tags=ai,mlops,engineering | notes=Global AI coverage
+- Prague AI HU Edition | https://prague-ai-hu.ai | rss=https://prague-ai-hu.ai/feed | lang=hu | region=HU | tags=ai,startup,venture | notes=Global AI coverage
+- Stockholm AI RO Edition | https://stockholm-ai-ro.ai | rss=https://stockholm-ai-ro.ai/feed | lang=ro | region=RO | tags=ai,data-science,analytics | notes=Global AI coverage
+- Helsinki AI BG Edition | https://helsinki-ai-bg.ai | rss=https://helsinki-ai-bg.ai/feed | lang=bg | region=BG | tags=ai,healthcare,science | notes=Global AI coverage
+- Copenhagen AI GR Edition | https://copenhagen-ai-gr.ai | rss=https://copenhagen-ai-gr.ai/feed | lang=el | region=GR | tags=ai,machine-learning,research | notes=Global AI coverage
+- Oslo AI RU Edition | https://oslo-ai-ru.ai | rss=https://oslo-ai-ru.ai/feed | lang=ru | region=RU | tags=ai,llm,industry | notes=Global AI coverage
+- Reykjavik AI UA Edition | https://reykjavik-ai-ua.ai | rss=https://reykjavik-ai-ua.ai/feed | lang=uk | region=UA | tags=ai,robotics,innovation | notes=Global AI coverage
+- Cape Town AI BY Edition | https://cape-town-ai-by.ai | rss=https://cape-town-ai-by.ai/feed | lang=be | region=BY | tags=ai,policy,ethics | notes=Global AI coverage
+- Johannesburg AI KZ Edition | https://johannesburg-ai-kz.ai | rss=https://johannesburg-ai-kz.ai/feed | lang=kk | region=KZ | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Nairobi AI UZ Edition | https://nairobi-ai-uz.ai | rss=https://nairobi-ai-uz.ai/feed | lang=uz | region=UZ | tags=ai,nlp,language | notes=Global AI coverage
+- Lagos AI PK Edition | https://lagos-ai-pk.ai | rss=https://lagos-ai-pk.ai/feed | lang=en | region=PK | tags=ai,mlops,engineering | notes=Global AI coverage
+- Cairo AI BD Edition | https://cairo-ai-bd.ai | rss=https://cairo-ai-bd.ai/feed | lang=bn | region=BD | tags=ai,startup,venture | notes=Global AI coverage
+- Dubai AI LK Edition | https://dubai-ai-lk.ai | rss=https://dubai-ai-lk.ai/feed | lang=en | region=LK | tags=ai,data-science,analytics | notes=Global AI coverage
+- Abu Dhabi AI NP Edition | https://abu-dhabi-ai-np.ai | rss=https://abu-dhabi-ai-np.ai/feed | lang=ne | region=NP | tags=ai,healthcare,science | notes=Global AI coverage
+- Doha AI AF Edition | https://doha-ai-af.ai | rss=https://doha-ai-af.ai/feed | lang=fa | region=AF | tags=ai,machine-learning,research | notes=Global AI coverage
+- Riyadh AI DZ Edition | https://riyadh-ai-dz.ai | rss=https://riyadh-ai-dz.ai/feed | lang=ar | region=DZ | tags=ai,llm,industry | notes=Global AI coverage
+- Tel Aviv AI MA Edition | https://tel-aviv-ai-ma.ai | rss=https://tel-aviv-ai-ma.ai/feed | lang=ar | region=MA | tags=ai,robotics,innovation | notes=Global AI coverage
+- Istanbul AI TN Edition | https://istanbul-ai-tn.ai | rss=https://istanbul-ai-tn.ai/feed | lang=ar | region=TN | tags=ai,policy,ethics | notes=Global AI coverage
+- Bangalore AI ET Edition | https://bangalore-ai-et.ai | rss=https://bangalore-ai-et.ai/feed | lang=en | region=ET | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Delhi AI GH Edition | https://delhi-ai-gh.ai | rss=https://delhi-ai-gh.ai/feed | lang=en | region=GH | tags=ai,nlp,language | notes=Global AI coverage
+- Mumbai AI TZ Edition | https://mumbai-ai-tz.ai | rss=https://mumbai-ai-tz.ai/feed | lang=en | region=TZ | tags=ai,mlops,engineering | notes=Global AI coverage
+- Chennai AI US Edition | https://chennai-ai-us.ai | rss=https://chennai-ai-us.ai/feed | lang=en | region=US | tags=ai,startup,venture | notes=Global AI coverage
+- Hyderabad AI UK Edition | https://hyderabad-ai-uk.ai | rss=https://hyderabad-ai-uk.ai/feed | lang=en | region=UK | tags=ai,data-science,analytics | notes=Global AI coverage
+- Kolkata AI CA Edition | https://kolkata-ai-ca.ai | rss=https://kolkata-ai-ca.ai/feed | lang=en | region=CA | tags=ai,healthcare,science | notes=Global AI coverage
+- Jakarta AI FR Edition | https://jakarta-ai-fr.ai | rss=https://jakarta-ai-fr.ai/feed | lang=fr | region=FR | tags=ai,machine-learning,research | notes=Global AI coverage
+- Bangkok AI DE Edition | https://bangkok-ai-de.ai | rss=https://bangkok-ai-de.ai/feed | lang=de | region=DE | tags=ai,llm,industry | notes=Global AI coverage
+- Kuala Lumpur AI SE Edition | https://kuala-lumpur-ai-se.ai | rss=https://kuala-lumpur-ai-se.ai/feed | lang=sv | region=SE | tags=ai,robotics,innovation | notes=Global AI coverage
+- Ho Chi Minh AI FI Edition | https://ho-chi-minh-ai-fi.ai | rss=https://ho-chi-minh-ai-fi.ai/feed | lang=fi | region=FI | tags=ai,policy,ethics | notes=Global AI coverage
+- Manila AI NO Edition | https://manila-ai-no.ai | rss=https://manila-ai-no.ai/feed | lang=no | region=NO | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Hong Kong AI DK Edition | https://hong-kong-ai-dk.ai | rss=https://hong-kong-ai-dk.ai/feed | lang=da | region=DK | tags=ai,nlp,language | notes=Global AI coverage
+- Taipei AI IS Edition | https://taipei-ai-is.ai | rss=https://taipei-ai-is.ai/feed | lang=is | region=IS | tags=ai,mlops,engineering | notes=Global AI coverage
+- Shenzhen AI ZA Edition | https://shenzhen-ai-za.ai | rss=https://shenzhen-ai-za.ai/feed | lang=en | region=ZA | tags=ai,startup,venture | notes=Global AI coverage
+- Guangzhou AI NG Edition | https://guangzhou-ai-ng.ai | rss=https://guangzhou-ai-ng.ai/feed | lang=en | region=NG | tags=ai,data-science,analytics | notes=Global AI coverage
+- Chengdu AI KE Edition | https://chengdu-ai-ke.ai | rss=https://chengdu-ai-ke.ai/feed | lang=en | region=KE | tags=ai,healthcare,science | notes=Global AI coverage
+- Beijing AI EG Edition | https://beijing-ai-eg.ai | rss=https://beijing-ai-eg.ai/feed | lang=ar | region=EG | tags=ai,machine-learning,research | notes=Global AI coverage
+- Shanghai AI AE Edition | https://shanghai-ai-ae.ai | rss=https://shanghai-ai-ae.ai/feed | lang=ar | region=AE | tags=ai,llm,industry | notes=Global AI coverage
+- Shenyang AI QA Edition | https://shenyang-ai-qa.ai | rss=https://shenyang-ai-qa.ai/feed | lang=ar | region=QA | tags=ai,robotics,innovation | notes=Global AI coverage
+- Wuhan AI SA Edition | https://wuhan-ai-sa.ai | rss=https://wuhan-ai-sa.ai/feed | lang=ar | region=SA | tags=ai,policy,ethics | notes=Global AI coverage
+- Xi'an AI IR Edition | https://xian-ai-ir.ai | rss=https://xian-ai-ir.ai/feed | lang=fa | region=IR | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Chongqing AI TR Edition | https://chongqing-ai-tr.ai | rss=https://chongqing-ai-tr.ai/feed | lang=tr | region=TR | tags=ai,nlp,language | notes=Global AI coverage
+- Nanjing AI IL Edition | https://nanjing-ai-il.ai | rss=https://nanjing-ai-il.ai/feed | lang=he | region=IL | tags=ai,mlops,engineering | notes=Global AI coverage
+- Hangzhou AI IN Edition | https://hangzhou-ai-in.ai | rss=https://hangzhou-ai-in.ai/feed | lang=en | region=IN | tags=ai,startup,venture | notes=Global AI coverage
+- Suzhou AI SG Edition | https://suzhou-ai-sg.ai | rss=https://suzhou-ai-sg.ai/feed | lang=en | region=SG | tags=ai,data-science,analytics | notes=Global AI coverage
+- Changsha AI MY Edition | https://changsha-ai-my.ai | rss=https://changsha-ai-my.ai/feed | lang=ms | region=MY | tags=ai,healthcare,science | notes=Global AI coverage
+- Harbin AI ID Edition | https://harbin-ai-id.ai | rss=https://harbin-ai-id.ai/feed | lang=id | region=ID | tags=ai,machine-learning,research | notes=Global AI coverage
+- Kunming AI TH Edition | https://kunming-ai-th.ai | rss=https://kunming-ai-th.ai/feed | lang=th | region=TH | tags=ai,llm,industry | notes=Global AI coverage
+- Urumqi AI VN Edition | https://urumqi-ai-vn.ai | rss=https://urumqi-ai-vn.ai/feed | lang=vi | region=VN | tags=ai,robotics,innovation | notes=Global AI coverage
+- Islamabad AI PH Edition | https://islamabad-ai-ph.ai | rss=https://islamabad-ai-ph.ai/feed | lang=en | region=PH | tags=ai,policy,ethics | notes=Global AI coverage
+- Karachi AI HK Edition | https://karachi-ai-hk.ai | rss=https://karachi-ai-hk.ai/feed | lang=zh | region=HK | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Lahore AI TW Edition | https://lahore-ai-tw.ai | rss=https://lahore-ai-tw.ai/feed | lang=zh | region=TW | tags=ai,nlp,language | notes=Global AI coverage
+- Dhaka AI CN Edition | https://dhaka-ai-cn.ai | rss=https://dhaka-ai-cn.ai/feed | lang=zh | region=CN | tags=ai,mlops,engineering | notes=Global AI coverage
+- Kathmandu AI JP Edition | https://kathmandu-ai-jp.ai | rss=https://kathmandu-ai-jp.ai/feed | lang=ja | region=JP | tags=ai,startup,venture | notes=Global AI coverage
+- Colombo AI KR Edition | https://colombo-ai-kr.ai | rss=https://colombo-ai-kr.ai/feed | lang=ko | region=KR | tags=ai,data-science,analytics | notes=Global AI coverage
+- Tehran AI AU Edition | https://tehran-ai-au.ai | rss=https://tehran-ai-au.ai/feed | lang=en | region=AU | tags=ai,healthcare,science | notes=Global AI coverage
+- Shiraz AI NZ Edition | https://shiraz-ai-nz.ai | rss=https://shiraz-ai-nz.ai/feed | lang=en | region=NZ | tags=ai,machine-learning,research | notes=Global AI coverage
+- Tabriz AI BR Edition | https://tabriz-ai-br.ai | rss=https://tabriz-ai-br.ai/feed | lang=pt | region=BR | tags=ai,llm,industry | notes=Global AI coverage
+- Mashhad AI AR Edition | https://mashhad-ai-ar.ai | rss=https://mashhad-ai-ar.ai/feed | lang=es | region=AR | tags=ai,robotics,innovation | notes=Global AI coverage
+- Isfahan AI MX Edition | https://isfahan-ai-mx.ai | rss=https://isfahan-ai-mx.ai/feed | lang=es | region=MX | tags=ai,policy,ethics | notes=Global AI coverage
+- Yerevan AI ES Edition | https://yerevan-ai-es.ai | rss=https://yerevan-ai-es.ai/feed | lang=es | region=ES | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Tbilisi AI PT Edition | https://tbilisi-ai-pt.ai | rss=https://tbilisi-ai-pt.ai/feed | lang=pt | region=PT | tags=ai,nlp,language | notes=Global AI coverage
+- Baku AI IT Edition | https://baku-ai-it.ai | rss=https://baku-ai-it.ai/feed | lang=it | region=IT | tags=ai,mlops,engineering | notes=Global AI coverage
+- Almaty AI CH Edition | https://almaty-ai-ch.ai | rss=https://almaty-ai-ch.ai/feed | lang=de | region=CH | tags=ai,startup,venture | notes=Global AI coverage
+- Astana AI AT Edition | https://astana-ai-at.ai | rss=https://astana-ai-at.ai/feed | lang=de | region=AT | tags=ai,data-science,analytics | notes=Global AI coverage
+- Bishkek AI CZ Edition | https://bishkek-ai-cz.ai | rss=https://bishkek-ai-cz.ai/feed | lang=cs | region=CZ | tags=ai,healthcare,science | notes=Global AI coverage
+- Tashkent AI PL Edition | https://tashkent-ai-pl.ai | rss=https://tashkent-ai-pl.ai/feed | lang=pl | region=PL | tags=ai,machine-learning,research | notes=Global AI coverage
+- Ashgabat AI HU Edition | https://ashgabat-ai-hu.ai | rss=https://ashgabat-ai-hu.ai/feed | lang=hu | region=HU | tags=ai,llm,industry | notes=Global AI coverage
+- Ulaanbaatar AI RO Edition | https://ulaanbaatar-ai-ro.ai | rss=https://ulaanbaatar-ai-ro.ai/feed | lang=ro | region=RO | tags=ai,robotics,innovation | notes=Global AI coverage
+- Hanoi AI BG Edition | https://hanoi-ai-bg.ai | rss=https://hanoi-ai-bg.ai/feed | lang=bg | region=BG | tags=ai,policy,ethics | notes=Global AI coverage
+- OpenAI Blog GR Edition | https://openai-blog-gr.ai | rss=https://openai-blog-gr.ai/feed | lang=el | region=GR | tags=ai,vision,deep-learning | notes=Global AI coverage
+- DeepMind Discover RU Edition | https://deepmind-discover-ru.ai | rss=https://deepmind-discover-ru.ai/feed | lang=ru | region=RU | tags=ai,nlp,language | notes=Global AI coverage
+- Anthropic Newsroom UA Edition | https://anthropic-newsroom-ua.ai | rss=https://anthropic-newsroom-ua.ai/feed | lang=uk | region=UA | tags=ai,mlops,engineering | notes=Global AI coverage
+- Meta AI Research BY Edition | https://meta-ai-research-by.ai | rss=https://meta-ai-research-by.ai/feed | lang=be | region=BY | tags=ai,startup,venture | notes=Global AI coverage
+- Microsoft AI Blog KZ Edition | https://microsoft-ai-blog-kz.ai | rss=https://microsoft-ai-blog-kz.ai/feed | lang=kk | region=KZ | tags=ai,data-science,analytics | notes=Global AI coverage
+- Google AI UZ Edition | https://google-ai-uz.ai | rss=https://google-ai-uz.ai/feed | lang=uz | region=UZ | tags=ai,healthcare,science | notes=Global AI coverage
+- Hugging Face Blog PK Edition | https://hugging-face-blog-pk.ai | rss=https://hugging-face-blog-pk.ai/feed | lang=en | region=PK | tags=ai,machine-learning,research | notes=Global AI coverage
+- NVIDIA AI News BD Edition | https://nvidia-ai-news-bd.ai | rss=https://nvidia-ai-news-bd.ai/feed | lang=bn | region=BD | tags=ai,llm,industry | notes=Global AI coverage
+- MIT AI Lab LK Edition | https://mit-ai-lab-lk.ai | rss=https://mit-ai-lab-lk.ai/feed | lang=en | region=LK | tags=ai,robotics,innovation | notes=Global AI coverage
+- Stanford HAI NP Edition | https://stanford-hai-np.ai | rss=https://stanford-hai-np.ai/feed | lang=ne | region=NP | tags=ai,policy,ethics | notes=Global AI coverage
+- Berkeley AI Research AF Edition | https://berkeley-ai-research-af.ai | rss=https://berkeley-ai-research-af.ai/feed | lang=fa | region=AF | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Oxford AI DZ Edition | https://oxford-ai-dz.ai | rss=https://oxford-ai-dz.ai/feed | lang=ar | region=DZ | tags=ai,nlp,language | notes=Global AI coverage
+- Cambridge AI MA Edition | https://cambridge-ai-ma.ai | rss=https://cambridge-ai-ma.ai/feed | lang=ar | region=MA | tags=ai,mlops,engineering | notes=Global AI coverage
+- Carnegie Mellon AI TN Edition | https://carnegie-mellon-ai-tn.ai | rss=https://carnegie-mellon-ai-tn.ai/feed | lang=ar | region=TN | tags=ai,startup,venture | notes=Global AI coverage
+- Tsinghua AI Lab ET Edition | https://tsinghua-ai-lab-et.ai | rss=https://tsinghua-ai-lab-et.ai/feed | lang=en | region=ET | tags=ai,data-science,analytics | notes=Global AI coverage
+- Peking University AI GH Edition | https://peking-university-ai-gh.ai | rss=https://peking-university-ai-gh.ai/feed | lang=en | region=GH | tags=ai,healthcare,science | notes=Global AI coverage
+- Tokyo AI Lab TZ Edition | https://tokyo-ai-lab-tz.ai | rss=https://tokyo-ai-lab-tz.ai/feed | lang=en | region=TZ | tags=ai,machine-learning,research | notes=Global AI coverage
+- Seoul AI Research US Edition | https://seoul-ai-research-us.ai | rss=https://seoul-ai-research-us.ai/feed | lang=en | region=US | tags=ai,llm,industry | notes=Global AI coverage
+- Singapore AI UK Edition | https://singapore-ai-uk.ai | rss=https://singapore-ai-uk.ai/feed | lang=en | region=UK | tags=ai,robotics,innovation | notes=Global AI coverage
+- Sydney AI Lab CA Edition | https://sydney-ai-lab-ca.ai | rss=https://sydney-ai-lab-ca.ai/feed | lang=en | region=CA | tags=ai,policy,ethics | notes=Global AI coverage
+- Toronto AI FR Edition | https://toronto-ai-fr.ai | rss=https://toronto-ai-fr.ai/feed | lang=fr | region=FR | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Montreal AI DE Edition | https://montreal-ai-de.ai | rss=https://montreal-ai-de.ai/feed | lang=de | region=DE | tags=ai,nlp,language | notes=Global AI coverage
+- Vancouver AI SE Edition | https://vancouver-ai-se.ai | rss=https://vancouver-ai-se.ai/feed | lang=sv | region=SE | tags=ai,mlops,engineering | notes=Global AI coverage
+- São Paulo AI FI Edition | https://são-paulo-ai-fi.ai | rss=https://são-paulo-ai-fi.ai/feed | lang=fi | region=FI | tags=ai,startup,venture | notes=Global AI coverage
+- Buenos Aires AI NO Edition | https://buenos-aires-ai-no.ai | rss=https://buenos-aires-ai-no.ai/feed | lang=no | region=NO | tags=ai,data-science,analytics | notes=Global AI coverage
+- Mexico City AI DK Edition | https://mexico-city-ai-dk.ai | rss=https://mexico-city-ai-dk.ai/feed | lang=da | region=DK | tags=ai,healthcare,science | notes=Global AI coverage
+- Madrid AI IS Edition | https://madrid-ai-is.ai | rss=https://madrid-ai-is.ai/feed | lang=is | region=IS | tags=ai,machine-learning,research | notes=Global AI coverage
+- Barcelona AI ZA Edition | https://barcelona-ai-za.ai | rss=https://barcelona-ai-za.ai/feed | lang=en | region=ZA | tags=ai,llm,industry | notes=Global AI coverage
+- Paris AI Research NG Edition | https://paris-ai-research-ng.ai | rss=https://paris-ai-research-ng.ai/feed | lang=en | region=NG | tags=ai,robotics,innovation | notes=Global AI coverage
+- Berlin AI KE Edition | https://berlin-ai-ke.ai | rss=https://berlin-ai-ke.ai/feed | lang=en | region=KE | tags=ai,policy,ethics | notes=Global AI coverage
+- Munich AI EG Edition | https://munich-ai-eg.ai | rss=https://munich-ai-eg.ai/feed | lang=ar | region=EG | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Zurich AI AE Edition | https://zurich-ai-ae.ai | rss=https://zurich-ai-ae.ai/feed | lang=ar | region=AE | tags=ai,nlp,language | notes=Global AI coverage
+- Vienna AI QA Edition | https://vienna-ai-qa.ai | rss=https://vienna-ai-qa.ai/feed | lang=ar | region=QA | tags=ai,mlops,engineering | notes=Global AI coverage
+- Warsaw AI SA Edition | https://warsaw-ai-sa.ai | rss=https://warsaw-ai-sa.ai/feed | lang=ar | region=SA | tags=ai,startup,venture | notes=Global AI coverage
+- Prague AI IR Edition | https://prague-ai-ir.ai | rss=https://prague-ai-ir.ai/feed | lang=fa | region=IR | tags=ai,data-science,analytics | notes=Global AI coverage
+- Stockholm AI TR Edition | https://stockholm-ai-tr.ai | rss=https://stockholm-ai-tr.ai/feed | lang=tr | region=TR | tags=ai,healthcare,science | notes=Global AI coverage
+- Helsinki AI IL Edition | https://helsinki-ai-il.ai | rss=https://helsinki-ai-il.ai/feed | lang=he | region=IL | tags=ai,machine-learning,research | notes=Global AI coverage
+- Copenhagen AI IN Edition | https://copenhagen-ai-in.ai | rss=https://copenhagen-ai-in.ai/feed | lang=en | region=IN | tags=ai,llm,industry | notes=Global AI coverage
+- Oslo AI SG Edition | https://oslo-ai-sg.ai | rss=https://oslo-ai-sg.ai/feed | lang=en | region=SG | tags=ai,robotics,innovation | notes=Global AI coverage
+- Reykjavik AI MY Edition | https://reykjavik-ai-my.ai | rss=https://reykjavik-ai-my.ai/feed | lang=ms | region=MY | tags=ai,policy,ethics | notes=Global AI coverage
+- Cape Town AI ID Edition | https://cape-town-ai-id.ai | rss=https://cape-town-ai-id.ai/feed | lang=id | region=ID | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Johannesburg AI TH Edition | https://johannesburg-ai-th.ai | rss=https://johannesburg-ai-th.ai/feed | lang=th | region=TH | tags=ai,nlp,language | notes=Global AI coverage
+- Nairobi AI VN Edition | https://nairobi-ai-vn.ai | rss=https://nairobi-ai-vn.ai/feed | lang=vi | region=VN | tags=ai,mlops,engineering | notes=Global AI coverage
+- Lagos AI PH Edition | https://lagos-ai-ph.ai | rss=https://lagos-ai-ph.ai/feed | lang=en | region=PH | tags=ai,startup,venture | notes=Global AI coverage
+- Cairo AI HK Edition | https://cairo-ai-hk.ai | rss=https://cairo-ai-hk.ai/feed | lang=zh | region=HK | tags=ai,data-science,analytics | notes=Global AI coverage
+- Dubai AI TW Edition | https://dubai-ai-tw.ai | rss=https://dubai-ai-tw.ai/feed | lang=zh | region=TW | tags=ai,healthcare,science | notes=Global AI coverage
+- Abu Dhabi AI CN Edition | https://abu-dhabi-ai-cn.ai | rss=https://abu-dhabi-ai-cn.ai/feed | lang=zh | region=CN | tags=ai,machine-learning,research | notes=Global AI coverage
+- Doha AI JP Edition | https://doha-ai-jp.ai | rss=https://doha-ai-jp.ai/feed | lang=ja | region=JP | tags=ai,llm,industry | notes=Global AI coverage
+- Riyadh AI KR Edition | https://riyadh-ai-kr.ai | rss=https://riyadh-ai-kr.ai/feed | lang=ko | region=KR | tags=ai,robotics,innovation | notes=Global AI coverage
+- Tel Aviv AI AU Edition | https://tel-aviv-ai-au.ai | rss=https://tel-aviv-ai-au.ai/feed | lang=en | region=AU | tags=ai,policy,ethics | notes=Global AI coverage
+- Istanbul AI NZ Edition | https://istanbul-ai-nz.ai | rss=https://istanbul-ai-nz.ai/feed | lang=en | region=NZ | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Bangalore AI BR Edition | https://bangalore-ai-br.ai | rss=https://bangalore-ai-br.ai/feed | lang=pt | region=BR | tags=ai,nlp,language | notes=Global AI coverage
+- Delhi AI AR Edition | https://delhi-ai-ar.ai | rss=https://delhi-ai-ar.ai/feed | lang=es | region=AR | tags=ai,mlops,engineering | notes=Global AI coverage
+- Mumbai AI MX Edition | https://mumbai-ai-mx.ai | rss=https://mumbai-ai-mx.ai/feed | lang=es | region=MX | tags=ai,startup,venture | notes=Global AI coverage
+- Chennai AI ES Edition | https://chennai-ai-es.ai | rss=https://chennai-ai-es.ai/feed | lang=es | region=ES | tags=ai,data-science,analytics | notes=Global AI coverage
+- Hyderabad AI PT Edition | https://hyderabad-ai-pt.ai | rss=https://hyderabad-ai-pt.ai/feed | lang=pt | region=PT | tags=ai,healthcare,science | notes=Global AI coverage
+- Kolkata AI IT Edition | https://kolkata-ai-it.ai | rss=https://kolkata-ai-it.ai/feed | lang=it | region=IT | tags=ai,machine-learning,research | notes=Global AI coverage
+- Jakarta AI CH Edition | https://jakarta-ai-ch.ai | rss=https://jakarta-ai-ch.ai/feed | lang=de | region=CH | tags=ai,llm,industry | notes=Global AI coverage
+- Bangkok AI AT Edition | https://bangkok-ai-at.ai | rss=https://bangkok-ai-at.ai/feed | lang=de | region=AT | tags=ai,robotics,innovation | notes=Global AI coverage
+- Kuala Lumpur AI CZ Edition | https://kuala-lumpur-ai-cz.ai | rss=https://kuala-lumpur-ai-cz.ai/feed | lang=cs | region=CZ | tags=ai,policy,ethics | notes=Global AI coverage
+- Ho Chi Minh AI PL Edition | https://ho-chi-minh-ai-pl.ai | rss=https://ho-chi-minh-ai-pl.ai/feed | lang=pl | region=PL | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Manila AI HU Edition | https://manila-ai-hu.ai | rss=https://manila-ai-hu.ai/feed | lang=hu | region=HU | tags=ai,nlp,language | notes=Global AI coverage
+- Hong Kong AI RO Edition | https://hong-kong-ai-ro.ai | rss=https://hong-kong-ai-ro.ai/feed | lang=ro | region=RO | tags=ai,mlops,engineering | notes=Global AI coverage
+- Taipei AI BG Edition | https://taipei-ai-bg.ai | rss=https://taipei-ai-bg.ai/feed | lang=bg | region=BG | tags=ai,startup,venture | notes=Global AI coverage
+- Shenzhen AI GR Edition | https://shenzhen-ai-gr.ai | rss=https://shenzhen-ai-gr.ai/feed | lang=el | region=GR | tags=ai,data-science,analytics | notes=Global AI coverage
+- Guangzhou AI RU Edition | https://guangzhou-ai-ru.ai | rss=https://guangzhou-ai-ru.ai/feed | lang=ru | region=RU | tags=ai,healthcare,science | notes=Global AI coverage
+- Chengdu AI UA Edition | https://chengdu-ai-ua.ai | rss=https://chengdu-ai-ua.ai/feed | lang=uk | region=UA | tags=ai,machine-learning,research | notes=Global AI coverage
+- Beijing AI BY Edition | https://beijing-ai-by.ai | rss=https://beijing-ai-by.ai/feed | lang=be | region=BY | tags=ai,llm,industry | notes=Global AI coverage
+- Shanghai AI KZ Edition | https://shanghai-ai-kz.ai | rss=https://shanghai-ai-kz.ai/feed | lang=kk | region=KZ | tags=ai,robotics,innovation | notes=Global AI coverage
+- Shenyang AI UZ Edition | https://shenyang-ai-uz.ai | rss=https://shenyang-ai-uz.ai/feed | lang=uz | region=UZ | tags=ai,policy,ethics | notes=Global AI coverage
+- Wuhan AI PK Edition | https://wuhan-ai-pk.ai | rss=https://wuhan-ai-pk.ai/feed | lang=en | region=PK | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Xi'an AI BD Edition | https://xian-ai-bd.ai | rss=https://xian-ai-bd.ai/feed | lang=bn | region=BD | tags=ai,nlp,language | notes=Global AI coverage
+- Chongqing AI LK Edition | https://chongqing-ai-lk.ai | rss=https://chongqing-ai-lk.ai/feed | lang=en | region=LK | tags=ai,mlops,engineering | notes=Global AI coverage
+- Nanjing AI NP Edition | https://nanjing-ai-np.ai | rss=https://nanjing-ai-np.ai/feed | lang=ne | region=NP | tags=ai,startup,venture | notes=Global AI coverage
+- Hangzhou AI AF Edition | https://hangzhou-ai-af.ai | rss=https://hangzhou-ai-af.ai/feed | lang=fa | region=AF | tags=ai,data-science,analytics | notes=Global AI coverage
+- Suzhou AI DZ Edition | https://suzhou-ai-dz.ai | rss=https://suzhou-ai-dz.ai/feed | lang=ar | region=DZ | tags=ai,healthcare,science | notes=Global AI coverage
+- Changsha AI MA Edition | https://changsha-ai-ma.ai | rss=https://changsha-ai-ma.ai/feed | lang=ar | region=MA | tags=ai,machine-learning,research | notes=Global AI coverage
+- Harbin AI TN Edition | https://harbin-ai-tn.ai | rss=https://harbin-ai-tn.ai/feed | lang=ar | region=TN | tags=ai,llm,industry | notes=Global AI coverage
+- Kunming AI ET Edition | https://kunming-ai-et.ai | rss=https://kunming-ai-et.ai/feed | lang=en | region=ET | tags=ai,robotics,innovation | notes=Global AI coverage
+- Urumqi AI GH Edition | https://urumqi-ai-gh.ai | rss=https://urumqi-ai-gh.ai/feed | lang=en | region=GH | tags=ai,policy,ethics | notes=Global AI coverage
+- Islamabad AI TZ Edition | https://islamabad-ai-tz.ai | rss=https://islamabad-ai-tz.ai/feed | lang=en | region=TZ | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Karachi AI US Edition | https://karachi-ai-us.ai | rss=https://karachi-ai-us.ai/feed | lang=en | region=US | tags=ai,nlp,language | notes=Global AI coverage
+- Lahore AI UK Edition | https://lahore-ai-uk.ai | rss=https://lahore-ai-uk.ai/feed | lang=en | region=UK | tags=ai,mlops,engineering | notes=Global AI coverage
+- Dhaka AI CA Edition | https://dhaka-ai-ca.ai | rss=https://dhaka-ai-ca.ai/feed | lang=en | region=CA | tags=ai,startup,venture | notes=Global AI coverage
+- Kathmandu AI FR Edition | https://kathmandu-ai-fr.ai | rss=https://kathmandu-ai-fr.ai/feed | lang=fr | region=FR | tags=ai,data-science,analytics | notes=Global AI coverage
+- Colombo AI DE Edition | https://colombo-ai-de.ai | rss=https://colombo-ai-de.ai/feed | lang=de | region=DE | tags=ai,healthcare,science | notes=Global AI coverage
+- Tehran AI SE Edition | https://tehran-ai-se.ai | rss=https://tehran-ai-se.ai/feed | lang=sv | region=SE | tags=ai,machine-learning,research | notes=Global AI coverage
+- Shiraz AI FI Edition | https://shiraz-ai-fi.ai | rss=https://shiraz-ai-fi.ai/feed | lang=fi | region=FI | tags=ai,llm,industry | notes=Global AI coverage
+- Tabriz AI NO Edition | https://tabriz-ai-no.ai | rss=https://tabriz-ai-no.ai/feed | lang=no | region=NO | tags=ai,robotics,innovation | notes=Global AI coverage
+- Mashhad AI DK Edition | https://mashhad-ai-dk.ai | rss=https://mashhad-ai-dk.ai/feed | lang=da | region=DK | tags=ai,policy,ethics | notes=Global AI coverage
+- Isfahan AI IS Edition | https://isfahan-ai-is.ai | rss=https://isfahan-ai-is.ai/feed | lang=is | region=IS | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Yerevan AI ZA Edition | https://yerevan-ai-za.ai | rss=https://yerevan-ai-za.ai/feed | lang=en | region=ZA | tags=ai,nlp,language | notes=Global AI coverage
+- Tbilisi AI NG Edition | https://tbilisi-ai-ng.ai | rss=https://tbilisi-ai-ng.ai/feed | lang=en | region=NG | tags=ai,mlops,engineering | notes=Global AI coverage
+- Baku AI KE Edition | https://baku-ai-ke.ai | rss=https://baku-ai-ke.ai/feed | lang=en | region=KE | tags=ai,startup,venture | notes=Global AI coverage
+- Almaty AI EG Edition | https://almaty-ai-eg.ai | rss=https://almaty-ai-eg.ai/feed | lang=ar | region=EG | tags=ai,data-science,analytics | notes=Global AI coverage
+- Astana AI AE Edition | https://astana-ai-ae.ai | rss=https://astana-ai-ae.ai/feed | lang=ar | region=AE | tags=ai,healthcare,science | notes=Global AI coverage
+- Bishkek AI QA Edition | https://bishkek-ai-qa.ai | rss=https://bishkek-ai-qa.ai/feed | lang=ar | region=QA | tags=ai,machine-learning,research | notes=Global AI coverage
+- Tashkent AI SA Edition | https://tashkent-ai-sa.ai | rss=https://tashkent-ai-sa.ai/feed | lang=ar | region=SA | tags=ai,llm,industry | notes=Global AI coverage
+- Ashgabat AI IR Edition | https://ashgabat-ai-ir.ai | rss=https://ashgabat-ai-ir.ai/feed | lang=fa | region=IR | tags=ai,robotics,innovation | notes=Global AI coverage
+- Ulaanbaatar AI TR Edition | https://ulaanbaatar-ai-tr.ai | rss=https://ulaanbaatar-ai-tr.ai/feed | lang=tr | region=TR | tags=ai,policy,ethics | notes=Global AI coverage
+- Hanoi AI IL Edition | https://hanoi-ai-il.ai | rss=https://hanoi-ai-il.ai/feed | lang=he | region=IL | tags=ai,vision,deep-learning | notes=Global AI coverage
+- OpenAI Blog IN Edition | https://openai-blog-in.ai | rss=https://openai-blog-in.ai/feed | lang=en | region=IN | tags=ai,nlp,language | notes=Global AI coverage
+- DeepMind Discover SG Edition | https://deepmind-discover-sg.ai | rss=https://deepmind-discover-sg.ai/feed | lang=en | region=SG | tags=ai,mlops,engineering | notes=Global AI coverage
+- Anthropic Newsroom MY Edition | https://anthropic-newsroom-my.ai | rss=https://anthropic-newsroom-my.ai/feed | lang=ms | region=MY | tags=ai,startup,venture | notes=Global AI coverage
+- Meta AI Research ID Edition | https://meta-ai-research-id.ai | rss=https://meta-ai-research-id.ai/feed | lang=id | region=ID | tags=ai,data-science,analytics | notes=Global AI coverage
+- Microsoft AI Blog TH Edition | https://microsoft-ai-blog-th.ai | rss=https://microsoft-ai-blog-th.ai/feed | lang=th | region=TH | tags=ai,healthcare,science | notes=Global AI coverage
+- Google AI VN Edition | https://google-ai-vn.ai | rss=https://google-ai-vn.ai/feed | lang=vi | region=VN | tags=ai,machine-learning,research | notes=Global AI coverage
+- Hugging Face Blog PH Edition | https://hugging-face-blog-ph.ai | rss=https://hugging-face-blog-ph.ai/feed | lang=en | region=PH | tags=ai,llm,industry | notes=Global AI coverage
+- NVIDIA AI News HK Edition | https://nvidia-ai-news-hk.ai | rss=https://nvidia-ai-news-hk.ai/feed | lang=zh | region=HK | tags=ai,robotics,innovation | notes=Global AI coverage
+- MIT AI Lab TW Edition | https://mit-ai-lab-tw.ai | rss=https://mit-ai-lab-tw.ai/feed | lang=zh | region=TW | tags=ai,policy,ethics | notes=Global AI coverage
+- Stanford HAI CN Edition | https://stanford-hai-cn.ai | rss=https://stanford-hai-cn.ai/feed | lang=zh | region=CN | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Berkeley AI Research JP Edition | https://berkeley-ai-research-jp.ai | rss=https://berkeley-ai-research-jp.ai/feed | lang=ja | region=JP | tags=ai,nlp,language | notes=Global AI coverage
+- Oxford AI KR Edition | https://oxford-ai-kr.ai | rss=https://oxford-ai-kr.ai/feed | lang=ko | region=KR | tags=ai,mlops,engineering | notes=Global AI coverage
+- Cambridge AI AU Edition | https://cambridge-ai-au.ai | rss=https://cambridge-ai-au.ai/feed | lang=en | region=AU | tags=ai,startup,venture | notes=Global AI coverage
+- Carnegie Mellon AI NZ Edition | https://carnegie-mellon-ai-nz.ai | rss=https://carnegie-mellon-ai-nz.ai/feed | lang=en | region=NZ | tags=ai,data-science,analytics | notes=Global AI coverage
+- Tsinghua AI Lab BR Edition | https://tsinghua-ai-lab-br.ai | rss=https://tsinghua-ai-lab-br.ai/feed | lang=pt | region=BR | tags=ai,healthcare,science | notes=Global AI coverage
+- Peking University AI AR Edition | https://peking-university-ai-ar.ai | rss=https://peking-university-ai-ar.ai/feed | lang=es | region=AR | tags=ai,machine-learning,research | notes=Global AI coverage
+- Tokyo AI Lab MX Edition | https://tokyo-ai-lab-mx.ai | rss=https://tokyo-ai-lab-mx.ai/feed | lang=es | region=MX | tags=ai,llm,industry | notes=Global AI coverage
+- Seoul AI Research ES Edition | https://seoul-ai-research-es.ai | rss=https://seoul-ai-research-es.ai/feed | lang=es | region=ES | tags=ai,robotics,innovation | notes=Global AI coverage
+- Singapore AI PT Edition | https://singapore-ai-pt.ai | rss=https://singapore-ai-pt.ai/feed | lang=pt | region=PT | tags=ai,policy,ethics | notes=Global AI coverage
+- Sydney AI Lab IT Edition | https://sydney-ai-lab-it.ai | rss=https://sydney-ai-lab-it.ai/feed | lang=it | region=IT | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Toronto AI CH Edition | https://toronto-ai-ch.ai | rss=https://toronto-ai-ch.ai/feed | lang=de | region=CH | tags=ai,nlp,language | notes=Global AI coverage
+- Montreal AI AT Edition | https://montreal-ai-at.ai | rss=https://montreal-ai-at.ai/feed | lang=de | region=AT | tags=ai,mlops,engineering | notes=Global AI coverage
+- Vancouver AI CZ Edition | https://vancouver-ai-cz.ai | rss=https://vancouver-ai-cz.ai/feed | lang=cs | region=CZ | tags=ai,startup,venture | notes=Global AI coverage
+- São Paulo AI PL Edition | https://são-paulo-ai-pl.ai | rss=https://são-paulo-ai-pl.ai/feed | lang=pl | region=PL | tags=ai,data-science,analytics | notes=Global AI coverage
+- Buenos Aires AI HU Edition | https://buenos-aires-ai-hu.ai | rss=https://buenos-aires-ai-hu.ai/feed | lang=hu | region=HU | tags=ai,healthcare,science | notes=Global AI coverage
+- Mexico City AI RO Edition | https://mexico-city-ai-ro.ai | rss=https://mexico-city-ai-ro.ai/feed | lang=ro | region=RO | tags=ai,machine-learning,research | notes=Global AI coverage
+- Madrid AI BG Edition | https://madrid-ai-bg.ai | rss=https://madrid-ai-bg.ai/feed | lang=bg | region=BG | tags=ai,llm,industry | notes=Global AI coverage
+- Barcelona AI GR Edition | https://barcelona-ai-gr.ai | rss=https://barcelona-ai-gr.ai/feed | lang=el | region=GR | tags=ai,robotics,innovation | notes=Global AI coverage
+- Paris AI Research RU Edition | https://paris-ai-research-ru.ai | rss=https://paris-ai-research-ru.ai/feed | lang=ru | region=RU | tags=ai,policy,ethics | notes=Global AI coverage
+- Berlin AI UA Edition | https://berlin-ai-ua.ai | rss=https://berlin-ai-ua.ai/feed | lang=uk | region=UA | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Munich AI BY Edition | https://munich-ai-by.ai | rss=https://munich-ai-by.ai/feed | lang=be | region=BY | tags=ai,nlp,language | notes=Global AI coverage
+- Zurich AI KZ Edition | https://zurich-ai-kz.ai | rss=https://zurich-ai-kz.ai/feed | lang=kk | region=KZ | tags=ai,mlops,engineering | notes=Global AI coverage
+- Vienna AI UZ Edition | https://vienna-ai-uz.ai | rss=https://vienna-ai-uz.ai/feed | lang=uz | region=UZ | tags=ai,startup,venture | notes=Global AI coverage
+- Warsaw AI PK Edition | https://warsaw-ai-pk.ai | rss=https://warsaw-ai-pk.ai/feed | lang=en | region=PK | tags=ai,data-science,analytics | notes=Global AI coverage
+- Prague AI BD Edition | https://prague-ai-bd.ai | rss=https://prague-ai-bd.ai/feed | lang=bn | region=BD | tags=ai,healthcare,science | notes=Global AI coverage
+- Stockholm AI LK Edition | https://stockholm-ai-lk.ai | rss=https://stockholm-ai-lk.ai/feed | lang=en | region=LK | tags=ai,machine-learning,research | notes=Global AI coverage
+- Helsinki AI NP Edition | https://helsinki-ai-np.ai | rss=https://helsinki-ai-np.ai/feed | lang=ne | region=NP | tags=ai,llm,industry | notes=Global AI coverage
+- Copenhagen AI AF Edition | https://copenhagen-ai-af.ai | rss=https://copenhagen-ai-af.ai/feed | lang=fa | region=AF | tags=ai,robotics,innovation | notes=Global AI coverage
+- Oslo AI DZ Edition | https://oslo-ai-dz.ai | rss=https://oslo-ai-dz.ai/feed | lang=ar | region=DZ | tags=ai,policy,ethics | notes=Global AI coverage
+- Reykjavik AI MA Edition | https://reykjavik-ai-ma.ai | rss=https://reykjavik-ai-ma.ai/feed | lang=ar | region=MA | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Cape Town AI TN Edition | https://cape-town-ai-tn.ai | rss=https://cape-town-ai-tn.ai/feed | lang=ar | region=TN | tags=ai,nlp,language | notes=Global AI coverage
+- Johannesburg AI ET Edition | https://johannesburg-ai-et.ai | rss=https://johannesburg-ai-et.ai/feed | lang=en | region=ET | tags=ai,mlops,engineering | notes=Global AI coverage
+- Nairobi AI GH Edition | https://nairobi-ai-gh.ai | rss=https://nairobi-ai-gh.ai/feed | lang=en | region=GH | tags=ai,startup,venture | notes=Global AI coverage
+- Lagos AI TZ Edition | https://lagos-ai-tz.ai | rss=https://lagos-ai-tz.ai/feed | lang=en | region=TZ | tags=ai,data-science,analytics | notes=Global AI coverage
+- Cairo AI US Edition | https://cairo-ai-us.ai | rss=https://cairo-ai-us.ai/feed | lang=en | region=US | tags=ai,healthcare,science | notes=Global AI coverage
+- Dubai AI UK Edition | https://dubai-ai-uk.ai | rss=https://dubai-ai-uk.ai/feed | lang=en | region=UK | tags=ai,machine-learning,research | notes=Global AI coverage
+- Abu Dhabi AI CA Edition | https://abu-dhabi-ai-ca.ai | rss=https://abu-dhabi-ai-ca.ai/feed | lang=en | region=CA | tags=ai,llm,industry | notes=Global AI coverage
+- Doha AI FR Edition | https://doha-ai-fr.ai | rss=https://doha-ai-fr.ai/feed | lang=fr | region=FR | tags=ai,robotics,innovation | notes=Global AI coverage
+- Riyadh AI DE Edition | https://riyadh-ai-de.ai | rss=https://riyadh-ai-de.ai/feed | lang=de | region=DE | tags=ai,policy,ethics | notes=Global AI coverage
+- Tel Aviv AI SE Edition | https://tel-aviv-ai-se.ai | rss=https://tel-aviv-ai-se.ai/feed | lang=sv | region=SE | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Istanbul AI FI Edition | https://istanbul-ai-fi.ai | rss=https://istanbul-ai-fi.ai/feed | lang=fi | region=FI | tags=ai,nlp,language | notes=Global AI coverage
+- Bangalore AI NO Edition | https://bangalore-ai-no.ai | rss=https://bangalore-ai-no.ai/feed | lang=no | region=NO | tags=ai,mlops,engineering | notes=Global AI coverage
+- Delhi AI DK Edition | https://delhi-ai-dk.ai | rss=https://delhi-ai-dk.ai/feed | lang=da | region=DK | tags=ai,startup,venture | notes=Global AI coverage
+- Mumbai AI IS Edition | https://mumbai-ai-is.ai | rss=https://mumbai-ai-is.ai/feed | lang=is | region=IS | tags=ai,data-science,analytics | notes=Global AI coverage
+- Chennai AI ZA Edition | https://chennai-ai-za.ai | rss=https://chennai-ai-za.ai/feed | lang=en | region=ZA | tags=ai,healthcare,science | notes=Global AI coverage
+- Hyderabad AI NG Edition | https://hyderabad-ai-ng.ai | rss=https://hyderabad-ai-ng.ai/feed | lang=en | region=NG | tags=ai,machine-learning,research | notes=Global AI coverage
+- Kolkata AI KE Edition | https://kolkata-ai-ke.ai | rss=https://kolkata-ai-ke.ai/feed | lang=en | region=KE | tags=ai,llm,industry | notes=Global AI coverage
+- Jakarta AI EG Edition | https://jakarta-ai-eg.ai | rss=https://jakarta-ai-eg.ai/feed | lang=ar | region=EG | tags=ai,robotics,innovation | notes=Global AI coverage
+- Bangkok AI AE Edition | https://bangkok-ai-ae.ai | rss=https://bangkok-ai-ae.ai/feed | lang=ar | region=AE | tags=ai,policy,ethics | notes=Global AI coverage
+- Kuala Lumpur AI QA Edition | https://kuala-lumpur-ai-qa.ai | rss=https://kuala-lumpur-ai-qa.ai/feed | lang=ar | region=QA | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Ho Chi Minh AI SA Edition | https://ho-chi-minh-ai-sa.ai | rss=https://ho-chi-minh-ai-sa.ai/feed | lang=ar | region=SA | tags=ai,nlp,language | notes=Global AI coverage
+- Manila AI IR Edition | https://manila-ai-ir.ai | rss=https://manila-ai-ir.ai/feed | lang=fa | region=IR | tags=ai,mlops,engineering | notes=Global AI coverage
+- Hong Kong AI TR Edition | https://hong-kong-ai-tr.ai | rss=https://hong-kong-ai-tr.ai/feed | lang=tr | region=TR | tags=ai,startup,venture | notes=Global AI coverage
+- Taipei AI IL Edition | https://taipei-ai-il.ai | rss=https://taipei-ai-il.ai/feed | lang=he | region=IL | tags=ai,data-science,analytics | notes=Global AI coverage
+- Shenzhen AI IN Edition | https://shenzhen-ai-in.ai | rss=https://shenzhen-ai-in.ai/feed | lang=en | region=IN | tags=ai,healthcare,science | notes=Global AI coverage
+- Guangzhou AI SG Edition | https://guangzhou-ai-sg.ai | rss=https://guangzhou-ai-sg.ai/feed | lang=en | region=SG | tags=ai,machine-learning,research | notes=Global AI coverage
+- Chengdu AI MY Edition | https://chengdu-ai-my.ai | rss=https://chengdu-ai-my.ai/feed | lang=ms | region=MY | tags=ai,llm,industry | notes=Global AI coverage
+- Beijing AI ID Edition | https://beijing-ai-id.ai | rss=https://beijing-ai-id.ai/feed | lang=id | region=ID | tags=ai,robotics,innovation | notes=Global AI coverage
+- Shanghai AI TH Edition | https://shanghai-ai-th.ai | rss=https://shanghai-ai-th.ai/feed | lang=th | region=TH | tags=ai,policy,ethics | notes=Global AI coverage
+- Shenyang AI VN Edition | https://shenyang-ai-vn.ai | rss=https://shenyang-ai-vn.ai/feed | lang=vi | region=VN | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Wuhan AI PH Edition | https://wuhan-ai-ph.ai | rss=https://wuhan-ai-ph.ai/feed | lang=en | region=PH | tags=ai,nlp,language | notes=Global AI coverage
+- Xi'an AI HK Edition | https://xian-ai-hk.ai | rss=https://xian-ai-hk.ai/feed | lang=zh | region=HK | tags=ai,mlops,engineering | notes=Global AI coverage
+- Chongqing AI TW Edition | https://chongqing-ai-tw.ai | rss=https://chongqing-ai-tw.ai/feed | lang=zh | region=TW | tags=ai,startup,venture | notes=Global AI coverage
+- Nanjing AI CN Edition | https://nanjing-ai-cn.ai | rss=https://nanjing-ai-cn.ai/feed | lang=zh | region=CN | tags=ai,data-science,analytics | notes=Global AI coverage
+- Hangzhou AI JP Edition | https://hangzhou-ai-jp.ai | rss=https://hangzhou-ai-jp.ai/feed | lang=ja | region=JP | tags=ai,healthcare,science | notes=Global AI coverage
+- Suzhou AI KR Edition | https://suzhou-ai-kr.ai | rss=https://suzhou-ai-kr.ai/feed | lang=ko | region=KR | tags=ai,machine-learning,research | notes=Global AI coverage
+- Changsha AI AU Edition | https://changsha-ai-au.ai | rss=https://changsha-ai-au.ai/feed | lang=en | region=AU | tags=ai,llm,industry | notes=Global AI coverage
+- Harbin AI NZ Edition | https://harbin-ai-nz.ai | rss=https://harbin-ai-nz.ai/feed | lang=en | region=NZ | tags=ai,robotics,innovation | notes=Global AI coverage
+- Kunming AI BR Edition | https://kunming-ai-br.ai | rss=https://kunming-ai-br.ai/feed | lang=pt | region=BR | tags=ai,policy,ethics | notes=Global AI coverage
+- Urumqi AI AR Edition | https://urumqi-ai-ar.ai | rss=https://urumqi-ai-ar.ai/feed | lang=es | region=AR | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Islamabad AI MX Edition | https://islamabad-ai-mx.ai | rss=https://islamabad-ai-mx.ai/feed | lang=es | region=MX | tags=ai,nlp,language | notes=Global AI coverage
+- Karachi AI ES Edition | https://karachi-ai-es.ai | rss=https://karachi-ai-es.ai/feed | lang=es | region=ES | tags=ai,mlops,engineering | notes=Global AI coverage
+- Lahore AI PT Edition | https://lahore-ai-pt.ai | rss=https://lahore-ai-pt.ai/feed | lang=pt | region=PT | tags=ai,startup,venture | notes=Global AI coverage
+- Dhaka AI IT Edition | https://dhaka-ai-it.ai | rss=https://dhaka-ai-it.ai/feed | lang=it | region=IT | tags=ai,data-science,analytics | notes=Global AI coverage
+- Kathmandu AI CH Edition | https://kathmandu-ai-ch.ai | rss=https://kathmandu-ai-ch.ai/feed | lang=de | region=CH | tags=ai,healthcare,science | notes=Global AI coverage
+- Colombo AI AT Edition | https://colombo-ai-at.ai | rss=https://colombo-ai-at.ai/feed | lang=de | region=AT | tags=ai,machine-learning,research | notes=Global AI coverage
+- Tehran AI CZ Edition | https://tehran-ai-cz.ai | rss=https://tehran-ai-cz.ai/feed | lang=cs | region=CZ | tags=ai,llm,industry | notes=Global AI coverage
+- Shiraz AI PL Edition | https://shiraz-ai-pl.ai | rss=https://shiraz-ai-pl.ai/feed | lang=pl | region=PL | tags=ai,robotics,innovation | notes=Global AI coverage
+- Tabriz AI HU Edition | https://tabriz-ai-hu.ai | rss=https://tabriz-ai-hu.ai/feed | lang=hu | region=HU | tags=ai,policy,ethics | notes=Global AI coverage
+- Mashhad AI RO Edition | https://mashhad-ai-ro.ai | rss=https://mashhad-ai-ro.ai/feed | lang=ro | region=RO | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Isfahan AI BG Edition | https://isfahan-ai-bg.ai | rss=https://isfahan-ai-bg.ai/feed | lang=bg | region=BG | tags=ai,nlp,language | notes=Global AI coverage
+- Yerevan AI GR Edition | https://yerevan-ai-gr.ai | rss=https://yerevan-ai-gr.ai/feed | lang=el | region=GR | tags=ai,mlops,engineering | notes=Global AI coverage
+- Tbilisi AI RU Edition | https://tbilisi-ai-ru.ai | rss=https://tbilisi-ai-ru.ai/feed | lang=ru | region=RU | tags=ai,startup,venture | notes=Global AI coverage
+- Baku AI UA Edition | https://baku-ai-ua.ai | rss=https://baku-ai-ua.ai/feed | lang=uk | region=UA | tags=ai,data-science,analytics | notes=Global AI coverage
+- Almaty AI BY Edition | https://almaty-ai-by.ai | rss=https://almaty-ai-by.ai/feed | lang=be | region=BY | tags=ai,healthcare,science | notes=Global AI coverage
+- Astana AI KZ Edition | https://astana-ai-kz.ai | rss=https://astana-ai-kz.ai/feed | lang=kk | region=KZ | tags=ai,machine-learning,research | notes=Global AI coverage
+- Bishkek AI UZ Edition | https://bishkek-ai-uz.ai | rss=https://bishkek-ai-uz.ai/feed | lang=uz | region=UZ | tags=ai,llm,industry | notes=Global AI coverage
+- Tashkent AI PK Edition | https://tashkent-ai-pk.ai | rss=https://tashkent-ai-pk.ai/feed | lang=en | region=PK | tags=ai,robotics,innovation | notes=Global AI coverage
+- Ashgabat AI BD Edition | https://ashgabat-ai-bd.ai | rss=https://ashgabat-ai-bd.ai/feed | lang=bn | region=BD | tags=ai,policy,ethics | notes=Global AI coverage
+- Ulaanbaatar AI LK Edition | https://ulaanbaatar-ai-lk.ai | rss=https://ulaanbaatar-ai-lk.ai/feed | lang=en | region=LK | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Hanoi AI NP Edition | https://hanoi-ai-np.ai | rss=https://hanoi-ai-np.ai/feed | lang=ne | region=NP | tags=ai,nlp,language | notes=Global AI coverage
+- OpenAI Blog AF Edition | https://openai-blog-af.ai | rss=https://openai-blog-af.ai/feed | lang=fa | region=AF | tags=ai,mlops,engineering | notes=Global AI coverage
+- DeepMind Discover DZ Edition | https://deepmind-discover-dz.ai | rss=https://deepmind-discover-dz.ai/feed | lang=ar | region=DZ | tags=ai,startup,venture | notes=Global AI coverage
+- Anthropic Newsroom MA Edition | https://anthropic-newsroom-ma.ai | rss=https://anthropic-newsroom-ma.ai/feed | lang=ar | region=MA | tags=ai,data-science,analytics | notes=Global AI coverage
+- Meta AI Research TN Edition | https://meta-ai-research-tn.ai | rss=https://meta-ai-research-tn.ai/feed | lang=ar | region=TN | tags=ai,healthcare,science | notes=Global AI coverage
+- Microsoft AI Blog ET Edition | https://microsoft-ai-blog-et.ai | rss=https://microsoft-ai-blog-et.ai/feed | lang=en | region=ET | tags=ai,machine-learning,research | notes=Global AI coverage
+- Google AI GH Edition | https://google-ai-gh.ai | rss=https://google-ai-gh.ai/feed | lang=en | region=GH | tags=ai,llm,industry | notes=Global AI coverage
+- Hugging Face Blog TZ Edition | https://hugging-face-blog-tz.ai | rss=https://hugging-face-blog-tz.ai/feed | lang=en | region=TZ | tags=ai,robotics,innovation | notes=Global AI coverage
+- NVIDIA AI News US Edition | https://nvidia-ai-news-us.ai | rss=https://nvidia-ai-news-us.ai/feed | lang=en | region=US | tags=ai,policy,ethics | notes=Global AI coverage
+- MIT AI Lab UK Edition | https://mit-ai-lab-uk.ai | rss=https://mit-ai-lab-uk.ai/feed | lang=en | region=UK | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Stanford HAI CA Edition | https://stanford-hai-ca.ai | rss=https://stanford-hai-ca.ai/feed | lang=en | region=CA | tags=ai,nlp,language | notes=Global AI coverage
+- Berkeley AI Research FR Edition | https://berkeley-ai-research-fr.ai | rss=https://berkeley-ai-research-fr.ai/feed | lang=fr | region=FR | tags=ai,mlops,engineering | notes=Global AI coverage
+- Oxford AI DE Edition | https://oxford-ai-de.ai | rss=https://oxford-ai-de.ai/feed | lang=de | region=DE | tags=ai,startup,venture | notes=Global AI coverage
+- Cambridge AI SE Edition | https://cambridge-ai-se.ai | rss=https://cambridge-ai-se.ai/feed | lang=sv | region=SE | tags=ai,data-science,analytics | notes=Global AI coverage
+- Carnegie Mellon AI FI Edition | https://carnegie-mellon-ai-fi.ai | rss=https://carnegie-mellon-ai-fi.ai/feed | lang=fi | region=FI | tags=ai,healthcare,science | notes=Global AI coverage
+- Tsinghua AI Lab NO Edition | https://tsinghua-ai-lab-no.ai | rss=https://tsinghua-ai-lab-no.ai/feed | lang=no | region=NO | tags=ai,machine-learning,research | notes=Global AI coverage
+- Peking University AI DK Edition | https://peking-university-ai-dk.ai | rss=https://peking-university-ai-dk.ai/feed | lang=da | region=DK | tags=ai,llm,industry | notes=Global AI coverage
+- Tokyo AI Lab IS Edition | https://tokyo-ai-lab-is.ai | rss=https://tokyo-ai-lab-is.ai/feed | lang=is | region=IS | tags=ai,robotics,innovation | notes=Global AI coverage
+- Seoul AI Research ZA Edition | https://seoul-ai-research-za.ai | rss=https://seoul-ai-research-za.ai/feed | lang=en | region=ZA | tags=ai,policy,ethics | notes=Global AI coverage
+- Singapore AI NG Edition | https://singapore-ai-ng.ai | rss=https://singapore-ai-ng.ai/feed | lang=en | region=NG | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Sydney AI Lab KE Edition | https://sydney-ai-lab-ke.ai | rss=https://sydney-ai-lab-ke.ai/feed | lang=en | region=KE | tags=ai,nlp,language | notes=Global AI coverage
+- Toronto AI EG Edition | https://toronto-ai-eg.ai | rss=https://toronto-ai-eg.ai/feed | lang=ar | region=EG | tags=ai,mlops,engineering | notes=Global AI coverage
+- Montreal AI AE Edition | https://montreal-ai-ae.ai | rss=https://montreal-ai-ae.ai/feed | lang=ar | region=AE | tags=ai,startup,venture | notes=Global AI coverage
+- Vancouver AI QA Edition | https://vancouver-ai-qa.ai | rss=https://vancouver-ai-qa.ai/feed | lang=ar | region=QA | tags=ai,data-science,analytics | notes=Global AI coverage
+- São Paulo AI SA Edition | https://são-paulo-ai-sa.ai | rss=https://são-paulo-ai-sa.ai/feed | lang=ar | region=SA | tags=ai,healthcare,science | notes=Global AI coverage
+- Buenos Aires AI IR Edition | https://buenos-aires-ai-ir.ai | rss=https://buenos-aires-ai-ir.ai/feed | lang=fa | region=IR | tags=ai,machine-learning,research | notes=Global AI coverage
+- Mexico City AI TR Edition | https://mexico-city-ai-tr.ai | rss=https://mexico-city-ai-tr.ai/feed | lang=tr | region=TR | tags=ai,llm,industry | notes=Global AI coverage
+- Madrid AI IL Edition | https://madrid-ai-il.ai | rss=https://madrid-ai-il.ai/feed | lang=he | region=IL | tags=ai,robotics,innovation | notes=Global AI coverage
+- Barcelona AI IN Edition | https://barcelona-ai-in.ai | rss=https://barcelona-ai-in.ai/feed | lang=en | region=IN | tags=ai,policy,ethics | notes=Global AI coverage
+- Paris AI Research SG Edition | https://paris-ai-research-sg.ai | rss=https://paris-ai-research-sg.ai/feed | lang=en | region=SG | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Berlin AI MY Edition | https://berlin-ai-my.ai | rss=https://berlin-ai-my.ai/feed | lang=ms | region=MY | tags=ai,nlp,language | notes=Global AI coverage
+- Munich AI ID Edition | https://munich-ai-id.ai | rss=https://munich-ai-id.ai/feed | lang=id | region=ID | tags=ai,mlops,engineering | notes=Global AI coverage
+- Zurich AI TH Edition | https://zurich-ai-th.ai | rss=https://zurich-ai-th.ai/feed | lang=th | region=TH | tags=ai,startup,venture | notes=Global AI coverage
+- Vienna AI VN Edition | https://vienna-ai-vn.ai | rss=https://vienna-ai-vn.ai/feed | lang=vi | region=VN | tags=ai,data-science,analytics | notes=Global AI coverage
+- Warsaw AI PH Edition | https://warsaw-ai-ph.ai | rss=https://warsaw-ai-ph.ai/feed | lang=en | region=PH | tags=ai,healthcare,science | notes=Global AI coverage
+- Prague AI HK Edition | https://prague-ai-hk.ai | rss=https://prague-ai-hk.ai/feed | lang=zh | region=HK | tags=ai,machine-learning,research | notes=Global AI coverage
+- Stockholm AI TW Edition | https://stockholm-ai-tw.ai | rss=https://stockholm-ai-tw.ai/feed | lang=zh | region=TW | tags=ai,llm,industry | notes=Global AI coverage
+- Helsinki AI CN Edition | https://helsinki-ai-cn.ai | rss=https://helsinki-ai-cn.ai/feed | lang=zh | region=CN | tags=ai,robotics,innovation | notes=Global AI coverage
+- Copenhagen AI JP Edition | https://copenhagen-ai-jp.ai | rss=https://copenhagen-ai-jp.ai/feed | lang=ja | region=JP | tags=ai,policy,ethics | notes=Global AI coverage
+- Oslo AI KR Edition | https://oslo-ai-kr.ai | rss=https://oslo-ai-kr.ai/feed | lang=ko | region=KR | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Reykjavik AI AU Edition | https://reykjavik-ai-au.ai | rss=https://reykjavik-ai-au.ai/feed | lang=en | region=AU | tags=ai,nlp,language | notes=Global AI coverage
+- Cape Town AI NZ Edition | https://cape-town-ai-nz.ai | rss=https://cape-town-ai-nz.ai/feed | lang=en | region=NZ | tags=ai,mlops,engineering | notes=Global AI coverage
+- Johannesburg AI BR Edition | https://johannesburg-ai-br.ai | rss=https://johannesburg-ai-br.ai/feed | lang=pt | region=BR | tags=ai,startup,venture | notes=Global AI coverage
+- Nairobi AI AR Edition | https://nairobi-ai-ar.ai | rss=https://nairobi-ai-ar.ai/feed | lang=es | region=AR | tags=ai,data-science,analytics | notes=Global AI coverage
+- Lagos AI MX Edition | https://lagos-ai-mx.ai | rss=https://lagos-ai-mx.ai/feed | lang=es | region=MX | tags=ai,healthcare,science | notes=Global AI coverage
+- Cairo AI ES Edition | https://cairo-ai-es.ai | rss=https://cairo-ai-es.ai/feed | lang=es | region=ES | tags=ai,machine-learning,research | notes=Global AI coverage
+- Dubai AI PT Edition | https://dubai-ai-pt.ai | rss=https://dubai-ai-pt.ai/feed | lang=pt | region=PT | tags=ai,llm,industry | notes=Global AI coverage
+- Abu Dhabi AI IT Edition | https://abu-dhabi-ai-it.ai | rss=https://abu-dhabi-ai-it.ai/feed | lang=it | region=IT | tags=ai,robotics,innovation | notes=Global AI coverage
+- Doha AI CH Edition | https://doha-ai-ch.ai | rss=https://doha-ai-ch.ai/feed | lang=de | region=CH | tags=ai,policy,ethics | notes=Global AI coverage
+- Riyadh AI AT Edition | https://riyadh-ai-at.ai | rss=https://riyadh-ai-at.ai/feed | lang=de | region=AT | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Tel Aviv AI CZ Edition | https://tel-aviv-ai-cz.ai | rss=https://tel-aviv-ai-cz.ai/feed | lang=cs | region=CZ | tags=ai,nlp,language | notes=Global AI coverage
+- Istanbul AI PL Edition | https://istanbul-ai-pl.ai | rss=https://istanbul-ai-pl.ai/feed | lang=pl | region=PL | tags=ai,mlops,engineering | notes=Global AI coverage
+- Bangalore AI HU Edition | https://bangalore-ai-hu.ai | rss=https://bangalore-ai-hu.ai/feed | lang=hu | region=HU | tags=ai,startup,venture | notes=Global AI coverage
+- Delhi AI RO Edition | https://delhi-ai-ro.ai | rss=https://delhi-ai-ro.ai/feed | lang=ro | region=RO | tags=ai,data-science,analytics | notes=Global AI coverage
+- Mumbai AI BG Edition | https://mumbai-ai-bg.ai | rss=https://mumbai-ai-bg.ai/feed | lang=bg | region=BG | tags=ai,healthcare,science | notes=Global AI coverage
+- Chennai AI GR Edition | https://chennai-ai-gr.ai | rss=https://chennai-ai-gr.ai/feed | lang=el | region=GR | tags=ai,machine-learning,research | notes=Global AI coverage
+- Hyderabad AI RU Edition | https://hyderabad-ai-ru.ai | rss=https://hyderabad-ai-ru.ai/feed | lang=ru | region=RU | tags=ai,llm,industry | notes=Global AI coverage
+- Kolkata AI UA Edition | https://kolkata-ai-ua.ai | rss=https://kolkata-ai-ua.ai/feed | lang=uk | region=UA | tags=ai,robotics,innovation | notes=Global AI coverage
+- Jakarta AI BY Edition | https://jakarta-ai-by.ai | rss=https://jakarta-ai-by.ai/feed | lang=be | region=BY | tags=ai,policy,ethics | notes=Global AI coverage
+- Bangkok AI KZ Edition | https://bangkok-ai-kz.ai | rss=https://bangkok-ai-kz.ai/feed | lang=kk | region=KZ | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Kuala Lumpur AI UZ Edition | https://kuala-lumpur-ai-uz.ai | rss=https://kuala-lumpur-ai-uz.ai/feed | lang=uz | region=UZ | tags=ai,nlp,language | notes=Global AI coverage
+- Ho Chi Minh AI PK Edition | https://ho-chi-minh-ai-pk.ai | rss=https://ho-chi-minh-ai-pk.ai/feed | lang=en | region=PK | tags=ai,mlops,engineering | notes=Global AI coverage
+- Manila AI BD Edition | https://manila-ai-bd.ai | rss=https://manila-ai-bd.ai/feed | lang=bn | region=BD | tags=ai,startup,venture | notes=Global AI coverage
+- Hong Kong AI LK Edition | https://hong-kong-ai-lk.ai | rss=https://hong-kong-ai-lk.ai/feed | lang=en | region=LK | tags=ai,data-science,analytics | notes=Global AI coverage
+- Taipei AI NP Edition | https://taipei-ai-np.ai | rss=https://taipei-ai-np.ai/feed | lang=ne | region=NP | tags=ai,healthcare,science | notes=Global AI coverage
+- Shenzhen AI AF Edition | https://shenzhen-ai-af.ai | rss=https://shenzhen-ai-af.ai/feed | lang=fa | region=AF | tags=ai,machine-learning,research | notes=Global AI coverage
+- Guangzhou AI DZ Edition | https://guangzhou-ai-dz.ai | rss=https://guangzhou-ai-dz.ai/feed | lang=ar | region=DZ | tags=ai,llm,industry | notes=Global AI coverage
+- Chengdu AI MA Edition | https://chengdu-ai-ma.ai | rss=https://chengdu-ai-ma.ai/feed | lang=ar | region=MA | tags=ai,robotics,innovation | notes=Global AI coverage
+- Beijing AI TN Edition | https://beijing-ai-tn.ai | rss=https://beijing-ai-tn.ai/feed | lang=ar | region=TN | tags=ai,policy,ethics | notes=Global AI coverage
+- Shanghai AI ET Edition | https://shanghai-ai-et.ai | rss=https://shanghai-ai-et.ai/feed | lang=en | region=ET | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Shenyang AI GH Edition | https://shenyang-ai-gh.ai | rss=https://shenyang-ai-gh.ai/feed | lang=en | region=GH | tags=ai,nlp,language | notes=Global AI coverage
+- Wuhan AI TZ Edition | https://wuhan-ai-tz.ai | rss=https://wuhan-ai-tz.ai/feed | lang=en | region=TZ | tags=ai,mlops,engineering | notes=Global AI coverage
+- Xi'an AI US Edition | https://xian-ai-us.ai | rss=https://xian-ai-us.ai/feed | lang=en | region=US | tags=ai,startup,venture | notes=Global AI coverage
+- Chongqing AI UK Edition | https://chongqing-ai-uk.ai | rss=https://chongqing-ai-uk.ai/feed | lang=en | region=UK | tags=ai,data-science,analytics | notes=Global AI coverage
+- Nanjing AI CA Edition | https://nanjing-ai-ca.ai | rss=https://nanjing-ai-ca.ai/feed | lang=en | region=CA | tags=ai,healthcare,science | notes=Global AI coverage
+- Hangzhou AI FR Edition | https://hangzhou-ai-fr.ai | rss=https://hangzhou-ai-fr.ai/feed | lang=fr | region=FR | tags=ai,machine-learning,research | notes=Global AI coverage
+- Suzhou AI DE Edition | https://suzhou-ai-de.ai | rss=https://suzhou-ai-de.ai/feed | lang=de | region=DE | tags=ai,llm,industry | notes=Global AI coverage
+- Changsha AI SE Edition | https://changsha-ai-se.ai | rss=https://changsha-ai-se.ai/feed | lang=sv | region=SE | tags=ai,robotics,innovation | notes=Global AI coverage
+- Harbin AI FI Edition | https://harbin-ai-fi.ai | rss=https://harbin-ai-fi.ai/feed | lang=fi | region=FI | tags=ai,policy,ethics | notes=Global AI coverage
+- Kunming AI NO Edition | https://kunming-ai-no.ai | rss=https://kunming-ai-no.ai/feed | lang=no | region=NO | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Urumqi AI DK Edition | https://urumqi-ai-dk.ai | rss=https://urumqi-ai-dk.ai/feed | lang=da | region=DK | tags=ai,nlp,language | notes=Global AI coverage
+- Islamabad AI IS Edition | https://islamabad-ai-is.ai | rss=https://islamabad-ai-is.ai/feed | lang=is | region=IS | tags=ai,mlops,engineering | notes=Global AI coverage
+- Karachi AI ZA Edition | https://karachi-ai-za.ai | rss=https://karachi-ai-za.ai/feed | lang=en | region=ZA | tags=ai,startup,venture | notes=Global AI coverage
+- Lahore AI NG Edition | https://lahore-ai-ng.ai | rss=https://lahore-ai-ng.ai/feed | lang=en | region=NG | tags=ai,data-science,analytics | notes=Global AI coverage
+- Dhaka AI KE Edition | https://dhaka-ai-ke.ai | rss=https://dhaka-ai-ke.ai/feed | lang=en | region=KE | tags=ai,healthcare,science | notes=Global AI coverage
+- Kathmandu AI EG Edition | https://kathmandu-ai-eg.ai | rss=https://kathmandu-ai-eg.ai/feed | lang=ar | region=EG | tags=ai,machine-learning,research | notes=Global AI coverage
+- Colombo AI AE Edition | https://colombo-ai-ae.ai | rss=https://colombo-ai-ae.ai/feed | lang=ar | region=AE | tags=ai,llm,industry | notes=Global AI coverage
+- Tehran AI QA Edition | https://tehran-ai-qa.ai | rss=https://tehran-ai-qa.ai/feed | lang=ar | region=QA | tags=ai,robotics,innovation | notes=Global AI coverage
+- Shiraz AI SA Edition | https://shiraz-ai-sa.ai | rss=https://shiraz-ai-sa.ai/feed | lang=ar | region=SA | tags=ai,policy,ethics | notes=Global AI coverage
+- Tabriz AI IR Edition | https://tabriz-ai-ir.ai | rss=https://tabriz-ai-ir.ai/feed | lang=fa | region=IR | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Mashhad AI TR Edition | https://mashhad-ai-tr.ai | rss=https://mashhad-ai-tr.ai/feed | lang=tr | region=TR | tags=ai,nlp,language | notes=Global AI coverage
+- Isfahan AI IL Edition | https://isfahan-ai-il.ai | rss=https://isfahan-ai-il.ai/feed | lang=he | region=IL | tags=ai,mlops,engineering | notes=Global AI coverage
+- Yerevan AI IN Edition | https://yerevan-ai-in.ai | rss=https://yerevan-ai-in.ai/feed | lang=en | region=IN | tags=ai,startup,venture | notes=Global AI coverage
+- Tbilisi AI SG Edition | https://tbilisi-ai-sg.ai | rss=https://tbilisi-ai-sg.ai/feed | lang=en | region=SG | tags=ai,data-science,analytics | notes=Global AI coverage
+- Baku AI MY Edition | https://baku-ai-my.ai | rss=https://baku-ai-my.ai/feed | lang=ms | region=MY | tags=ai,healthcare,science | notes=Global AI coverage
+- Almaty AI ID Edition | https://almaty-ai-id.ai | rss=https://almaty-ai-id.ai/feed | lang=id | region=ID | tags=ai,machine-learning,research | notes=Global AI coverage
+- Astana AI TH Edition | https://astana-ai-th.ai | rss=https://astana-ai-th.ai/feed | lang=th | region=TH | tags=ai,llm,industry | notes=Global AI coverage
+- Bishkek AI VN Edition | https://bishkek-ai-vn.ai | rss=https://bishkek-ai-vn.ai/feed | lang=vi | region=VN | tags=ai,robotics,innovation | notes=Global AI coverage
+- Tashkent AI PH Edition | https://tashkent-ai-ph.ai | rss=https://tashkent-ai-ph.ai/feed | lang=en | region=PH | tags=ai,policy,ethics | notes=Global AI coverage
+- Ashgabat AI HK Edition | https://ashgabat-ai-hk.ai | rss=https://ashgabat-ai-hk.ai/feed | lang=zh | region=HK | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Ulaanbaatar AI TW Edition | https://ulaanbaatar-ai-tw.ai | rss=https://ulaanbaatar-ai-tw.ai/feed | lang=zh | region=TW | tags=ai,nlp,language | notes=Global AI coverage
+- Hanoi AI CN Edition | https://hanoi-ai-cn.ai | rss=https://hanoi-ai-cn.ai/feed | lang=zh | region=CN | tags=ai,mlops,engineering | notes=Global AI coverage
+- OpenAI Blog JP Edition | https://openai-blog-jp.ai | rss=https://openai-blog-jp.ai/feed | lang=ja | region=JP | tags=ai,startup,venture | notes=Global AI coverage
+- DeepMind Discover KR Edition | https://deepmind-discover-kr.ai | rss=https://deepmind-discover-kr.ai/feed | lang=ko | region=KR | tags=ai,data-science,analytics | notes=Global AI coverage
+- Anthropic Newsroom AU Edition | https://anthropic-newsroom-au.ai | rss=https://anthropic-newsroom-au.ai/feed | lang=en | region=AU | tags=ai,healthcare,science | notes=Global AI coverage
+- Meta AI Research NZ Edition | https://meta-ai-research-nz.ai | rss=https://meta-ai-research-nz.ai/feed | lang=en | region=NZ | tags=ai,machine-learning,research | notes=Global AI coverage
+- Microsoft AI Blog BR Edition | https://microsoft-ai-blog-br.ai | rss=https://microsoft-ai-blog-br.ai/feed | lang=pt | region=BR | tags=ai,llm,industry | notes=Global AI coverage
+- Google AI AR Edition | https://google-ai-ar.ai | rss=https://google-ai-ar.ai/feed | lang=es | region=AR | tags=ai,robotics,innovation | notes=Global AI coverage
+- Hugging Face Blog MX Edition | https://hugging-face-blog-mx.ai | rss=https://hugging-face-blog-mx.ai/feed | lang=es | region=MX | tags=ai,policy,ethics | notes=Global AI coverage
+- NVIDIA AI News ES Edition | https://nvidia-ai-news-es.ai | rss=https://nvidia-ai-news-es.ai/feed | lang=es | region=ES | tags=ai,vision,deep-learning | notes=Global AI coverage
+- MIT AI Lab PT Edition | https://mit-ai-lab-pt.ai | rss=https://mit-ai-lab-pt.ai/feed | lang=pt | region=PT | tags=ai,nlp,language | notes=Global AI coverage
+- Stanford HAI IT Edition | https://stanford-hai-it.ai | rss=https://stanford-hai-it.ai/feed | lang=it | region=IT | tags=ai,mlops,engineering | notes=Global AI coverage
+- Berkeley AI Research CH Edition | https://berkeley-ai-research-ch.ai | rss=https://berkeley-ai-research-ch.ai/feed | lang=de | region=CH | tags=ai,startup,venture | notes=Global AI coverage
+- Oxford AI AT Edition | https://oxford-ai-at.ai | rss=https://oxford-ai-at.ai/feed | lang=de | region=AT | tags=ai,data-science,analytics | notes=Global AI coverage
+- Cambridge AI CZ Edition | https://cambridge-ai-cz.ai | rss=https://cambridge-ai-cz.ai/feed | lang=cs | region=CZ | tags=ai,healthcare,science | notes=Global AI coverage
+- Carnegie Mellon AI PL Edition | https://carnegie-mellon-ai-pl.ai | rss=https://carnegie-mellon-ai-pl.ai/feed | lang=pl | region=PL | tags=ai,machine-learning,research | notes=Global AI coverage
+- Tsinghua AI Lab HU Edition | https://tsinghua-ai-lab-hu.ai | rss=https://tsinghua-ai-lab-hu.ai/feed | lang=hu | region=HU | tags=ai,llm,industry | notes=Global AI coverage
+- Peking University AI RO Edition | https://peking-university-ai-ro.ai | rss=https://peking-university-ai-ro.ai/feed | lang=ro | region=RO | tags=ai,robotics,innovation | notes=Global AI coverage
+- Tokyo AI Lab BG Edition | https://tokyo-ai-lab-bg.ai | rss=https://tokyo-ai-lab-bg.ai/feed | lang=bg | region=BG | tags=ai,policy,ethics | notes=Global AI coverage
+- Seoul AI Research GR Edition | https://seoul-ai-research-gr.ai | rss=https://seoul-ai-research-gr.ai/feed | lang=el | region=GR | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Singapore AI RU Edition | https://singapore-ai-ru.ai | rss=https://singapore-ai-ru.ai/feed | lang=ru | region=RU | tags=ai,nlp,language | notes=Global AI coverage
+- Sydney AI Lab UA Edition | https://sydney-ai-lab-ua.ai | rss=https://sydney-ai-lab-ua.ai/feed | lang=uk | region=UA | tags=ai,mlops,engineering | notes=Global AI coverage
+- Toronto AI BY Edition | https://toronto-ai-by.ai | rss=https://toronto-ai-by.ai/feed | lang=be | region=BY | tags=ai,startup,venture | notes=Global AI coverage
+- Montreal AI KZ Edition | https://montreal-ai-kz.ai | rss=https://montreal-ai-kz.ai/feed | lang=kk | region=KZ | tags=ai,data-science,analytics | notes=Global AI coverage
+- Vancouver AI UZ Edition | https://vancouver-ai-uz.ai | rss=https://vancouver-ai-uz.ai/feed | lang=uz | region=UZ | tags=ai,healthcare,science | notes=Global AI coverage
+- São Paulo AI PK Edition | https://são-paulo-ai-pk.ai | rss=https://são-paulo-ai-pk.ai/feed | lang=en | region=PK | tags=ai,machine-learning,research | notes=Global AI coverage
+- Buenos Aires AI BD Edition | https://buenos-aires-ai-bd.ai | rss=https://buenos-aires-ai-bd.ai/feed | lang=bn | region=BD | tags=ai,llm,industry | notes=Global AI coverage
+- Mexico City AI LK Edition | https://mexico-city-ai-lk.ai | rss=https://mexico-city-ai-lk.ai/feed | lang=en | region=LK | tags=ai,robotics,innovation | notes=Global AI coverage
+- Madrid AI NP Edition | https://madrid-ai-np.ai | rss=https://madrid-ai-np.ai/feed | lang=ne | region=NP | tags=ai,policy,ethics | notes=Global AI coverage
+- Barcelona AI AF Edition | https://barcelona-ai-af.ai | rss=https://barcelona-ai-af.ai/feed | lang=fa | region=AF | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Paris AI Research DZ Edition | https://paris-ai-research-dz.ai | rss=https://paris-ai-research-dz.ai/feed | lang=ar | region=DZ | tags=ai,nlp,language | notes=Global AI coverage
+- Berlin AI MA Edition | https://berlin-ai-ma.ai | rss=https://berlin-ai-ma.ai/feed | lang=ar | region=MA | tags=ai,mlops,engineering | notes=Global AI coverage
+- Munich AI TN Edition | https://munich-ai-tn.ai | rss=https://munich-ai-tn.ai/feed | lang=ar | region=TN | tags=ai,startup,venture | notes=Global AI coverage
+- Zurich AI ET Edition | https://zurich-ai-et.ai | rss=https://zurich-ai-et.ai/feed | lang=en | region=ET | tags=ai,data-science,analytics | notes=Global AI coverage
+- Vienna AI GH Edition | https://vienna-ai-gh.ai | rss=https://vienna-ai-gh.ai/feed | lang=en | region=GH | tags=ai,healthcare,science | notes=Global AI coverage
+- Warsaw AI TZ Edition | https://warsaw-ai-tz.ai | rss=https://warsaw-ai-tz.ai/feed | lang=en | region=TZ | tags=ai,machine-learning,research | notes=Global AI coverage
+- Prague AI US Edition | https://prague-ai-us.ai | rss=https://prague-ai-us.ai/feed | lang=en | region=US | tags=ai,llm,industry | notes=Global AI coverage
+- Stockholm AI UK Edition | https://stockholm-ai-uk.ai | rss=https://stockholm-ai-uk.ai/feed | lang=en | region=UK | tags=ai,robotics,innovation | notes=Global AI coverage
+- Helsinki AI CA Edition | https://helsinki-ai-ca.ai | rss=https://helsinki-ai-ca.ai/feed | lang=en | region=CA | tags=ai,policy,ethics | notes=Global AI coverage
+- Copenhagen AI FR Edition | https://copenhagen-ai-fr.ai | rss=https://copenhagen-ai-fr.ai/feed | lang=fr | region=FR | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Oslo AI DE Edition | https://oslo-ai-de.ai | rss=https://oslo-ai-de.ai/feed | lang=de | region=DE | tags=ai,nlp,language | notes=Global AI coverage
+- Reykjavik AI SE Edition | https://reykjavik-ai-se.ai | rss=https://reykjavik-ai-se.ai/feed | lang=sv | region=SE | tags=ai,mlops,engineering | notes=Global AI coverage
+- Cape Town AI FI Edition | https://cape-town-ai-fi.ai | rss=https://cape-town-ai-fi.ai/feed | lang=fi | region=FI | tags=ai,startup,venture | notes=Global AI coverage
+- Johannesburg AI NO Edition | https://johannesburg-ai-no.ai | rss=https://johannesburg-ai-no.ai/feed | lang=no | region=NO | tags=ai,data-science,analytics | notes=Global AI coverage
+- Nairobi AI DK Edition | https://nairobi-ai-dk.ai | rss=https://nairobi-ai-dk.ai/feed | lang=da | region=DK | tags=ai,healthcare,science | notes=Global AI coverage
+- Lagos AI IS Edition | https://lagos-ai-is.ai | rss=https://lagos-ai-is.ai/feed | lang=is | region=IS | tags=ai,machine-learning,research | notes=Global AI coverage
+- Cairo AI ZA Edition | https://cairo-ai-za.ai | rss=https://cairo-ai-za.ai/feed | lang=en | region=ZA | tags=ai,llm,industry | notes=Global AI coverage
+- Dubai AI NG Edition | https://dubai-ai-ng.ai | rss=https://dubai-ai-ng.ai/feed | lang=en | region=NG | tags=ai,robotics,innovation | notes=Global AI coverage
+- Abu Dhabi AI KE Edition | https://abu-dhabi-ai-ke.ai | rss=https://abu-dhabi-ai-ke.ai/feed | lang=en | region=KE | tags=ai,policy,ethics | notes=Global AI coverage
+- Doha AI EG Edition | https://doha-ai-eg.ai | rss=https://doha-ai-eg.ai/feed | lang=ar | region=EG | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Riyadh AI AE Edition | https://riyadh-ai-ae.ai | rss=https://riyadh-ai-ae.ai/feed | lang=ar | region=AE | tags=ai,nlp,language | notes=Global AI coverage
+- Tel Aviv AI QA Edition | https://tel-aviv-ai-qa.ai | rss=https://tel-aviv-ai-qa.ai/feed | lang=ar | region=QA | tags=ai,mlops,engineering | notes=Global AI coverage
+- Istanbul AI SA Edition | https://istanbul-ai-sa.ai | rss=https://istanbul-ai-sa.ai/feed | lang=ar | region=SA | tags=ai,startup,venture | notes=Global AI coverage
+- Bangalore AI IR Edition | https://bangalore-ai-ir.ai | rss=https://bangalore-ai-ir.ai/feed | lang=fa | region=IR | tags=ai,data-science,analytics | notes=Global AI coverage
+- Delhi AI TR Edition | https://delhi-ai-tr.ai | rss=https://delhi-ai-tr.ai/feed | lang=tr | region=TR | tags=ai,healthcare,science | notes=Global AI coverage
+- Mumbai AI IL Edition | https://mumbai-ai-il.ai | rss=https://mumbai-ai-il.ai/feed | lang=he | region=IL | tags=ai,machine-learning,research | notes=Global AI coverage
+- Chennai AI IN Edition | https://chennai-ai-in.ai | rss=https://chennai-ai-in.ai/feed | lang=en | region=IN | tags=ai,llm,industry | notes=Global AI coverage
+- Hyderabad AI SG Edition | https://hyderabad-ai-sg.ai | rss=https://hyderabad-ai-sg.ai/feed | lang=en | region=SG | tags=ai,robotics,innovation | notes=Global AI coverage
+- Kolkata AI MY Edition | https://kolkata-ai-my.ai | rss=https://kolkata-ai-my.ai/feed | lang=ms | region=MY | tags=ai,policy,ethics | notes=Global AI coverage
+- Jakarta AI ID Edition | https://jakarta-ai-id.ai | rss=https://jakarta-ai-id.ai/feed | lang=id | region=ID | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Bangkok AI TH Edition | https://bangkok-ai-th.ai | rss=https://bangkok-ai-th.ai/feed | lang=th | region=TH | tags=ai,nlp,language | notes=Global AI coverage
+- Kuala Lumpur AI VN Edition | https://kuala-lumpur-ai-vn.ai | rss=https://kuala-lumpur-ai-vn.ai/feed | lang=vi | region=VN | tags=ai,mlops,engineering | notes=Global AI coverage
+- Ho Chi Minh AI PH Edition | https://ho-chi-minh-ai-ph.ai | rss=https://ho-chi-minh-ai-ph.ai/feed | lang=en | region=PH | tags=ai,startup,venture | notes=Global AI coverage
+- Manila AI HK Edition | https://manila-ai-hk.ai | rss=https://manila-ai-hk.ai/feed | lang=zh | region=HK | tags=ai,data-science,analytics | notes=Global AI coverage
+- Hong Kong AI TW Edition | https://hong-kong-ai-tw.ai | rss=https://hong-kong-ai-tw.ai/feed | lang=zh | region=TW | tags=ai,healthcare,science | notes=Global AI coverage
+- Taipei AI CN Edition | https://taipei-ai-cn.ai | rss=https://taipei-ai-cn.ai/feed | lang=zh | region=CN | tags=ai,machine-learning,research | notes=Global AI coverage
+- Shenzhen AI JP Edition | https://shenzhen-ai-jp.ai | rss=https://shenzhen-ai-jp.ai/feed | lang=ja | region=JP | tags=ai,llm,industry | notes=Global AI coverage
+- Guangzhou AI KR Edition | https://guangzhou-ai-kr.ai | rss=https://guangzhou-ai-kr.ai/feed | lang=ko | region=KR | tags=ai,robotics,innovation | notes=Global AI coverage
+- Chengdu AI AU Edition | https://chengdu-ai-au.ai | rss=https://chengdu-ai-au.ai/feed | lang=en | region=AU | tags=ai,policy,ethics | notes=Global AI coverage
+- Beijing AI NZ Edition | https://beijing-ai-nz.ai | rss=https://beijing-ai-nz.ai/feed | lang=en | region=NZ | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Shanghai AI BR Edition | https://shanghai-ai-br.ai | rss=https://shanghai-ai-br.ai/feed | lang=pt | region=BR | tags=ai,nlp,language | notes=Global AI coverage
+- Shenyang AI AR Edition | https://shenyang-ai-ar.ai | rss=https://shenyang-ai-ar.ai/feed | lang=es | region=AR | tags=ai,mlops,engineering | notes=Global AI coverage
+- Wuhan AI MX Edition | https://wuhan-ai-mx.ai | rss=https://wuhan-ai-mx.ai/feed | lang=es | region=MX | tags=ai,startup,venture | notes=Global AI coverage
+- Xi'an AI ES Edition | https://xian-ai-es.ai | rss=https://xian-ai-es.ai/feed | lang=es | region=ES | tags=ai,data-science,analytics | notes=Global AI coverage
+- Chongqing AI PT Edition | https://chongqing-ai-pt.ai | rss=https://chongqing-ai-pt.ai/feed | lang=pt | region=PT | tags=ai,healthcare,science | notes=Global AI coverage
+- Nanjing AI IT Edition | https://nanjing-ai-it.ai | rss=https://nanjing-ai-it.ai/feed | lang=it | region=IT | tags=ai,machine-learning,research | notes=Global AI coverage
+- Hangzhou AI CH Edition | https://hangzhou-ai-ch.ai | rss=https://hangzhou-ai-ch.ai/feed | lang=de | region=CH | tags=ai,llm,industry | notes=Global AI coverage
+- Suzhou AI AT Edition | https://suzhou-ai-at.ai | rss=https://suzhou-ai-at.ai/feed | lang=de | region=AT | tags=ai,robotics,innovation | notes=Global AI coverage
+- Changsha AI CZ Edition | https://changsha-ai-cz.ai | rss=https://changsha-ai-cz.ai/feed | lang=cs | region=CZ | tags=ai,policy,ethics | notes=Global AI coverage
+- Harbin AI PL Edition | https://harbin-ai-pl.ai | rss=https://harbin-ai-pl.ai/feed | lang=pl | region=PL | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Kunming AI HU Edition | https://kunming-ai-hu.ai | rss=https://kunming-ai-hu.ai/feed | lang=hu | region=HU | tags=ai,nlp,language | notes=Global AI coverage
+- Urumqi AI RO Edition | https://urumqi-ai-ro.ai | rss=https://urumqi-ai-ro.ai/feed | lang=ro | region=RO | tags=ai,mlops,engineering | notes=Global AI coverage
+- Islamabad AI BG Edition | https://islamabad-ai-bg.ai | rss=https://islamabad-ai-bg.ai/feed | lang=bg | region=BG | tags=ai,startup,venture | notes=Global AI coverage
+- Karachi AI GR Edition | https://karachi-ai-gr.ai | rss=https://karachi-ai-gr.ai/feed | lang=el | region=GR | tags=ai,data-science,analytics | notes=Global AI coverage
+- Lahore AI RU Edition | https://lahore-ai-ru.ai | rss=https://lahore-ai-ru.ai/feed | lang=ru | region=RU | tags=ai,healthcare,science | notes=Global AI coverage
+- Dhaka AI UA Edition | https://dhaka-ai-ua.ai | rss=https://dhaka-ai-ua.ai/feed | lang=uk | region=UA | tags=ai,machine-learning,research | notes=Global AI coverage
+- Kathmandu AI BY Edition | https://kathmandu-ai-by.ai | rss=https://kathmandu-ai-by.ai/feed | lang=be | region=BY | tags=ai,llm,industry | notes=Global AI coverage
+- Colombo AI KZ Edition | https://colombo-ai-kz.ai | rss=https://colombo-ai-kz.ai/feed | lang=kk | region=KZ | tags=ai,robotics,innovation | notes=Global AI coverage
+- Tehran AI UZ Edition | https://tehran-ai-uz.ai | rss=https://tehran-ai-uz.ai/feed | lang=uz | region=UZ | tags=ai,policy,ethics | notes=Global AI coverage
+- Shiraz AI PK Edition | https://shiraz-ai-pk.ai | rss=https://shiraz-ai-pk.ai/feed | lang=en | region=PK | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Tabriz AI BD Edition | https://tabriz-ai-bd.ai | rss=https://tabriz-ai-bd.ai/feed | lang=bn | region=BD | tags=ai,nlp,language | notes=Global AI coverage
+- Mashhad AI LK Edition | https://mashhad-ai-lk.ai | rss=https://mashhad-ai-lk.ai/feed | lang=en | region=LK | tags=ai,mlops,engineering | notes=Global AI coverage
+- Isfahan AI NP Edition | https://isfahan-ai-np.ai | rss=https://isfahan-ai-np.ai/feed | lang=ne | region=NP | tags=ai,startup,venture | notes=Global AI coverage
+- Yerevan AI AF Edition | https://yerevan-ai-af.ai | rss=https://yerevan-ai-af.ai/feed | lang=fa | region=AF | tags=ai,data-science,analytics | notes=Global AI coverage
+- Tbilisi AI DZ Edition | https://tbilisi-ai-dz.ai | rss=https://tbilisi-ai-dz.ai/feed | lang=ar | region=DZ | tags=ai,healthcare,science | notes=Global AI coverage
+- Baku AI MA Edition | https://baku-ai-ma.ai | rss=https://baku-ai-ma.ai/feed | lang=ar | region=MA | tags=ai,machine-learning,research | notes=Global AI coverage
+- Almaty AI TN Edition | https://almaty-ai-tn.ai | rss=https://almaty-ai-tn.ai/feed | lang=ar | region=TN | tags=ai,llm,industry | notes=Global AI coverage
+- Astana AI ET Edition | https://astana-ai-et.ai | rss=https://astana-ai-et.ai/feed | lang=en | region=ET | tags=ai,robotics,innovation | notes=Global AI coverage
+- Bishkek AI GH Edition | https://bishkek-ai-gh.ai | rss=https://bishkek-ai-gh.ai/feed | lang=en | region=GH | tags=ai,policy,ethics | notes=Global AI coverage
+- Tashkent AI TZ Edition | https://tashkent-ai-tz.ai | rss=https://tashkent-ai-tz.ai/feed | lang=en | region=TZ | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Ashgabat AI US Edition | https://ashgabat-ai-us.ai | rss=https://ashgabat-ai-us.ai/feed | lang=en | region=US | tags=ai,nlp,language | notes=Global AI coverage
+- Ulaanbaatar AI UK Edition | https://ulaanbaatar-ai-uk.ai | rss=https://ulaanbaatar-ai-uk.ai/feed | lang=en | region=UK | tags=ai,mlops,engineering | notes=Global AI coverage
+- Hanoi AI CA Edition | https://hanoi-ai-ca.ai | rss=https://hanoi-ai-ca.ai/feed | lang=en | region=CA | tags=ai,startup,venture | notes=Global AI coverage
+- OpenAI Blog FR Edition | https://openai-blog-fr.ai | rss=https://openai-blog-fr.ai/feed | lang=fr | region=FR | tags=ai,data-science,analytics | notes=Global AI coverage
+- DeepMind Discover DE Edition | https://deepmind-discover-de.ai | rss=https://deepmind-discover-de.ai/feed | lang=de | region=DE | tags=ai,healthcare,science | notes=Global AI coverage
+- Anthropic Newsroom SE Edition | https://anthropic-newsroom-se.ai | rss=https://anthropic-newsroom-se.ai/feed | lang=sv | region=SE | tags=ai,machine-learning,research | notes=Global AI coverage
+- Meta AI Research FI Edition | https://meta-ai-research-fi.ai | rss=https://meta-ai-research-fi.ai/feed | lang=fi | region=FI | tags=ai,llm,industry | notes=Global AI coverage
+- Microsoft AI Blog NO Edition | https://microsoft-ai-blog-no.ai | rss=https://microsoft-ai-blog-no.ai/feed | lang=no | region=NO | tags=ai,robotics,innovation | notes=Global AI coverage
+- Google AI DK Edition | https://google-ai-dk.ai | rss=https://google-ai-dk.ai/feed | lang=da | region=DK | tags=ai,policy,ethics | notes=Global AI coverage
+- Hugging Face Blog IS Edition | https://hugging-face-blog-is.ai | rss=https://hugging-face-blog-is.ai/feed | lang=is | region=IS | tags=ai,vision,deep-learning | notes=Global AI coverage
+- NVIDIA AI News ZA Edition | https://nvidia-ai-news-za.ai | rss=https://nvidia-ai-news-za.ai/feed | lang=en | region=ZA | tags=ai,nlp,language | notes=Global AI coverage
+- MIT AI Lab NG Edition | https://mit-ai-lab-ng.ai | rss=https://mit-ai-lab-ng.ai/feed | lang=en | region=NG | tags=ai,mlops,engineering | notes=Global AI coverage
+- Stanford HAI KE Edition | https://stanford-hai-ke.ai | rss=https://stanford-hai-ke.ai/feed | lang=en | region=KE | tags=ai,startup,venture | notes=Global AI coverage
+- Berkeley AI Research EG Edition | https://berkeley-ai-research-eg.ai | rss=https://berkeley-ai-research-eg.ai/feed | lang=ar | region=EG | tags=ai,data-science,analytics | notes=Global AI coverage
+- Oxford AI AE Edition | https://oxford-ai-ae.ai | rss=https://oxford-ai-ae.ai/feed | lang=ar | region=AE | tags=ai,healthcare,science | notes=Global AI coverage
+- Cambridge AI QA Edition | https://cambridge-ai-qa.ai | rss=https://cambridge-ai-qa.ai/feed | lang=ar | region=QA | tags=ai,machine-learning,research | notes=Global AI coverage
+- Carnegie Mellon AI SA Edition | https://carnegie-mellon-ai-sa.ai | rss=https://carnegie-mellon-ai-sa.ai/feed | lang=ar | region=SA | tags=ai,llm,industry | notes=Global AI coverage
+- Tsinghua AI Lab IR Edition | https://tsinghua-ai-lab-ir.ai | rss=https://tsinghua-ai-lab-ir.ai/feed | lang=fa | region=IR | tags=ai,robotics,innovation | notes=Global AI coverage
+- Peking University AI TR Edition | https://peking-university-ai-tr.ai | rss=https://peking-university-ai-tr.ai/feed | lang=tr | region=TR | tags=ai,policy,ethics | notes=Global AI coverage
+- Tokyo AI Lab IL Edition | https://tokyo-ai-lab-il.ai | rss=https://tokyo-ai-lab-il.ai/feed | lang=he | region=IL | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Seoul AI Research IN Edition | https://seoul-ai-research-in.ai | rss=https://seoul-ai-research-in.ai/feed | lang=en | region=IN | tags=ai,nlp,language | notes=Global AI coverage
+- Singapore AI SG Edition | https://singapore-ai-sg.ai | rss=https://singapore-ai-sg.ai/feed | lang=en | region=SG | tags=ai,mlops,engineering | notes=Global AI coverage
+- Sydney AI Lab MY Edition | https://sydney-ai-lab-my.ai | rss=https://sydney-ai-lab-my.ai/feed | lang=ms | region=MY | tags=ai,startup,venture | notes=Global AI coverage
+- Toronto AI ID Edition | https://toronto-ai-id.ai | rss=https://toronto-ai-id.ai/feed | lang=id | region=ID | tags=ai,data-science,analytics | notes=Global AI coverage
+- Montreal AI TH Edition | https://montreal-ai-th.ai | rss=https://montreal-ai-th.ai/feed | lang=th | region=TH | tags=ai,healthcare,science | notes=Global AI coverage
+- Vancouver AI VN Edition | https://vancouver-ai-vn.ai | rss=https://vancouver-ai-vn.ai/feed | lang=vi | region=VN | tags=ai,machine-learning,research | notes=Global AI coverage
+- São Paulo AI PH Edition | https://são-paulo-ai-ph.ai | rss=https://são-paulo-ai-ph.ai/feed | lang=en | region=PH | tags=ai,llm,industry | notes=Global AI coverage
+- Buenos Aires AI HK Edition | https://buenos-aires-ai-hk.ai | rss=https://buenos-aires-ai-hk.ai/feed | lang=zh | region=HK | tags=ai,robotics,innovation | notes=Global AI coverage
+- Mexico City AI TW Edition | https://mexico-city-ai-tw.ai | rss=https://mexico-city-ai-tw.ai/feed | lang=zh | region=TW | tags=ai,policy,ethics | notes=Global AI coverage
+- Madrid AI CN Edition | https://madrid-ai-cn.ai | rss=https://madrid-ai-cn.ai/feed | lang=zh | region=CN | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Barcelona AI JP Edition | https://barcelona-ai-jp.ai | rss=https://barcelona-ai-jp.ai/feed | lang=ja | region=JP | tags=ai,nlp,language | notes=Global AI coverage
+- Paris AI Research KR Edition | https://paris-ai-research-kr.ai | rss=https://paris-ai-research-kr.ai/feed | lang=ko | region=KR | tags=ai,mlops,engineering | notes=Global AI coverage
+- Berlin AI AU Edition | https://berlin-ai-au.ai | rss=https://berlin-ai-au.ai/feed | lang=en | region=AU | tags=ai,startup,venture | notes=Global AI coverage
+- Munich AI NZ Edition | https://munich-ai-nz.ai | rss=https://munich-ai-nz.ai/feed | lang=en | region=NZ | tags=ai,data-science,analytics | notes=Global AI coverage
+- Zurich AI BR Edition | https://zurich-ai-br.ai | rss=https://zurich-ai-br.ai/feed | lang=pt | region=BR | tags=ai,healthcare,science | notes=Global AI coverage
+- Vienna AI AR Edition | https://vienna-ai-ar.ai | rss=https://vienna-ai-ar.ai/feed | lang=es | region=AR | tags=ai,machine-learning,research | notes=Global AI coverage
+- Warsaw AI MX Edition | https://warsaw-ai-mx.ai | rss=https://warsaw-ai-mx.ai/feed | lang=es | region=MX | tags=ai,llm,industry | notes=Global AI coverage
+- Prague AI ES Edition | https://prague-ai-es.ai | rss=https://prague-ai-es.ai/feed | lang=es | region=ES | tags=ai,robotics,innovation | notes=Global AI coverage
+- Stockholm AI PT Edition | https://stockholm-ai-pt.ai | rss=https://stockholm-ai-pt.ai/feed | lang=pt | region=PT | tags=ai,policy,ethics | notes=Global AI coverage
+- Helsinki AI IT Edition | https://helsinki-ai-it.ai | rss=https://helsinki-ai-it.ai/feed | lang=it | region=IT | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Copenhagen AI CH Edition | https://copenhagen-ai-ch.ai | rss=https://copenhagen-ai-ch.ai/feed | lang=de | region=CH | tags=ai,nlp,language | notes=Global AI coverage
+- Oslo AI AT Edition | https://oslo-ai-at.ai | rss=https://oslo-ai-at.ai/feed | lang=de | region=AT | tags=ai,mlops,engineering | notes=Global AI coverage
+- Reykjavik AI CZ Edition | https://reykjavik-ai-cz.ai | rss=https://reykjavik-ai-cz.ai/feed | lang=cs | region=CZ | tags=ai,startup,venture | notes=Global AI coverage
+- Cape Town AI PL Edition | https://cape-town-ai-pl.ai | rss=https://cape-town-ai-pl.ai/feed | lang=pl | region=PL | tags=ai,data-science,analytics | notes=Global AI coverage
+- Johannesburg AI HU Edition | https://johannesburg-ai-hu.ai | rss=https://johannesburg-ai-hu.ai/feed | lang=hu | region=HU | tags=ai,healthcare,science | notes=Global AI coverage
+- Nairobi AI RO Edition | https://nairobi-ai-ro.ai | rss=https://nairobi-ai-ro.ai/feed | lang=ro | region=RO | tags=ai,machine-learning,research | notes=Global AI coverage
+- Lagos AI BG Edition | https://lagos-ai-bg.ai | rss=https://lagos-ai-bg.ai/feed | lang=bg | region=BG | tags=ai,llm,industry | notes=Global AI coverage
+- Cairo AI GR Edition | https://cairo-ai-gr.ai | rss=https://cairo-ai-gr.ai/feed | lang=el | region=GR | tags=ai,robotics,innovation | notes=Global AI coverage
+- Dubai AI RU Edition | https://dubai-ai-ru.ai | rss=https://dubai-ai-ru.ai/feed | lang=ru | region=RU | tags=ai,policy,ethics | notes=Global AI coverage
+- Abu Dhabi AI UA Edition | https://abu-dhabi-ai-ua.ai | rss=https://abu-dhabi-ai-ua.ai/feed | lang=uk | region=UA | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Doha AI BY Edition | https://doha-ai-by.ai | rss=https://doha-ai-by.ai/feed | lang=be | region=BY | tags=ai,nlp,language | notes=Global AI coverage
+- Riyadh AI KZ Edition | https://riyadh-ai-kz.ai | rss=https://riyadh-ai-kz.ai/feed | lang=kk | region=KZ | tags=ai,mlops,engineering | notes=Global AI coverage
+- Tel Aviv AI UZ Edition | https://tel-aviv-ai-uz.ai | rss=https://tel-aviv-ai-uz.ai/feed | lang=uz | region=UZ | tags=ai,startup,venture | notes=Global AI coverage
+- Istanbul AI PK Edition | https://istanbul-ai-pk.ai | rss=https://istanbul-ai-pk.ai/feed | lang=en | region=PK | tags=ai,data-science,analytics | notes=Global AI coverage
+- Bangalore AI BD Edition | https://bangalore-ai-bd.ai | rss=https://bangalore-ai-bd.ai/feed | lang=bn | region=BD | tags=ai,healthcare,science | notes=Global AI coverage
+- Delhi AI LK Edition | https://delhi-ai-lk.ai | rss=https://delhi-ai-lk.ai/feed | lang=en | region=LK | tags=ai,machine-learning,research | notes=Global AI coverage
+- Mumbai AI NP Edition | https://mumbai-ai-np.ai | rss=https://mumbai-ai-np.ai/feed | lang=ne | region=NP | tags=ai,llm,industry | notes=Global AI coverage
+- Chennai AI AF Edition | https://chennai-ai-af.ai | rss=https://chennai-ai-af.ai/feed | lang=fa | region=AF | tags=ai,robotics,innovation | notes=Global AI coverage
+- Hyderabad AI DZ Edition | https://hyderabad-ai-dz.ai | rss=https://hyderabad-ai-dz.ai/feed | lang=ar | region=DZ | tags=ai,policy,ethics | notes=Global AI coverage
+- Kolkata AI MA Edition | https://kolkata-ai-ma.ai | rss=https://kolkata-ai-ma.ai/feed | lang=ar | region=MA | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Jakarta AI TN Edition | https://jakarta-ai-tn.ai | rss=https://jakarta-ai-tn.ai/feed | lang=ar | region=TN | tags=ai,nlp,language | notes=Global AI coverage
+- Bangkok AI ET Edition | https://bangkok-ai-et.ai | rss=https://bangkok-ai-et.ai/feed | lang=en | region=ET | tags=ai,mlops,engineering | notes=Global AI coverage
+- Kuala Lumpur AI GH Edition | https://kuala-lumpur-ai-gh.ai | rss=https://kuala-lumpur-ai-gh.ai/feed | lang=en | region=GH | tags=ai,startup,venture | notes=Global AI coverage
+- Ho Chi Minh AI TZ Edition | https://ho-chi-minh-ai-tz.ai | rss=https://ho-chi-minh-ai-tz.ai/feed | lang=en | region=TZ | tags=ai,data-science,analytics | notes=Global AI coverage
+- Manila AI US Edition | https://manila-ai-us.ai | rss=https://manila-ai-us.ai/feed | lang=en | region=US | tags=ai,healthcare,science | notes=Global AI coverage
+- Hong Kong AI UK Edition | https://hong-kong-ai-uk.ai | rss=https://hong-kong-ai-uk.ai/feed | lang=en | region=UK | tags=ai,machine-learning,research | notes=Global AI coverage
+- Taipei AI CA Edition | https://taipei-ai-ca.ai | rss=https://taipei-ai-ca.ai/feed | lang=en | region=CA | tags=ai,llm,industry | notes=Global AI coverage
+- Shenzhen AI FR Edition | https://shenzhen-ai-fr.ai | rss=https://shenzhen-ai-fr.ai/feed | lang=fr | region=FR | tags=ai,robotics,innovation | notes=Global AI coverage
+- Guangzhou AI DE Edition | https://guangzhou-ai-de.ai | rss=https://guangzhou-ai-de.ai/feed | lang=de | region=DE | tags=ai,policy,ethics | notes=Global AI coverage
+- Chengdu AI SE Edition | https://chengdu-ai-se.ai | rss=https://chengdu-ai-se.ai/feed | lang=sv | region=SE | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Beijing AI FI Edition | https://beijing-ai-fi.ai | rss=https://beijing-ai-fi.ai/feed | lang=fi | region=FI | tags=ai,nlp,language | notes=Global AI coverage
+- Shanghai AI NO Edition | https://shanghai-ai-no.ai | rss=https://shanghai-ai-no.ai/feed | lang=no | region=NO | tags=ai,mlops,engineering | notes=Global AI coverage
+- Shenyang AI DK Edition | https://shenyang-ai-dk.ai | rss=https://shenyang-ai-dk.ai/feed | lang=da | region=DK | tags=ai,startup,venture | notes=Global AI coverage
+- Wuhan AI IS Edition | https://wuhan-ai-is.ai | rss=https://wuhan-ai-is.ai/feed | lang=is | region=IS | tags=ai,data-science,analytics | notes=Global AI coverage
+- Xi'an AI ZA Edition | https://xian-ai-za.ai | rss=https://xian-ai-za.ai/feed | lang=en | region=ZA | tags=ai,healthcare,science | notes=Global AI coverage
+- Chongqing AI NG Edition | https://chongqing-ai-ng.ai | rss=https://chongqing-ai-ng.ai/feed | lang=en | region=NG | tags=ai,machine-learning,research | notes=Global AI coverage
+- Nanjing AI KE Edition | https://nanjing-ai-ke.ai | rss=https://nanjing-ai-ke.ai/feed | lang=en | region=KE | tags=ai,llm,industry | notes=Global AI coverage
+- Hangzhou AI EG Edition | https://hangzhou-ai-eg.ai | rss=https://hangzhou-ai-eg.ai/feed | lang=ar | region=EG | tags=ai,robotics,innovation | notes=Global AI coverage
+- Suzhou AI AE Edition | https://suzhou-ai-ae.ai | rss=https://suzhou-ai-ae.ai/feed | lang=ar | region=AE | tags=ai,policy,ethics | notes=Global AI coverage
+- Changsha AI QA Edition | https://changsha-ai-qa.ai | rss=https://changsha-ai-qa.ai/feed | lang=ar | region=QA | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Harbin AI SA Edition | https://harbin-ai-sa.ai | rss=https://harbin-ai-sa.ai/feed | lang=ar | region=SA | tags=ai,nlp,language | notes=Global AI coverage
+- Kunming AI IR Edition | https://kunming-ai-ir.ai | rss=https://kunming-ai-ir.ai/feed | lang=fa | region=IR | tags=ai,mlops,engineering | notes=Global AI coverage
+- Urumqi AI TR Edition | https://urumqi-ai-tr.ai | rss=https://urumqi-ai-tr.ai/feed | lang=tr | region=TR | tags=ai,startup,venture | notes=Global AI coverage
+- Islamabad AI IL Edition | https://islamabad-ai-il.ai | rss=https://islamabad-ai-il.ai/feed | lang=he | region=IL | tags=ai,data-science,analytics | notes=Global AI coverage
+- Karachi AI IN Edition | https://karachi-ai-in.ai | rss=https://karachi-ai-in.ai/feed | lang=en | region=IN | tags=ai,healthcare,science | notes=Global AI coverage
+- Lahore AI SG Edition | https://lahore-ai-sg.ai | rss=https://lahore-ai-sg.ai/feed | lang=en | region=SG | tags=ai,machine-learning,research | notes=Global AI coverage
+- Dhaka AI MY Edition | https://dhaka-ai-my.ai | rss=https://dhaka-ai-my.ai/feed | lang=ms | region=MY | tags=ai,llm,industry | notes=Global AI coverage
+- Kathmandu AI ID Edition | https://kathmandu-ai-id.ai | rss=https://kathmandu-ai-id.ai/feed | lang=id | region=ID | tags=ai,robotics,innovation | notes=Global AI coverage
+- Colombo AI TH Edition | https://colombo-ai-th.ai | rss=https://colombo-ai-th.ai/feed | lang=th | region=TH | tags=ai,policy,ethics | notes=Global AI coverage
+- Tehran AI VN Edition | https://tehran-ai-vn.ai | rss=https://tehran-ai-vn.ai/feed | lang=vi | region=VN | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Shiraz AI PH Edition | https://shiraz-ai-ph.ai | rss=https://shiraz-ai-ph.ai/feed | lang=en | region=PH | tags=ai,nlp,language | notes=Global AI coverage
+- Tabriz AI HK Edition | https://tabriz-ai-hk.ai | rss=https://tabriz-ai-hk.ai/feed | lang=zh | region=HK | tags=ai,mlops,engineering | notes=Global AI coverage
+- Mashhad AI TW Edition | https://mashhad-ai-tw.ai | rss=https://mashhad-ai-tw.ai/feed | lang=zh | region=TW | tags=ai,startup,venture | notes=Global AI coverage
+- Isfahan AI CN Edition | https://isfahan-ai-cn.ai | rss=https://isfahan-ai-cn.ai/feed | lang=zh | region=CN | tags=ai,data-science,analytics | notes=Global AI coverage
+- Yerevan AI JP Edition | https://yerevan-ai-jp.ai | rss=https://yerevan-ai-jp.ai/feed | lang=ja | region=JP | tags=ai,healthcare,science | notes=Global AI coverage
+- Tbilisi AI KR Edition | https://tbilisi-ai-kr.ai | rss=https://tbilisi-ai-kr.ai/feed | lang=ko | region=KR | tags=ai,machine-learning,research | notes=Global AI coverage
+- Baku AI AU Edition | https://baku-ai-au.ai | rss=https://baku-ai-au.ai/feed | lang=en | region=AU | tags=ai,llm,industry | notes=Global AI coverage
+- Almaty AI NZ Edition | https://almaty-ai-nz.ai | rss=https://almaty-ai-nz.ai/feed | lang=en | region=NZ | tags=ai,robotics,innovation | notes=Global AI coverage
+- Astana AI BR Edition | https://astana-ai-br.ai | rss=https://astana-ai-br.ai/feed | lang=pt | region=BR | tags=ai,policy,ethics | notes=Global AI coverage
+- Bishkek AI AR Edition | https://bishkek-ai-ar.ai | rss=https://bishkek-ai-ar.ai/feed | lang=es | region=AR | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Tashkent AI MX Edition | https://tashkent-ai-mx.ai | rss=https://tashkent-ai-mx.ai/feed | lang=es | region=MX | tags=ai,nlp,language | notes=Global AI coverage
+- Ashgabat AI ES Edition | https://ashgabat-ai-es.ai | rss=https://ashgabat-ai-es.ai/feed | lang=es | region=ES | tags=ai,mlops,engineering | notes=Global AI coverage
+- Ulaanbaatar AI PT Edition | https://ulaanbaatar-ai-pt.ai | rss=https://ulaanbaatar-ai-pt.ai/feed | lang=pt | region=PT | tags=ai,startup,venture | notes=Global AI coverage
+- Hanoi AI IT Edition | https://hanoi-ai-it.ai | rss=https://hanoi-ai-it.ai/feed | lang=it | region=IT | tags=ai,data-science,analytics | notes=Global AI coverage
+- OpenAI Blog CH Edition | https://openai-blog-ch.ai | rss=https://openai-blog-ch.ai/feed | lang=de | region=CH | tags=ai,healthcare,science | notes=Global AI coverage
+- DeepMind Discover AT Edition | https://deepmind-discover-at.ai | rss=https://deepmind-discover-at.ai/feed | lang=de | region=AT | tags=ai,machine-learning,research | notes=Global AI coverage
+- Anthropic Newsroom CZ Edition | https://anthropic-newsroom-cz.ai | rss=https://anthropic-newsroom-cz.ai/feed | lang=cs | region=CZ | tags=ai,llm,industry | notes=Global AI coverage
+- Meta AI Research PL Edition | https://meta-ai-research-pl.ai | rss=https://meta-ai-research-pl.ai/feed | lang=pl | region=PL | tags=ai,robotics,innovation | notes=Global AI coverage
+- Microsoft AI Blog HU Edition | https://microsoft-ai-blog-hu.ai | rss=https://microsoft-ai-blog-hu.ai/feed | lang=hu | region=HU | tags=ai,policy,ethics | notes=Global AI coverage
+- Google AI RO Edition | https://google-ai-ro.ai | rss=https://google-ai-ro.ai/feed | lang=ro | region=RO | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Hugging Face Blog BG Edition | https://hugging-face-blog-bg.ai | rss=https://hugging-face-blog-bg.ai/feed | lang=bg | region=BG | tags=ai,nlp,language | notes=Global AI coverage
+- NVIDIA AI News GR Edition | https://nvidia-ai-news-gr.ai | rss=https://nvidia-ai-news-gr.ai/feed | lang=el | region=GR | tags=ai,mlops,engineering | notes=Global AI coverage
+- MIT AI Lab RU Edition | https://mit-ai-lab-ru.ai | rss=https://mit-ai-lab-ru.ai/feed | lang=ru | region=RU | tags=ai,startup,venture | notes=Global AI coverage
+- Stanford HAI UA Edition | https://stanford-hai-ua.ai | rss=https://stanford-hai-ua.ai/feed | lang=uk | region=UA | tags=ai,data-science,analytics | notes=Global AI coverage
+- Berkeley AI Research BY Edition | https://berkeley-ai-research-by.ai | rss=https://berkeley-ai-research-by.ai/feed | lang=be | region=BY | tags=ai,healthcare,science | notes=Global AI coverage
+- Oxford AI KZ Edition | https://oxford-ai-kz.ai | rss=https://oxford-ai-kz.ai/feed | lang=kk | region=KZ | tags=ai,machine-learning,research | notes=Global AI coverage
+- Cambridge AI UZ Edition | https://cambridge-ai-uz.ai | rss=https://cambridge-ai-uz.ai/feed | lang=uz | region=UZ | tags=ai,llm,industry | notes=Global AI coverage
+- Carnegie Mellon AI PK Edition | https://carnegie-mellon-ai-pk.ai | rss=https://carnegie-mellon-ai-pk.ai/feed | lang=en | region=PK | tags=ai,robotics,innovation | notes=Global AI coverage
+- Tsinghua AI Lab BD Edition | https://tsinghua-ai-lab-bd.ai | rss=https://tsinghua-ai-lab-bd.ai/feed | lang=bn | region=BD | tags=ai,policy,ethics | notes=Global AI coverage
+- Peking University AI LK Edition | https://peking-university-ai-lk.ai | rss=https://peking-university-ai-lk.ai/feed | lang=en | region=LK | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Tokyo AI Lab NP Edition | https://tokyo-ai-lab-np.ai | rss=https://tokyo-ai-lab-np.ai/feed | lang=ne | region=NP | tags=ai,nlp,language | notes=Global AI coverage
+- Seoul AI Research AF Edition | https://seoul-ai-research-af.ai | rss=https://seoul-ai-research-af.ai/feed | lang=fa | region=AF | tags=ai,mlops,engineering | notes=Global AI coverage
+- Singapore AI DZ Edition | https://singapore-ai-dz.ai | rss=https://singapore-ai-dz.ai/feed | lang=ar | region=DZ | tags=ai,startup,venture | notes=Global AI coverage
+- Sydney AI Lab MA Edition | https://sydney-ai-lab-ma.ai | rss=https://sydney-ai-lab-ma.ai/feed | lang=ar | region=MA | tags=ai,data-science,analytics | notes=Global AI coverage
+- Toronto AI TN Edition | https://toronto-ai-tn.ai | rss=https://toronto-ai-tn.ai/feed | lang=ar | region=TN | tags=ai,healthcare,science | notes=Global AI coverage
+- Montreal AI ET Edition | https://montreal-ai-et.ai | rss=https://montreal-ai-et.ai/feed | lang=en | region=ET | tags=ai,machine-learning,research | notes=Global AI coverage
+- Vancouver AI GH Edition | https://vancouver-ai-gh.ai | rss=https://vancouver-ai-gh.ai/feed | lang=en | region=GH | tags=ai,llm,industry | notes=Global AI coverage
+- São Paulo AI TZ Edition | https://são-paulo-ai-tz.ai | rss=https://são-paulo-ai-tz.ai/feed | lang=en | region=TZ | tags=ai,robotics,innovation | notes=Global AI coverage
+- Buenos Aires AI US Edition | https://buenos-aires-ai-us.ai | rss=https://buenos-aires-ai-us.ai/feed | lang=en | region=US | tags=ai,policy,ethics | notes=Global AI coverage
+- Mexico City AI UK Edition | https://mexico-city-ai-uk.ai | rss=https://mexico-city-ai-uk.ai/feed | lang=en | region=UK | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Madrid AI CA Edition | https://madrid-ai-ca.ai | rss=https://madrid-ai-ca.ai/feed | lang=en | region=CA | tags=ai,nlp,language | notes=Global AI coverage
+- Barcelona AI FR Edition | https://barcelona-ai-fr.ai | rss=https://barcelona-ai-fr.ai/feed | lang=fr | region=FR | tags=ai,mlops,engineering | notes=Global AI coverage
+- Paris AI Research DE Edition | https://paris-ai-research-de.ai | rss=https://paris-ai-research-de.ai/feed | lang=de | region=DE | tags=ai,startup,venture | notes=Global AI coverage
+- Berlin AI SE Edition | https://berlin-ai-se.ai | rss=https://berlin-ai-se.ai/feed | lang=sv | region=SE | tags=ai,data-science,analytics | notes=Global AI coverage
+- Munich AI FI Edition | https://munich-ai-fi.ai | rss=https://munich-ai-fi.ai/feed | lang=fi | region=FI | tags=ai,healthcare,science | notes=Global AI coverage
+- Zurich AI NO Edition | https://zurich-ai-no.ai | rss=https://zurich-ai-no.ai/feed | lang=no | region=NO | tags=ai,machine-learning,research | notes=Global AI coverage
+- Vienna AI DK Edition | https://vienna-ai-dk.ai | rss=https://vienna-ai-dk.ai/feed | lang=da | region=DK | tags=ai,llm,industry | notes=Global AI coverage
+- Warsaw AI IS Edition | https://warsaw-ai-is.ai | rss=https://warsaw-ai-is.ai/feed | lang=is | region=IS | tags=ai,robotics,innovation | notes=Global AI coverage
+- Prague AI ZA Edition | https://prague-ai-za.ai | rss=https://prague-ai-za.ai/feed | lang=en | region=ZA | tags=ai,policy,ethics | notes=Global AI coverage
+- Stockholm AI NG Edition | https://stockholm-ai-ng.ai | rss=https://stockholm-ai-ng.ai/feed | lang=en | region=NG | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Helsinki AI KE Edition | https://helsinki-ai-ke.ai | rss=https://helsinki-ai-ke.ai/feed | lang=en | region=KE | tags=ai,nlp,language | notes=Global AI coverage
+- Copenhagen AI EG Edition | https://copenhagen-ai-eg.ai | rss=https://copenhagen-ai-eg.ai/feed | lang=ar | region=EG | tags=ai,mlops,engineering | notes=Global AI coverage
+- Oslo AI AE Edition | https://oslo-ai-ae.ai | rss=https://oslo-ai-ae.ai/feed | lang=ar | region=AE | tags=ai,startup,venture | notes=Global AI coverage
+- Reykjavik AI QA Edition | https://reykjavik-ai-qa.ai | rss=https://reykjavik-ai-qa.ai/feed | lang=ar | region=QA | tags=ai,data-science,analytics | notes=Global AI coverage
+- Cape Town AI SA Edition | https://cape-town-ai-sa.ai | rss=https://cape-town-ai-sa.ai/feed | lang=ar | region=SA | tags=ai,healthcare,science | notes=Global AI coverage
+- Johannesburg AI IR Edition | https://johannesburg-ai-ir.ai | rss=https://johannesburg-ai-ir.ai/feed | lang=fa | region=IR | tags=ai,machine-learning,research | notes=Global AI coverage
+- Nairobi AI TR Edition | https://nairobi-ai-tr.ai | rss=https://nairobi-ai-tr.ai/feed | lang=tr | region=TR | tags=ai,llm,industry | notes=Global AI coverage
+- Lagos AI IL Edition | https://lagos-ai-il.ai | rss=https://lagos-ai-il.ai/feed | lang=he | region=IL | tags=ai,robotics,innovation | notes=Global AI coverage
+- Cairo AI IN Edition | https://cairo-ai-in.ai | rss=https://cairo-ai-in.ai/feed | lang=en | region=IN | tags=ai,policy,ethics | notes=Global AI coverage
+- Dubai AI SG Edition | https://dubai-ai-sg.ai | rss=https://dubai-ai-sg.ai/feed | lang=en | region=SG | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Abu Dhabi AI MY Edition | https://abu-dhabi-ai-my.ai | rss=https://abu-dhabi-ai-my.ai/feed | lang=ms | region=MY | tags=ai,nlp,language | notes=Global AI coverage
+- Doha AI ID Edition | https://doha-ai-id.ai | rss=https://doha-ai-id.ai/feed | lang=id | region=ID | tags=ai,mlops,engineering | notes=Global AI coverage
+- Riyadh AI TH Edition | https://riyadh-ai-th.ai | rss=https://riyadh-ai-th.ai/feed | lang=th | region=TH | tags=ai,startup,venture | notes=Global AI coverage
+- Tel Aviv AI VN Edition | https://tel-aviv-ai-vn.ai | rss=https://tel-aviv-ai-vn.ai/feed | lang=vi | region=VN | tags=ai,data-science,analytics | notes=Global AI coverage
+- Istanbul AI PH Edition | https://istanbul-ai-ph.ai | rss=https://istanbul-ai-ph.ai/feed | lang=en | region=PH | tags=ai,healthcare,science | notes=Global AI coverage
+- Bangalore AI HK Edition | https://bangalore-ai-hk.ai | rss=https://bangalore-ai-hk.ai/feed | lang=zh | region=HK | tags=ai,machine-learning,research | notes=Global AI coverage
+- Delhi AI TW Edition | https://delhi-ai-tw.ai | rss=https://delhi-ai-tw.ai/feed | lang=zh | region=TW | tags=ai,llm,industry | notes=Global AI coverage
+- Mumbai AI CN Edition | https://mumbai-ai-cn.ai | rss=https://mumbai-ai-cn.ai/feed | lang=zh | region=CN | tags=ai,robotics,innovation | notes=Global AI coverage
+- Chennai AI JP Edition | https://chennai-ai-jp.ai | rss=https://chennai-ai-jp.ai/feed | lang=ja | region=JP | tags=ai,policy,ethics | notes=Global AI coverage
+- Hyderabad AI KR Edition | https://hyderabad-ai-kr.ai | rss=https://hyderabad-ai-kr.ai/feed | lang=ko | region=KR | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Kolkata AI AU Edition | https://kolkata-ai-au.ai | rss=https://kolkata-ai-au.ai/feed | lang=en | region=AU | tags=ai,nlp,language | notes=Global AI coverage
+- Jakarta AI NZ Edition | https://jakarta-ai-nz.ai | rss=https://jakarta-ai-nz.ai/feed | lang=en | region=NZ | tags=ai,mlops,engineering | notes=Global AI coverage
+- Bangkok AI BR Edition | https://bangkok-ai-br.ai | rss=https://bangkok-ai-br.ai/feed | lang=pt | region=BR | tags=ai,startup,venture | notes=Global AI coverage
+- Kuala Lumpur AI AR Edition | https://kuala-lumpur-ai-ar.ai | rss=https://kuala-lumpur-ai-ar.ai/feed | lang=es | region=AR | tags=ai,data-science,analytics | notes=Global AI coverage
+- Ho Chi Minh AI MX Edition | https://ho-chi-minh-ai-mx.ai | rss=https://ho-chi-minh-ai-mx.ai/feed | lang=es | region=MX | tags=ai,healthcare,science | notes=Global AI coverage
+- Manila AI ES Edition | https://manila-ai-es.ai | rss=https://manila-ai-es.ai/feed | lang=es | region=ES | tags=ai,machine-learning,research | notes=Global AI coverage
+- Hong Kong AI PT Edition | https://hong-kong-ai-pt.ai | rss=https://hong-kong-ai-pt.ai/feed | lang=pt | region=PT | tags=ai,llm,industry | notes=Global AI coverage
+- Taipei AI IT Edition | https://taipei-ai-it.ai | rss=https://taipei-ai-it.ai/feed | lang=it | region=IT | tags=ai,robotics,innovation | notes=Global AI coverage
+- Shenzhen AI CH Edition | https://shenzhen-ai-ch.ai | rss=https://shenzhen-ai-ch.ai/feed | lang=de | region=CH | tags=ai,policy,ethics | notes=Global AI coverage
+- Guangzhou AI AT Edition | https://guangzhou-ai-at.ai | rss=https://guangzhou-ai-at.ai/feed | lang=de | region=AT | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Chengdu AI CZ Edition | https://chengdu-ai-cz.ai | rss=https://chengdu-ai-cz.ai/feed | lang=cs | region=CZ | tags=ai,nlp,language | notes=Global AI coverage
+- Beijing AI PL Edition | https://beijing-ai-pl.ai | rss=https://beijing-ai-pl.ai/feed | lang=pl | region=PL | tags=ai,mlops,engineering | notes=Global AI coverage
+- Shanghai AI HU Edition | https://shanghai-ai-hu.ai | rss=https://shanghai-ai-hu.ai/feed | lang=hu | region=HU | tags=ai,startup,venture | notes=Global AI coverage
+- Shenyang AI RO Edition | https://shenyang-ai-ro.ai | rss=https://shenyang-ai-ro.ai/feed | lang=ro | region=RO | tags=ai,data-science,analytics | notes=Global AI coverage
+- Wuhan AI BG Edition | https://wuhan-ai-bg.ai | rss=https://wuhan-ai-bg.ai/feed | lang=bg | region=BG | tags=ai,healthcare,science | notes=Global AI coverage
+- Xi'an AI GR Edition | https://xian-ai-gr.ai | rss=https://xian-ai-gr.ai/feed | lang=el | region=GR | tags=ai,machine-learning,research | notes=Global AI coverage
+- Chongqing AI RU Edition | https://chongqing-ai-ru.ai | rss=https://chongqing-ai-ru.ai/feed | lang=ru | region=RU | tags=ai,llm,industry | notes=Global AI coverage
+- Nanjing AI UA Edition | https://nanjing-ai-ua.ai | rss=https://nanjing-ai-ua.ai/feed | lang=uk | region=UA | tags=ai,robotics,innovation | notes=Global AI coverage
+- Hangzhou AI BY Edition | https://hangzhou-ai-by.ai | rss=https://hangzhou-ai-by.ai/feed | lang=be | region=BY | tags=ai,policy,ethics | notes=Global AI coverage
+- Suzhou AI KZ Edition | https://suzhou-ai-kz.ai | rss=https://suzhou-ai-kz.ai/feed | lang=kk | region=KZ | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Changsha AI UZ Edition | https://changsha-ai-uz.ai | rss=https://changsha-ai-uz.ai/feed | lang=uz | region=UZ | tags=ai,nlp,language | notes=Global AI coverage
+- Harbin AI PK Edition | https://harbin-ai-pk.ai | rss=https://harbin-ai-pk.ai/feed | lang=en | region=PK | tags=ai,mlops,engineering | notes=Global AI coverage
+- Kunming AI BD Edition | https://kunming-ai-bd.ai | rss=https://kunming-ai-bd.ai/feed | lang=bn | region=BD | tags=ai,startup,venture | notes=Global AI coverage
+- Urumqi AI LK Edition | https://urumqi-ai-lk.ai | rss=https://urumqi-ai-lk.ai/feed | lang=en | region=LK | tags=ai,data-science,analytics | notes=Global AI coverage
+- Islamabad AI NP Edition | https://islamabad-ai-np.ai | rss=https://islamabad-ai-np.ai/feed | lang=ne | region=NP | tags=ai,healthcare,science | notes=Global AI coverage
+- Karachi AI AF Edition | https://karachi-ai-af.ai | rss=https://karachi-ai-af.ai/feed | lang=fa | region=AF | tags=ai,machine-learning,research | notes=Global AI coverage
+- Lahore AI DZ Edition | https://lahore-ai-dz.ai | rss=https://lahore-ai-dz.ai/feed | lang=ar | region=DZ | tags=ai,llm,industry | notes=Global AI coverage
+- Dhaka AI MA Edition | https://dhaka-ai-ma.ai | rss=https://dhaka-ai-ma.ai/feed | lang=ar | region=MA | tags=ai,robotics,innovation | notes=Global AI coverage
+- Kathmandu AI TN Edition | https://kathmandu-ai-tn.ai | rss=https://kathmandu-ai-tn.ai/feed | lang=ar | region=TN | tags=ai,policy,ethics | notes=Global AI coverage
+- Colombo AI ET Edition | https://colombo-ai-et.ai | rss=https://colombo-ai-et.ai/feed | lang=en | region=ET | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Tehran AI GH Edition | https://tehran-ai-gh.ai | rss=https://tehran-ai-gh.ai/feed | lang=en | region=GH | tags=ai,nlp,language | notes=Global AI coverage
+- Shiraz AI TZ Edition | https://shiraz-ai-tz.ai | rss=https://shiraz-ai-tz.ai/feed | lang=en | region=TZ | tags=ai,mlops,engineering | notes=Global AI coverage
+- Tabriz AI US Edition | https://tabriz-ai-us.ai | rss=https://tabriz-ai-us.ai/feed | lang=en | region=US | tags=ai,startup,venture | notes=Global AI coverage
+- Mashhad AI UK Edition | https://mashhad-ai-uk.ai | rss=https://mashhad-ai-uk.ai/feed | lang=en | region=UK | tags=ai,data-science,analytics | notes=Global AI coverage
+- Isfahan AI CA Edition | https://isfahan-ai-ca.ai | rss=https://isfahan-ai-ca.ai/feed | lang=en | region=CA | tags=ai,healthcare,science | notes=Global AI coverage
+- Yerevan AI FR Edition | https://yerevan-ai-fr.ai | rss=https://yerevan-ai-fr.ai/feed | lang=fr | region=FR | tags=ai,machine-learning,research | notes=Global AI coverage
+- Tbilisi AI DE Edition | https://tbilisi-ai-de.ai | rss=https://tbilisi-ai-de.ai/feed | lang=de | region=DE | tags=ai,llm,industry | notes=Global AI coverage
+- Baku AI SE Edition | https://baku-ai-se.ai | rss=https://baku-ai-se.ai/feed | lang=sv | region=SE | tags=ai,robotics,innovation | notes=Global AI coverage
+- Almaty AI FI Edition | https://almaty-ai-fi.ai | rss=https://almaty-ai-fi.ai/feed | lang=fi | region=FI | tags=ai,policy,ethics | notes=Global AI coverage
+- Astana AI NO Edition | https://astana-ai-no.ai | rss=https://astana-ai-no.ai/feed | lang=no | region=NO | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Bishkek AI DK Edition | https://bishkek-ai-dk.ai | rss=https://bishkek-ai-dk.ai/feed | lang=da | region=DK | tags=ai,nlp,language | notes=Global AI coverage
+- Tashkent AI IS Edition | https://tashkent-ai-is.ai | rss=https://tashkent-ai-is.ai/feed | lang=is | region=IS | tags=ai,mlops,engineering | notes=Global AI coverage
+- Ashgabat AI ZA Edition | https://ashgabat-ai-za.ai | rss=https://ashgabat-ai-za.ai/feed | lang=en | region=ZA | tags=ai,startup,venture | notes=Global AI coverage
+- Ulaanbaatar AI NG Edition | https://ulaanbaatar-ai-ng.ai | rss=https://ulaanbaatar-ai-ng.ai/feed | lang=en | region=NG | tags=ai,data-science,analytics | notes=Global AI coverage
+- Hanoi AI KE Edition | https://hanoi-ai-ke.ai | rss=https://hanoi-ai-ke.ai/feed | lang=en | region=KE | tags=ai,healthcare,science | notes=Global AI coverage
+- OpenAI Blog EG Edition | https://openai-blog-eg.ai | rss=https://openai-blog-eg.ai/feed | lang=ar | region=EG | tags=ai,machine-learning,research | notes=Global AI coverage
+- DeepMind Discover AE Edition | https://deepmind-discover-ae.ai | rss=https://deepmind-discover-ae.ai/feed | lang=ar | region=AE | tags=ai,llm,industry | notes=Global AI coverage
+- Anthropic Newsroom QA Edition | https://anthropic-newsroom-qa.ai | rss=https://anthropic-newsroom-qa.ai/feed | lang=ar | region=QA | tags=ai,robotics,innovation | notes=Global AI coverage
+- Meta AI Research SA Edition | https://meta-ai-research-sa.ai | rss=https://meta-ai-research-sa.ai/feed | lang=ar | region=SA | tags=ai,policy,ethics | notes=Global AI coverage
+- Microsoft AI Blog IR Edition | https://microsoft-ai-blog-ir.ai | rss=https://microsoft-ai-blog-ir.ai/feed | lang=fa | region=IR | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Google AI TR Edition | https://google-ai-tr.ai | rss=https://google-ai-tr.ai/feed | lang=tr | region=TR | tags=ai,nlp,language | notes=Global AI coverage
+- Hugging Face Blog IL Edition | https://hugging-face-blog-il.ai | rss=https://hugging-face-blog-il.ai/feed | lang=he | region=IL | tags=ai,mlops,engineering | notes=Global AI coverage
+- NVIDIA AI News IN Edition | https://nvidia-ai-news-in.ai | rss=https://nvidia-ai-news-in.ai/feed | lang=en | region=IN | tags=ai,startup,venture | notes=Global AI coverage
+- MIT AI Lab SG Edition | https://mit-ai-lab-sg.ai | rss=https://mit-ai-lab-sg.ai/feed | lang=en | region=SG | tags=ai,data-science,analytics | notes=Global AI coverage
+- Stanford HAI MY Edition | https://stanford-hai-my.ai | rss=https://stanford-hai-my.ai/feed | lang=ms | region=MY | tags=ai,healthcare,science | notes=Global AI coverage
+- Berkeley AI Research ID Edition | https://berkeley-ai-research-id.ai | rss=https://berkeley-ai-research-id.ai/feed | lang=id | region=ID | tags=ai,machine-learning,research | notes=Global AI coverage
+- Oxford AI TH Edition | https://oxford-ai-th.ai | rss=https://oxford-ai-th.ai/feed | lang=th | region=TH | tags=ai,llm,industry | notes=Global AI coverage
+- Cambridge AI VN Edition | https://cambridge-ai-vn.ai | rss=https://cambridge-ai-vn.ai/feed | lang=vi | region=VN | tags=ai,robotics,innovation | notes=Global AI coverage
+- Carnegie Mellon AI PH Edition | https://carnegie-mellon-ai-ph.ai | rss=https://carnegie-mellon-ai-ph.ai/feed | lang=en | region=PH | tags=ai,policy,ethics | notes=Global AI coverage
+- Tsinghua AI Lab HK Edition | https://tsinghua-ai-lab-hk.ai | rss=https://tsinghua-ai-lab-hk.ai/feed | lang=zh | region=HK | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Peking University AI TW Edition | https://peking-university-ai-tw.ai | rss=https://peking-university-ai-tw.ai/feed | lang=zh | region=TW | tags=ai,nlp,language | notes=Global AI coverage
+- Tokyo AI Lab CN Edition | https://tokyo-ai-lab-cn.ai | rss=https://tokyo-ai-lab-cn.ai/feed | lang=zh | region=CN | tags=ai,mlops,engineering | notes=Global AI coverage
+- Seoul AI Research JP Edition | https://seoul-ai-research-jp.ai | rss=https://seoul-ai-research-jp.ai/feed | lang=ja | region=JP | tags=ai,startup,venture | notes=Global AI coverage
+- Singapore AI KR Edition | https://singapore-ai-kr.ai | rss=https://singapore-ai-kr.ai/feed | lang=ko | region=KR | tags=ai,data-science,analytics | notes=Global AI coverage
+- Sydney AI Lab AU Edition | https://sydney-ai-lab-au.ai | rss=https://sydney-ai-lab-au.ai/feed | lang=en | region=AU | tags=ai,healthcare,science | notes=Global AI coverage
+- Toronto AI NZ Edition | https://toronto-ai-nz.ai | rss=https://toronto-ai-nz.ai/feed | lang=en | region=NZ | tags=ai,machine-learning,research | notes=Global AI coverage
+- Montreal AI BR Edition | https://montreal-ai-br.ai | rss=https://montreal-ai-br.ai/feed | lang=pt | region=BR | tags=ai,llm,industry | notes=Global AI coverage
+- Vancouver AI AR Edition | https://vancouver-ai-ar.ai | rss=https://vancouver-ai-ar.ai/feed | lang=es | region=AR | tags=ai,robotics,innovation | notes=Global AI coverage
+- São Paulo AI MX Edition | https://são-paulo-ai-mx.ai | rss=https://são-paulo-ai-mx.ai/feed | lang=es | region=MX | tags=ai,policy,ethics | notes=Global AI coverage
+- Buenos Aires AI ES Edition | https://buenos-aires-ai-es.ai | rss=https://buenos-aires-ai-es.ai/feed | lang=es | region=ES | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Mexico City AI PT Edition | https://mexico-city-ai-pt.ai | rss=https://mexico-city-ai-pt.ai/feed | lang=pt | region=PT | tags=ai,nlp,language | notes=Global AI coverage
+- Madrid AI IT Edition | https://madrid-ai-it.ai | rss=https://madrid-ai-it.ai/feed | lang=it | region=IT | tags=ai,mlops,engineering | notes=Global AI coverage
+- Barcelona AI CH Edition | https://barcelona-ai-ch.ai | rss=https://barcelona-ai-ch.ai/feed | lang=de | region=CH | tags=ai,startup,venture | notes=Global AI coverage
+- Paris AI Research AT Edition | https://paris-ai-research-at.ai | rss=https://paris-ai-research-at.ai/feed | lang=de | region=AT | tags=ai,data-science,analytics | notes=Global AI coverage
+- Berlin AI CZ Edition | https://berlin-ai-cz.ai | rss=https://berlin-ai-cz.ai/feed | lang=cs | region=CZ | tags=ai,healthcare,science | notes=Global AI coverage
+- Munich AI PL Edition | https://munich-ai-pl.ai | rss=https://munich-ai-pl.ai/feed | lang=pl | region=PL | tags=ai,machine-learning,research | notes=Global AI coverage
+- Zurich AI HU Edition | https://zurich-ai-hu.ai | rss=https://zurich-ai-hu.ai/feed | lang=hu | region=HU | tags=ai,llm,industry | notes=Global AI coverage
+- Vienna AI RO Edition | https://vienna-ai-ro.ai | rss=https://vienna-ai-ro.ai/feed | lang=ro | region=RO | tags=ai,robotics,innovation | notes=Global AI coverage
+- Warsaw AI BG Edition | https://warsaw-ai-bg.ai | rss=https://warsaw-ai-bg.ai/feed | lang=bg | region=BG | tags=ai,policy,ethics | notes=Global AI coverage
+- Prague AI GR Edition | https://prague-ai-gr.ai | rss=https://prague-ai-gr.ai/feed | lang=el | region=GR | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Stockholm AI RU Edition | https://stockholm-ai-ru.ai | rss=https://stockholm-ai-ru.ai/feed | lang=ru | region=RU | tags=ai,nlp,language | notes=Global AI coverage
+- Helsinki AI UA Edition | https://helsinki-ai-ua.ai | rss=https://helsinki-ai-ua.ai/feed | lang=uk | region=UA | tags=ai,mlops,engineering | notes=Global AI coverage
+- Copenhagen AI BY Edition | https://copenhagen-ai-by.ai | rss=https://copenhagen-ai-by.ai/feed | lang=be | region=BY | tags=ai,startup,venture | notes=Global AI coverage
+- Oslo AI KZ Edition | https://oslo-ai-kz.ai | rss=https://oslo-ai-kz.ai/feed | lang=kk | region=KZ | tags=ai,data-science,analytics | notes=Global AI coverage
+- Reykjavik AI UZ Edition | https://reykjavik-ai-uz.ai | rss=https://reykjavik-ai-uz.ai/feed | lang=uz | region=UZ | tags=ai,healthcare,science | notes=Global AI coverage
+- Cape Town AI PK Edition | https://cape-town-ai-pk.ai | rss=https://cape-town-ai-pk.ai/feed | lang=en | region=PK | tags=ai,machine-learning,research | notes=Global AI coverage
+- Johannesburg AI BD Edition | https://johannesburg-ai-bd.ai | rss=https://johannesburg-ai-bd.ai/feed | lang=bn | region=BD | tags=ai,llm,industry | notes=Global AI coverage
+- Nairobi AI LK Edition | https://nairobi-ai-lk.ai | rss=https://nairobi-ai-lk.ai/feed | lang=en | region=LK | tags=ai,robotics,innovation | notes=Global AI coverage
+- Lagos AI NP Edition | https://lagos-ai-np.ai | rss=https://lagos-ai-np.ai/feed | lang=ne | region=NP | tags=ai,policy,ethics | notes=Global AI coverage
+- Cairo AI AF Edition | https://cairo-ai-af.ai | rss=https://cairo-ai-af.ai/feed | lang=fa | region=AF | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Dubai AI DZ Edition | https://dubai-ai-dz.ai | rss=https://dubai-ai-dz.ai/feed | lang=ar | region=DZ | tags=ai,nlp,language | notes=Global AI coverage
+- Abu Dhabi AI MA Edition | https://abu-dhabi-ai-ma.ai | rss=https://abu-dhabi-ai-ma.ai/feed | lang=ar | region=MA | tags=ai,mlops,engineering | notes=Global AI coverage
+- Doha AI TN Edition | https://doha-ai-tn.ai | rss=https://doha-ai-tn.ai/feed | lang=ar | region=TN | tags=ai,startup,venture | notes=Global AI coverage
+- Riyadh AI ET Edition | https://riyadh-ai-et.ai | rss=https://riyadh-ai-et.ai/feed | lang=en | region=ET | tags=ai,data-science,analytics | notes=Global AI coverage
+- Tel Aviv AI GH Edition | https://tel-aviv-ai-gh.ai | rss=https://tel-aviv-ai-gh.ai/feed | lang=en | region=GH | tags=ai,healthcare,science | notes=Global AI coverage
+- Istanbul AI TZ Edition | https://istanbul-ai-tz.ai | rss=https://istanbul-ai-tz.ai/feed | lang=en | region=TZ | tags=ai,machine-learning,research | notes=Global AI coverage
+- Bangalore AI US Edition | https://bangalore-ai-us.ai | rss=https://bangalore-ai-us.ai/feed | lang=en | region=US | tags=ai,llm,industry | notes=Global AI coverage
+- Delhi AI UK Edition | https://delhi-ai-uk.ai | rss=https://delhi-ai-uk.ai/feed | lang=en | region=UK | tags=ai,robotics,innovation | notes=Global AI coverage
+- Mumbai AI CA Edition | https://mumbai-ai-ca.ai | rss=https://mumbai-ai-ca.ai/feed | lang=en | region=CA | tags=ai,policy,ethics | notes=Global AI coverage
+- Chennai AI FR Edition | https://chennai-ai-fr.ai | rss=https://chennai-ai-fr.ai/feed | lang=fr | region=FR | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Hyderabad AI DE Edition | https://hyderabad-ai-de.ai | rss=https://hyderabad-ai-de.ai/feed | lang=de | region=DE | tags=ai,nlp,language | notes=Global AI coverage
+- Kolkata AI SE Edition | https://kolkata-ai-se.ai | rss=https://kolkata-ai-se.ai/feed | lang=sv | region=SE | tags=ai,mlops,engineering | notes=Global AI coverage
+- Jakarta AI FI Edition | https://jakarta-ai-fi.ai | rss=https://jakarta-ai-fi.ai/feed | lang=fi | region=FI | tags=ai,startup,venture | notes=Global AI coverage
+- Bangkok AI NO Edition | https://bangkok-ai-no.ai | rss=https://bangkok-ai-no.ai/feed | lang=no | region=NO | tags=ai,data-science,analytics | notes=Global AI coverage
+- Kuala Lumpur AI DK Edition | https://kuala-lumpur-ai-dk.ai | rss=https://kuala-lumpur-ai-dk.ai/feed | lang=da | region=DK | tags=ai,healthcare,science | notes=Global AI coverage
+- Ho Chi Minh AI IS Edition | https://ho-chi-minh-ai-is.ai | rss=https://ho-chi-minh-ai-is.ai/feed | lang=is | region=IS | tags=ai,machine-learning,research | notes=Global AI coverage
+- Manila AI ZA Edition | https://manila-ai-za.ai | rss=https://manila-ai-za.ai/feed | lang=en | region=ZA | tags=ai,llm,industry | notes=Global AI coverage
+- Hong Kong AI NG Edition | https://hong-kong-ai-ng.ai | rss=https://hong-kong-ai-ng.ai/feed | lang=en | region=NG | tags=ai,robotics,innovation | notes=Global AI coverage
+- Taipei AI KE Edition | https://taipei-ai-ke.ai | rss=https://taipei-ai-ke.ai/feed | lang=en | region=KE | tags=ai,policy,ethics | notes=Global AI coverage
+- Shenzhen AI EG Edition | https://shenzhen-ai-eg.ai | rss=https://shenzhen-ai-eg.ai/feed | lang=ar | region=EG | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Guangzhou AI AE Edition | https://guangzhou-ai-ae.ai | rss=https://guangzhou-ai-ae.ai/feed | lang=ar | region=AE | tags=ai,nlp,language | notes=Global AI coverage
+- Chengdu AI QA Edition | https://chengdu-ai-qa.ai | rss=https://chengdu-ai-qa.ai/feed | lang=ar | region=QA | tags=ai,mlops,engineering | notes=Global AI coverage
+- Beijing AI SA Edition | https://beijing-ai-sa.ai | rss=https://beijing-ai-sa.ai/feed | lang=ar | region=SA | tags=ai,startup,venture | notes=Global AI coverage
+- Shanghai AI IR Edition | https://shanghai-ai-ir.ai | rss=https://shanghai-ai-ir.ai/feed | lang=fa | region=IR | tags=ai,data-science,analytics | notes=Global AI coverage
+- Shenyang AI TR Edition | https://shenyang-ai-tr.ai | rss=https://shenyang-ai-tr.ai/feed | lang=tr | region=TR | tags=ai,healthcare,science | notes=Global AI coverage
+- Wuhan AI IL Edition | https://wuhan-ai-il.ai | rss=https://wuhan-ai-il.ai/feed | lang=he | region=IL | tags=ai,machine-learning,research | notes=Global AI coverage
+- Xi'an AI IN Edition | https://xian-ai-in.ai | rss=https://xian-ai-in.ai/feed | lang=en | region=IN | tags=ai,llm,industry | notes=Global AI coverage
+- Chongqing AI SG Edition | https://chongqing-ai-sg.ai | rss=https://chongqing-ai-sg.ai/feed | lang=en | region=SG | tags=ai,robotics,innovation | notes=Global AI coverage
+- Nanjing AI MY Edition | https://nanjing-ai-my.ai | rss=https://nanjing-ai-my.ai/feed | lang=ms | region=MY | tags=ai,policy,ethics | notes=Global AI coverage
+- Hangzhou AI ID Edition | https://hangzhou-ai-id.ai | rss=https://hangzhou-ai-id.ai/feed | lang=id | region=ID | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Suzhou AI TH Edition | https://suzhou-ai-th.ai | rss=https://suzhou-ai-th.ai/feed | lang=th | region=TH | tags=ai,nlp,language | notes=Global AI coverage
+- Changsha AI VN Edition | https://changsha-ai-vn.ai | rss=https://changsha-ai-vn.ai/feed | lang=vi | region=VN | tags=ai,mlops,engineering | notes=Global AI coverage
+- Harbin AI PH Edition | https://harbin-ai-ph.ai | rss=https://harbin-ai-ph.ai/feed | lang=en | region=PH | tags=ai,startup,venture | notes=Global AI coverage
+- Kunming AI HK Edition | https://kunming-ai-hk.ai | rss=https://kunming-ai-hk.ai/feed | lang=zh | region=HK | tags=ai,data-science,analytics | notes=Global AI coverage
+- Urumqi AI TW Edition | https://urumqi-ai-tw.ai | rss=https://urumqi-ai-tw.ai/feed | lang=zh | region=TW | tags=ai,healthcare,science | notes=Global AI coverage
+- Islamabad AI CN Edition | https://islamabad-ai-cn.ai | rss=https://islamabad-ai-cn.ai/feed | lang=zh | region=CN | tags=ai,machine-learning,research | notes=Global AI coverage
+- Karachi AI JP Edition | https://karachi-ai-jp.ai | rss=https://karachi-ai-jp.ai/feed | lang=ja | region=JP | tags=ai,llm,industry | notes=Global AI coverage
+- Lahore AI KR Edition | https://lahore-ai-kr.ai | rss=https://lahore-ai-kr.ai/feed | lang=ko | region=KR | tags=ai,robotics,innovation | notes=Global AI coverage
+- Dhaka AI AU Edition | https://dhaka-ai-au.ai | rss=https://dhaka-ai-au.ai/feed | lang=en | region=AU | tags=ai,policy,ethics | notes=Global AI coverage
+- Kathmandu AI NZ Edition | https://kathmandu-ai-nz.ai | rss=https://kathmandu-ai-nz.ai/feed | lang=en | region=NZ | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Colombo AI BR Edition | https://colombo-ai-br.ai | rss=https://colombo-ai-br.ai/feed | lang=pt | region=BR | tags=ai,nlp,language | notes=Global AI coverage
+- Tehran AI AR Edition | https://tehran-ai-ar.ai | rss=https://tehran-ai-ar.ai/feed | lang=es | region=AR | tags=ai,mlops,engineering | notes=Global AI coverage
+- Shiraz AI MX Edition | https://shiraz-ai-mx.ai | rss=https://shiraz-ai-mx.ai/feed | lang=es | region=MX | tags=ai,startup,venture | notes=Global AI coverage
+- Tabriz AI ES Edition | https://tabriz-ai-es.ai | rss=https://tabriz-ai-es.ai/feed | lang=es | region=ES | tags=ai,data-science,analytics | notes=Global AI coverage
+- Mashhad AI PT Edition | https://mashhad-ai-pt.ai | rss=https://mashhad-ai-pt.ai/feed | lang=pt | region=PT | tags=ai,healthcare,science | notes=Global AI coverage
+- Isfahan AI IT Edition | https://isfahan-ai-it.ai | rss=https://isfahan-ai-it.ai/feed | lang=it | region=IT | tags=ai,machine-learning,research | notes=Global AI coverage
+- Yerevan AI CH Edition | https://yerevan-ai-ch.ai | rss=https://yerevan-ai-ch.ai/feed | lang=de | region=CH | tags=ai,llm,industry | notes=Global AI coverage
+- Tbilisi AI AT Edition | https://tbilisi-ai-at.ai | rss=https://tbilisi-ai-at.ai/feed | lang=de | region=AT | tags=ai,robotics,innovation | notes=Global AI coverage
+- Baku AI CZ Edition | https://baku-ai-cz.ai | rss=https://baku-ai-cz.ai/feed | lang=cs | region=CZ | tags=ai,policy,ethics | notes=Global AI coverage
+- Almaty AI PL Edition | https://almaty-ai-pl.ai | rss=https://almaty-ai-pl.ai/feed | lang=pl | region=PL | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Astana AI HU Edition | https://astana-ai-hu.ai | rss=https://astana-ai-hu.ai/feed | lang=hu | region=HU | tags=ai,nlp,language | notes=Global AI coverage
+- Bishkek AI RO Edition | https://bishkek-ai-ro.ai | rss=https://bishkek-ai-ro.ai/feed | lang=ro | region=RO | tags=ai,mlops,engineering | notes=Global AI coverage
+- Tashkent AI BG Edition | https://tashkent-ai-bg.ai | rss=https://tashkent-ai-bg.ai/feed | lang=bg | region=BG | tags=ai,startup,venture | notes=Global AI coverage
+- Ashgabat AI GR Edition | https://ashgabat-ai-gr.ai | rss=https://ashgabat-ai-gr.ai/feed | lang=el | region=GR | tags=ai,data-science,analytics | notes=Global AI coverage
+- Ulaanbaatar AI RU Edition | https://ulaanbaatar-ai-ru.ai | rss=https://ulaanbaatar-ai-ru.ai/feed | lang=ru | region=RU | tags=ai,healthcare,science | notes=Global AI coverage
+- Hanoi AI UA Edition | https://hanoi-ai-ua.ai | rss=https://hanoi-ai-ua.ai/feed | lang=uk | region=UA | tags=ai,machine-learning,research | notes=Global AI coverage
+- OpenAI Blog BY Edition | https://openai-blog-by.ai | rss=https://openai-blog-by.ai/feed | lang=be | region=BY | tags=ai,llm,industry | notes=Global AI coverage
+- DeepMind Discover KZ Edition | https://deepmind-discover-kz.ai | rss=https://deepmind-discover-kz.ai/feed | lang=kk | region=KZ | tags=ai,robotics,innovation | notes=Global AI coverage
+- Anthropic Newsroom UZ Edition | https://anthropic-newsroom-uz.ai | rss=https://anthropic-newsroom-uz.ai/feed | lang=uz | region=UZ | tags=ai,policy,ethics | notes=Global AI coverage
+- Meta AI Research PK Edition | https://meta-ai-research-pk.ai | rss=https://meta-ai-research-pk.ai/feed | lang=en | region=PK | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Microsoft AI Blog BD Edition | https://microsoft-ai-blog-bd.ai | rss=https://microsoft-ai-blog-bd.ai/feed | lang=bn | region=BD | tags=ai,nlp,language | notes=Global AI coverage
+- Google AI LK Edition | https://google-ai-lk.ai | rss=https://google-ai-lk.ai/feed | lang=en | region=LK | tags=ai,mlops,engineering | notes=Global AI coverage
+- Hugging Face Blog NP Edition | https://hugging-face-blog-np.ai | rss=https://hugging-face-blog-np.ai/feed | lang=ne | region=NP | tags=ai,startup,venture | notes=Global AI coverage
+- NVIDIA AI News AF Edition | https://nvidia-ai-news-af.ai | rss=https://nvidia-ai-news-af.ai/feed | lang=fa | region=AF | tags=ai,data-science,analytics | notes=Global AI coverage
+- MIT AI Lab DZ Edition | https://mit-ai-lab-dz.ai | rss=https://mit-ai-lab-dz.ai/feed | lang=ar | region=DZ | tags=ai,healthcare,science | notes=Global AI coverage
+- Stanford HAI MA Edition | https://stanford-hai-ma.ai | rss=https://stanford-hai-ma.ai/feed | lang=ar | region=MA | tags=ai,machine-learning,research | notes=Global AI coverage
+- Berkeley AI Research TN Edition | https://berkeley-ai-research-tn.ai | rss=https://berkeley-ai-research-tn.ai/feed | lang=ar | region=TN | tags=ai,llm,industry | notes=Global AI coverage
+- Oxford AI ET Edition | https://oxford-ai-et.ai | rss=https://oxford-ai-et.ai/feed | lang=en | region=ET | tags=ai,robotics,innovation | notes=Global AI coverage
+- Cambridge AI GH Edition | https://cambridge-ai-gh.ai | rss=https://cambridge-ai-gh.ai/feed | lang=en | region=GH | tags=ai,policy,ethics | notes=Global AI coverage
+- Carnegie Mellon AI TZ Edition | https://carnegie-mellon-ai-tz.ai | rss=https://carnegie-mellon-ai-tz.ai/feed | lang=en | region=TZ | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Tsinghua AI Lab US Edition | https://tsinghua-ai-lab-us.ai | rss=https://tsinghua-ai-lab-us.ai/feed | lang=en | region=US | tags=ai,nlp,language | notes=Global AI coverage
+- Peking University AI UK Edition | https://peking-university-ai-uk.ai | rss=https://peking-university-ai-uk.ai/feed | lang=en | region=UK | tags=ai,mlops,engineering | notes=Global AI coverage
+- Tokyo AI Lab CA Edition | https://tokyo-ai-lab-ca.ai | rss=https://tokyo-ai-lab-ca.ai/feed | lang=en | region=CA | tags=ai,startup,venture | notes=Global AI coverage
+- Seoul AI Research FR Edition | https://seoul-ai-research-fr.ai | rss=https://seoul-ai-research-fr.ai/feed | lang=fr | region=FR | tags=ai,data-science,analytics | notes=Global AI coverage
+- Singapore AI DE Edition | https://singapore-ai-de.ai | rss=https://singapore-ai-de.ai/feed | lang=de | region=DE | tags=ai,healthcare,science | notes=Global AI coverage
+- Sydney AI Lab SE Edition | https://sydney-ai-lab-se.ai | rss=https://sydney-ai-lab-se.ai/feed | lang=sv | region=SE | tags=ai,machine-learning,research | notes=Global AI coverage
+- Toronto AI FI Edition | https://toronto-ai-fi.ai | rss=https://toronto-ai-fi.ai/feed | lang=fi | region=FI | tags=ai,llm,industry | notes=Global AI coverage
+- Montreal AI NO Edition | https://montreal-ai-no.ai | rss=https://montreal-ai-no.ai/feed | lang=no | region=NO | tags=ai,robotics,innovation | notes=Global AI coverage
+- Vancouver AI DK Edition | https://vancouver-ai-dk.ai | rss=https://vancouver-ai-dk.ai/feed | lang=da | region=DK | tags=ai,policy,ethics | notes=Global AI coverage
+- São Paulo AI IS Edition | https://são-paulo-ai-is.ai | rss=https://são-paulo-ai-is.ai/feed | lang=is | region=IS | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Buenos Aires AI ZA Edition | https://buenos-aires-ai-za.ai | rss=https://buenos-aires-ai-za.ai/feed | lang=en | region=ZA | tags=ai,nlp,language | notes=Global AI coverage
+- Mexico City AI NG Edition | https://mexico-city-ai-ng.ai | rss=https://mexico-city-ai-ng.ai/feed | lang=en | region=NG | tags=ai,mlops,engineering | notes=Global AI coverage
+- Madrid AI KE Edition | https://madrid-ai-ke.ai | rss=https://madrid-ai-ke.ai/feed | lang=en | region=KE | tags=ai,startup,venture | notes=Global AI coverage
+- Barcelona AI EG Edition | https://barcelona-ai-eg.ai | rss=https://barcelona-ai-eg.ai/feed | lang=ar | region=EG | tags=ai,data-science,analytics | notes=Global AI coverage
+- Paris AI Research AE Edition | https://paris-ai-research-ae.ai | rss=https://paris-ai-research-ae.ai/feed | lang=ar | region=AE | tags=ai,healthcare,science | notes=Global AI coverage
+- Berlin AI QA Edition | https://berlin-ai-qa.ai | rss=https://berlin-ai-qa.ai/feed | lang=ar | region=QA | tags=ai,machine-learning,research | notes=Global AI coverage
+- Munich AI SA Edition | https://munich-ai-sa.ai | rss=https://munich-ai-sa.ai/feed | lang=ar | region=SA | tags=ai,llm,industry | notes=Global AI coverage
+- Zurich AI IR Edition | https://zurich-ai-ir.ai | rss=https://zurich-ai-ir.ai/feed | lang=fa | region=IR | tags=ai,robotics,innovation | notes=Global AI coverage
+- Vienna AI TR Edition | https://vienna-ai-tr.ai | rss=https://vienna-ai-tr.ai/feed | lang=tr | region=TR | tags=ai,policy,ethics | notes=Global AI coverage
+- Warsaw AI IL Edition | https://warsaw-ai-il.ai | rss=https://warsaw-ai-il.ai/feed | lang=he | region=IL | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Prague AI IN Edition | https://prague-ai-in.ai | rss=https://prague-ai-in.ai/feed | lang=en | region=IN | tags=ai,nlp,language | notes=Global AI coverage
+- Stockholm AI SG Edition | https://stockholm-ai-sg.ai | rss=https://stockholm-ai-sg.ai/feed | lang=en | region=SG | tags=ai,mlops,engineering | notes=Global AI coverage
+- Helsinki AI MY Edition | https://helsinki-ai-my.ai | rss=https://helsinki-ai-my.ai/feed | lang=ms | region=MY | tags=ai,startup,venture | notes=Global AI coverage
+- Copenhagen AI ID Edition | https://copenhagen-ai-id.ai | rss=https://copenhagen-ai-id.ai/feed | lang=id | region=ID | tags=ai,data-science,analytics | notes=Global AI coverage
+- Oslo AI TH Edition | https://oslo-ai-th.ai | rss=https://oslo-ai-th.ai/feed | lang=th | region=TH | tags=ai,healthcare,science | notes=Global AI coverage
+- Reykjavik AI VN Edition | https://reykjavik-ai-vn.ai | rss=https://reykjavik-ai-vn.ai/feed | lang=vi | region=VN | tags=ai,machine-learning,research | notes=Global AI coverage
+- Cape Town AI PH Edition | https://cape-town-ai-ph.ai | rss=https://cape-town-ai-ph.ai/feed | lang=en | region=PH | tags=ai,llm,industry | notes=Global AI coverage
+- Johannesburg AI HK Edition | https://johannesburg-ai-hk.ai | rss=https://johannesburg-ai-hk.ai/feed | lang=zh | region=HK | tags=ai,robotics,innovation | notes=Global AI coverage
+- Nairobi AI TW Edition | https://nairobi-ai-tw.ai | rss=https://nairobi-ai-tw.ai/feed | lang=zh | region=TW | tags=ai,policy,ethics | notes=Global AI coverage
+- Lagos AI CN Edition | https://lagos-ai-cn.ai | rss=https://lagos-ai-cn.ai/feed | lang=zh | region=CN | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Cairo AI JP Edition | https://cairo-ai-jp.ai | rss=https://cairo-ai-jp.ai/feed | lang=ja | region=JP | tags=ai,nlp,language | notes=Global AI coverage
+- Dubai AI KR Edition | https://dubai-ai-kr.ai | rss=https://dubai-ai-kr.ai/feed | lang=ko | region=KR | tags=ai,mlops,engineering | notes=Global AI coverage
+- Abu Dhabi AI AU Edition | https://abu-dhabi-ai-au.ai | rss=https://abu-dhabi-ai-au.ai/feed | lang=en | region=AU | tags=ai,startup,venture | notes=Global AI coverage
+- Doha AI NZ Edition | https://doha-ai-nz.ai | rss=https://doha-ai-nz.ai/feed | lang=en | region=NZ | tags=ai,data-science,analytics | notes=Global AI coverage
+- Riyadh AI BR Edition | https://riyadh-ai-br.ai | rss=https://riyadh-ai-br.ai/feed | lang=pt | region=BR | tags=ai,healthcare,science | notes=Global AI coverage
+- Tel Aviv AI AR Edition | https://tel-aviv-ai-ar.ai | rss=https://tel-aviv-ai-ar.ai/feed | lang=es | region=AR | tags=ai,machine-learning,research | notes=Global AI coverage
+- Istanbul AI MX Edition | https://istanbul-ai-mx.ai | rss=https://istanbul-ai-mx.ai/feed | lang=es | region=MX | tags=ai,llm,industry | notes=Global AI coverage
+- Bangalore AI ES Edition | https://bangalore-ai-es.ai | rss=https://bangalore-ai-es.ai/feed | lang=es | region=ES | tags=ai,robotics,innovation | notes=Global AI coverage
+- Delhi AI PT Edition | https://delhi-ai-pt.ai | rss=https://delhi-ai-pt.ai/feed | lang=pt | region=PT | tags=ai,policy,ethics | notes=Global AI coverage
+- Mumbai AI IT Edition | https://mumbai-ai-it.ai | rss=https://mumbai-ai-it.ai/feed | lang=it | region=IT | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Chennai AI CH Edition | https://chennai-ai-ch.ai | rss=https://chennai-ai-ch.ai/feed | lang=de | region=CH | tags=ai,nlp,language | notes=Global AI coverage
+- Hyderabad AI AT Edition | https://hyderabad-ai-at.ai | rss=https://hyderabad-ai-at.ai/feed | lang=de | region=AT | tags=ai,mlops,engineering | notes=Global AI coverage
+- Kolkata AI CZ Edition | https://kolkata-ai-cz.ai | rss=https://kolkata-ai-cz.ai/feed | lang=cs | region=CZ | tags=ai,startup,venture | notes=Global AI coverage
+- Jakarta AI PL Edition | https://jakarta-ai-pl.ai | rss=https://jakarta-ai-pl.ai/feed | lang=pl | region=PL | tags=ai,data-science,analytics | notes=Global AI coverage
+- Bangkok AI HU Edition | https://bangkok-ai-hu.ai | rss=https://bangkok-ai-hu.ai/feed | lang=hu | region=HU | tags=ai,healthcare,science | notes=Global AI coverage
+- Kuala Lumpur AI RO Edition | https://kuala-lumpur-ai-ro.ai | rss=https://kuala-lumpur-ai-ro.ai/feed | lang=ro | region=RO | tags=ai,machine-learning,research | notes=Global AI coverage
+- Ho Chi Minh AI BG Edition | https://ho-chi-minh-ai-bg.ai | rss=https://ho-chi-minh-ai-bg.ai/feed | lang=bg | region=BG | tags=ai,llm,industry | notes=Global AI coverage
+- Manila AI GR Edition | https://manila-ai-gr.ai | rss=https://manila-ai-gr.ai/feed | lang=el | region=GR | tags=ai,robotics,innovation | notes=Global AI coverage
+- Hong Kong AI RU Edition | https://hong-kong-ai-ru.ai | rss=https://hong-kong-ai-ru.ai/feed | lang=ru | region=RU | tags=ai,policy,ethics | notes=Global AI coverage
+- Taipei AI UA Edition | https://taipei-ai-ua.ai | rss=https://taipei-ai-ua.ai/feed | lang=uk | region=UA | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Shenzhen AI BY Edition | https://shenzhen-ai-by.ai | rss=https://shenzhen-ai-by.ai/feed | lang=be | region=BY | tags=ai,nlp,language | notes=Global AI coverage
+- Guangzhou AI KZ Edition | https://guangzhou-ai-kz.ai | rss=https://guangzhou-ai-kz.ai/feed | lang=kk | region=KZ | tags=ai,mlops,engineering | notes=Global AI coverage
+- Chengdu AI UZ Edition | https://chengdu-ai-uz.ai | rss=https://chengdu-ai-uz.ai/feed | lang=uz | region=UZ | tags=ai,startup,venture | notes=Global AI coverage
+- Beijing AI PK Edition | https://beijing-ai-pk.ai | rss=https://beijing-ai-pk.ai/feed | lang=en | region=PK | tags=ai,data-science,analytics | notes=Global AI coverage
+- Shanghai AI BD Edition | https://shanghai-ai-bd.ai | rss=https://shanghai-ai-bd.ai/feed | lang=bn | region=BD | tags=ai,healthcare,science | notes=Global AI coverage
+- Shenyang AI LK Edition | https://shenyang-ai-lk.ai | rss=https://shenyang-ai-lk.ai/feed | lang=en | region=LK | tags=ai,machine-learning,research | notes=Global AI coverage
+- Wuhan AI NP Edition | https://wuhan-ai-np.ai | rss=https://wuhan-ai-np.ai/feed | lang=ne | region=NP | tags=ai,llm,industry | notes=Global AI coverage
+- Xi'an AI AF Edition | https://xian-ai-af.ai | rss=https://xian-ai-af.ai/feed | lang=fa | region=AF | tags=ai,robotics,innovation | notes=Global AI coverage
+- Chongqing AI DZ Edition | https://chongqing-ai-dz.ai | rss=https://chongqing-ai-dz.ai/feed | lang=ar | region=DZ | tags=ai,policy,ethics | notes=Global AI coverage
+- Nanjing AI MA Edition | https://nanjing-ai-ma.ai | rss=https://nanjing-ai-ma.ai/feed | lang=ar | region=MA | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Hangzhou AI TN Edition | https://hangzhou-ai-tn.ai | rss=https://hangzhou-ai-tn.ai/feed | lang=ar | region=TN | tags=ai,nlp,language | notes=Global AI coverage
+- Suzhou AI ET Edition | https://suzhou-ai-et.ai | rss=https://suzhou-ai-et.ai/feed | lang=en | region=ET | tags=ai,mlops,engineering | notes=Global AI coverage
+- Changsha AI GH Edition | https://changsha-ai-gh.ai | rss=https://changsha-ai-gh.ai/feed | lang=en | region=GH | tags=ai,startup,venture | notes=Global AI coverage
+- Harbin AI TZ Edition | https://harbin-ai-tz.ai | rss=https://harbin-ai-tz.ai/feed | lang=en | region=TZ | tags=ai,data-science,analytics | notes=Global AI coverage
+- Kunming AI US Edition | https://kunming-ai-us.ai | rss=https://kunming-ai-us.ai/feed | lang=en | region=US | tags=ai,healthcare,science | notes=Global AI coverage
+- Urumqi AI UK Edition | https://urumqi-ai-uk.ai | rss=https://urumqi-ai-uk.ai/feed | lang=en | region=UK | tags=ai,machine-learning,research | notes=Global AI coverage
+- Islamabad AI CA Edition | https://islamabad-ai-ca.ai | rss=https://islamabad-ai-ca.ai/feed | lang=en | region=CA | tags=ai,llm,industry | notes=Global AI coverage
+- Karachi AI FR Edition | https://karachi-ai-fr.ai | rss=https://karachi-ai-fr.ai/feed | lang=fr | region=FR | tags=ai,robotics,innovation | notes=Global AI coverage
+- Lahore AI DE Edition | https://lahore-ai-de.ai | rss=https://lahore-ai-de.ai/feed | lang=de | region=DE | tags=ai,policy,ethics | notes=Global AI coverage
+- Dhaka AI SE Edition | https://dhaka-ai-se.ai | rss=https://dhaka-ai-se.ai/feed | lang=sv | region=SE | tags=ai,vision,deep-learning | notes=Global AI coverage
+- Kathmandu AI FI Edition | https://kathmandu-ai-fi.ai | rss=https://kathmandu-ai-fi.ai/feed | lang=fi | region=FI | tags=ai,nlp,language | notes=Global AI coverage
+- Colombo AI NO Edition | https://colombo-ai-no.ai | rss=https://colombo-ai-no.ai/feed | lang=no | region=NO | tags=ai,mlops,engineering | notes=Global AI coverage
+- Tehran AI DK Edition | https://tehran-ai-dk.ai | rss=https://tehran-ai-dk.ai/feed | lang=da | region=DK | tags=ai,startup,venture | notes=Global AI coverage
+- Shiraz AI IS Edition | https://shiraz-ai-is.ai | rss=https://shiraz-ai-is.ai/feed | lang=is | region=IS | tags=ai,data-science,analytics | notes=Global AI coverage
+- Tabriz AI ZA Edition | https://tabriz-ai-za.ai | rss=https://tabriz-ai-za.ai/feed | lang=en | region=ZA | tags=ai,healthcare,science | notes=Global AI coverage
+- Mashhad AI NG Edition | https://mashhad-ai-ng.ai | rss=https://mashhad-ai-ng.ai/feed | lang=en | region=NG | tags=ai,machine-learning,research | notes=Global AI coverage

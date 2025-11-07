@@ -18,9 +18,12 @@ The Prisma model (see `prisma/schema.prisma`) stores every AI feed or listing as
 | `enabled`, `isTrusted`, `blacklisted`, `priority` | Controls ingestion order and publishing behaviour. |
 | `lastStatus`, `lastStatusCode`, `lastErrorMessage`, `lastFetchAt` | Updated after every ingestion run so monitoring reflects success/failure. |
 
-The seed file (`prisma/seed.ts`) inserts ~20 well known AI sources as examples
-and documents how to extend the list. Operators can add or edit records either
-through Prisma or via the Admin UI.
+The seed routine now pulls from `data/allainews_sources.md`, a markdown
+catalogue containing 1,100+ AI-related outlets (labs, publications, regional
+magazines). During `pnpm prisma db seed` each entry is inserted via
+`loadAiSourcesFromFile`, ensuring it is enabled by default and tagged with at
+least `ai`. Operators can expand or edit the markdown list directly, or manage
+records via the Admin UI after deployment.
 
 ## Ingestion pipeline
 
@@ -67,14 +70,17 @@ source health in a single API call.
 
 ## Extending the source list to 1000+
 
-* Add new entries to the seed array in `src/lib/news/sources.ts` or insert rows
-  via the Admin page/API. When seeding large batches, keep `priority` and
-  `enabled` aligned with ingestion expectations.
-* For sources without RSS, set `scrapeUrl` and optionally a note describing the
-  scraping strategy. The placeholder HTML parser is ready for production
-  selectors once filled in.
-* After changing seeds, rerun `pnpm prisma db seed` (or `prisma db seed` in
-  CI) so environments stay consistent.
+* Update `data/allainews_sources.md` with additional bullet lines using the
+  `name | homepage | rss=… | lang=… | region=… | tags=…` format. Run
+  `pnpm sources:preview` to validate parsing and see a language distribution
+  before seeding.
+* The helper falls back to HTML scraping when `rss=` is omitted; optionally add
+  `scrape=` segments for more precise listing URLs and `notes=` for operator
+  hints.
+* The manual examples in `src/lib/news/sources.ts` remain for curated labs and
+  keep historical status metadata (e.g. known 403 feeds).
+* After editing the markdown list, rerun `pnpm prisma db seed` so the database
+  reflects the new catalogue.
 
 ## Local verification
 

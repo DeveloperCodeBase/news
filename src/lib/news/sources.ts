@@ -8,6 +8,8 @@ export type SeedNewsSource = {
   topicTags: string[];
   isTrusted?: boolean;
   enabled?: boolean;
+  priority?: number;
+  blacklisted?: boolean;
   notes?: string;
   lastStatus?: 'OK' | 'ERROR' | 'UNKNOWN';
   lastStatusCode?: number | null;

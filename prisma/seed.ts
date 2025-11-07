@@ -7,7 +7,9 @@ import {
   ExperimentTemplateType,
   IngestionStatus
 } from '@prisma/client';
+import path from 'node:path';
 import { EXAMPLE_NEWS_SOURCES } from '../src/lib/news/sources';
+import { loadAiSourcesFromFile } from '../src/lib/news/source-import';
 
 const prisma = new PrismaClient();
 
@@ -72,6 +74,36 @@ async function main() {
         nameEn: tag
       }
     });
+  }
+
+  const dataFilePath = path.join(process.cwd(), 'data', 'allainews_sources.md');
+  try {
+    const importedSources = await loadAiSourcesFromFile(dataFilePath);
+    if (importedSources.length) {
+      await prisma.newsSource.createMany({
+        data: importedSources.map((source) => ({
+          name: source.name,
+          homepageUrl: source.homepageUrl,
+          rssUrl: source.rssUrl ?? null,
+          scrapeUrl: source.scrapeUrl ?? null,
+          language: source.language,
+          region: source.region ?? null,
+          topicTags: source.topicTags,
+          enabled: source.enabled ?? true,
+          isTrusted: source.isTrusted ?? true,
+          blacklisted: false,
+          priority: source.priority ?? 10,
+          notes: source.notes ?? null,
+          lastStatus: IngestionStatus.UNKNOWN,
+          lastStatusCode: null,
+          lastErrorMessage: null
+        })),
+        skipDuplicates: true
+      });
+      console.info(`Seeded ${importedSources.length} AI news sources from ${dataFilePath}`);
+    }
+  } catch (error) {
+    console.warn('Failed to import AI sources from data file:', error);
   }
 
   const sourceKeyToId = new Map<string, string>();

@@ -332,6 +332,7 @@ pnpm queue:worker # اجرای Worker صف در ترمینال جداگانه
 | اجرای دستی اینجست | `pnpm ingest` (یا `curl` به `/api/ingest/trigger`). |
 | بازسازی کش خبر مشخص | `curl -X POST -H "Authorization: Bearer $INTERNAL_API_TOKEN" -d '{"slug":"example"}' http://127.0.0.1:3000/api/revalidate` |
 | مشاهدهٔ وضعیت صف | `docker exec -it hooshgate_web pnpm queue:status` *(خروجی جدول وضعیت وظایف pg-boss)* |
+| پیش‌نمایش فهرست منابع AI | `pnpm sources:preview` *(نمایش تعداد و توزیع زبانی دادهٔ `data/allainews_sources.md`)* |
 
 ## مستندات تکمیلی
 
