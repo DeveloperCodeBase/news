@@ -63,8 +63,8 @@ async function ingestSources(): Promise<IngestionMetrics> {
         id: source.id,
         name: source.name,
         homepageUrl: source.homepageUrl,
-        rssUrl: source.rssUrl ?? undefined,
-        scrapeUrl: source.scrapeUrl ?? undefined,
+        rssUrl: source.rssUrl ?? null,
+        scrapeUrl: source.scrapeUrl ?? null,
         language: source.language
       });
 
