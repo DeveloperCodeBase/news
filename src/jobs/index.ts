@@ -302,6 +302,7 @@ async function ingestSources(): Promise<IngestionMetrics> {
         }
       }
     }
+  }
 
   const pendingReviewCount = await prisma.article.count({
     where: { status: { in: [Status.REVIEWED, Status.DRAFT] } }

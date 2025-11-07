@@ -64,7 +64,7 @@ function inferLanguageFromUrl(url: string, fallback = 'en'): string {
     if (tld && LANGUAGE_BY_TLD[tld]) {
       return LANGUAGE_BY_TLD[tld];
     }
-  } catch (error) {
+  } catch (_error) {
     // ignore parsing error and fallback
   }
   return fallback;
@@ -77,7 +77,7 @@ function sanitizeUrl(value: string | undefined | null): string | null {
   try {
     const url = new URL(trimmed);
     return url.toString();
-  } catch (error) {
+  } catch (_error) {
     return null;
   }
 }
