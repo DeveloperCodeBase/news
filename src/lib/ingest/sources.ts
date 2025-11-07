@@ -183,6 +183,10 @@ async function fetchAndParseHtmlListing(
           content: metadata.html ?? undefined
         });
       } catch (error) {
+        console.warn(
+          `[ingestion] Failed to enrich candidate ${candidate.url}:`,
+          error instanceof Error ? error.message : error
+        );
         enriched.push({ ...candidate, summary: candidate.summary, content: undefined });
       }
     }

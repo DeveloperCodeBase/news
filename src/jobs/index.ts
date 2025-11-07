@@ -21,39 +21,44 @@ function buildExcerpt(text: string, length = 260) {
   return `${normalized.slice(0, length).trim()}…`;
 }
 
-export async function runIngestion() {
-  const heartbeat = await startCronHeartbeat('ingestion');
-  try {
-    const sources = await getActiveNewsSources();
+type SourceFailure = { name: string; statusCode?: number; message: string };
 
-    if (!sources.length) {
-      console.warn('No active news sources configured; ingestion cycle skipped.');
-      await finishCronHeartbeat(heartbeat.id, 'success', {
-        startedAt: heartbeat.startedAt,
-        message: {
-          fetched: 0,
-          created: 0,
-          skipped: 0,
-          pendingReview: 0,
-          sources: 0
-        }
-      });
+type IngestionMetrics = {
+  fetched: number;
+  created: number;
+  skipped: number;
+  pendingReview: number;
+  sourcesAttempted: number;
+  sourceFailures: SourceFailure[];
+};
 
-      return { fetched: 0, created: 0, skipped: 0, pendingReview: 0 };
-    }
+async function ingestSources(): Promise<IngestionMetrics> {
+  const sources = await getActiveNewsSources();
 
-    const sourceFailures: Array<{ name: string; statusCode?: number; message: string }> = [];
-    let totalFetched = 0;
+  if (!sources.length) {
+    console.warn('No active news sources configured; ingestion cycle skipped.');
+    return {
+      fetched: 0,
+      created: 0,
+      skipped: 0,
+      pendingReview: 0,
+      sourcesAttempted: 0,
+      sourceFailures: []
+    };
+  }
 
-    const categories = await prisma.category.findMany({ select: { id: true, slug: true } });
-    const tags = await prisma.tag.findMany({ select: { id: true, slug: true } });
-    const categorySet = new Set(categories.map((category) => category.slug));
-    const tagSet = new Set(tags.map((tag) => tag.slug));
+  const sourceFailures: SourceFailure[] = [];
+  let totalFetched = 0;
 
-    let created = 0;
-    let skipped = 0;
+  const categories = await prisma.category.findMany({ select: { id: true, slug: true } });
+  const tags = await prisma.tag.findMany({ select: { id: true, slug: true } });
+  const categorySet = new Set(categories.map((category) => category.slug));
+  const tagSet = new Set(tags.map((tag) => tag.slug));
 
-    for (const source of sources) {
+  let created = 0;
+  let skipped = 0;
+
+  for (const source of sources) {
       const result = await fetchSourceFeed({
         id: source.id,
         name: source.name,
@@ -298,46 +303,57 @@ export async function runIngestion() {
       }
     }
 
-    const pendingReviewCount = await prisma.article.count({
-      where: { status: { in: [Status.REVIEWED, Status.DRAFT] } }
+  const pendingReviewCount = await prisma.article.count({
+    where: { status: { in: [Status.REVIEWED, Status.DRAFT] } }
+  });
+
+  if (created > 0) {
+    await enqueueJob(
+      JOB_NAMES.TREND_REFRESH,
+      {},
+      { singletonKey: 'trend-refresh', singletonMinutes: 30 }
+    );
+  }
+
+  if (sourceFailures.length) {
+    await recordAlertEvent({
+      channel: 'system',
+      severity: 'warning',
+      subject: 'برخی منابع خبری با خطا مواجه شدند',
+      message: `${sourceFailures.length} منبع در اجرای اخیر جمع‌آوری با خطا مواجه شد`,
+      metadata: sourceFailures
     });
+  }
 
-    if (created > 0) {
-      await enqueueJob(
-        JOB_NAMES.TREND_REFRESH,
-        {},
-        { singletonKey: 'trend-refresh', singletonMinutes: 30 }
-      );
-    }
+  return {
+    fetched: totalFetched,
+    created,
+    skipped,
+    pendingReview: pendingReviewCount,
+    sourcesAttempted: sources.length,
+    sourceFailures
+  };
+}
 
-    if (sourceFailures.length) {
-      await recordAlertEvent({
-        channel: 'system',
-        severity: 'warning',
-        subject: 'برخی منابع خبری با خطا مواجه شدند',
-        message: `${sourceFailures.length} منبع در اجرای اخیر جمع‌آوری با خطا مواجه شد`,
-        metadata: sourceFailures
-      });
-    }
+export async function runIngestion() {
+  const heartbeat = await startCronHeartbeat('ingestion');
+
+  try {
+    const result = await ingestSources();
 
     await finishCronHeartbeat(heartbeat.id, 'success', {
       startedAt: heartbeat.startedAt,
       message: {
-        fetched: totalFetched,
-        created,
-        skipped,
-        pendingReview: pendingReviewCount,
-        sourceFailures
+        fetched: result.fetched,
+        created: result.created,
+        skipped: result.skipped,
+        pendingReview: result.pendingReview,
+        sourceFailures: result.sourceFailures,
+        sources: result.sourcesAttempted
       }
     });
 
-    return {
-      fetched: totalFetched,
-      created,
-      skipped,
-      pendingReview: pendingReviewCount,
-      sourceFailures
-    };
+    return result;
   } catch (error) {
     console.error('Ingestion failed', error);
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
