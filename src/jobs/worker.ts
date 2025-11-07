@@ -18,6 +18,16 @@ export async function startQueueWorker() {
 
   await boss.work(JOB_NAMES.INGEST, async () => {
     const result = await runIngestion();
+    // eslint-disable-next-line no-console
+    console.log(
+      `[ingestion] fetched=${result.fetched} created=${result.created} skipped=${result.skipped} pending=${result.pendingReview}`
+    );
+    if (result.sourceFailures && result.sourceFailures.length > 0) {
+      const detail = result.sourceFailures
+        .map((failure) => `${failure.name}${failure.statusCode ? `(${failure.statusCode})` : ''}`)
+        .join(', ');
+      console.warn(`[ingestion] ${result.sourceFailures.length} sources failed: ${detail}`);
+    }
     return result;
   });
 

@@ -1,6 +1,4 @@
-import { Status, Lang } from '@prisma/client';
-import { fetchNews } from './fetch-news';
-import { ALLOWLISTED_SOURCES } from '../lib/news/sources';
+import { Status, Lang, IngestionStatus } from '@prisma/client';
 import { prisma } from '../lib/db/client';
 import { classifyText } from '../lib/news/classifier';
 import { generateUniqueArticleSlug } from '../lib/news/slugs';
@@ -13,6 +11,8 @@ import { buildBilingualSummaries } from '../lib/news/summarizer';
 import { startCronHeartbeat, finishCronHeartbeat, recordAlertEvent } from '../lib/monitoring/heartbeat';
 import { sendAlertSms } from '../lib/alerts/sms';
 import { generateLongformArticle } from '../lib/news/longform';
+import { getActiveNewsSources, updateNewsSourceIngestionStatus } from '../lib/db/sources';
+import { fetchSourceFeed, normalizeRawItemToArticle } from '../lib/ingest/sources';
 
 function buildExcerpt(text: string, length = 260) {
   if (!text) return '';
@@ -24,25 +24,26 @@ function buildExcerpt(text: string, length = 260) {
 export async function runIngestion() {
   const heartbeat = await startCronHeartbeat('ingestion');
   try {
-    const dbSources = await prisma.source.findMany({
-      where: { active: true, blacklisted: false },
-      orderBy: [{ priority: 'asc' }, { createdAt: 'asc' }],
-      select: { id: true, feedUrl: true, isTrusted: true, name: true, url: true }
-    });
+    const sources = await getActiveNewsSources();
 
-    const sourcesToFetch = dbSources.length
-      ? dbSources.map(({ feedUrl, isTrusted, name, url }) => ({ feedUrl, isTrusted, name, url }))
-      : ALLOWLISTED_SOURCES;
-
-    const articles = await fetchNews({ sources: sourcesToFetch });
-
-    if (dbSources.length) {
-      const now = new Date();
-      await prisma.source.updateMany({
-        where: { id: { in: dbSources.map((source) => source.id) } },
-        data: { lastFetchedAt: now }
+    if (!sources.length) {
+      console.warn('No active news sources configured; ingestion cycle skipped.');
+      await finishCronHeartbeat(heartbeat.id, 'success', {
+        startedAt: heartbeat.startedAt,
+        message: {
+          fetched: 0,
+          created: 0,
+          skipped: 0,
+          pendingReview: 0,
+          sources: 0
+        }
       });
+
+      return { fetched: 0, created: 0, skipped: 0, pendingReview: 0 };
     }
+
+    const sourceFailures: Array<{ name: string; statusCode?: number; message: string }> = [];
+    let totalFetched = 0;
 
     const categories = await prisma.category.findMany({ select: { id: true, slug: true } });
     const tags = await prisma.tag.findMany({ select: { id: true, slug: true } });
@@ -52,83 +53,168 @@ export async function runIngestion() {
     let created = 0;
     let skipped = 0;
 
-    for (const article of articles) {
-      const existing = await prisma.article.findUnique({ where: { urlCanonical: article.canonicalUrl } });
-      if (existing) {
-        skipped += 1;
+    for (const source of sources) {
+      const result = await fetchSourceFeed({
+        id: source.id,
+        name: source.name,
+        homepageUrl: source.homepageUrl,
+        rssUrl: source.rssUrl ?? undefined,
+        scrapeUrl: source.scrapeUrl ?? undefined,
+        language: source.language
+      });
+
+      const fetchedAt = new Date();
+
+      await updateNewsSourceIngestionStatus(source.id, {
+        status: result.ok ? IngestionStatus.OK : IngestionStatus.ERROR,
+        statusCode: result.statusCode ?? null,
+        errorMessage: result.ok
+          ? result.warnings.length
+            ? result.warnings.join('; ')
+            : null
+          : result.errorMessage ?? null,
+        fetchedAt
+      });
+
+      if (!result.ok) {
+        sourceFailures.push({
+          name: source.name,
+          statusCode: result.statusCode,
+          message: result.errorMessage
+        });
+        console.warn(
+          `[ingestion] ${source.name} failed (${result.statusCode ?? 'unknown'}): ${result.errorMessage}`
+        );
         continue;
       }
 
-      const slug = await generateUniqueArticleSlug(article.title, article.publishedAt);
-      const status = article.source.isTrusted ? Status.PUBLISHED : Status.REVIEWED;
+      totalFetched += result.items.length;
+      for (const warning of result.warnings) {
+        console.warn(`[ingestion] ${source.name} warning: ${warning}`);
+      }
 
-      const classification = classifyText(`${article.title} ${article.description}`);
-      const categorySlugs = Array.from(new Set(classification.categories.filter((slug) => categorySet.has(slug))));
-      const tagSlugs = Array.from(new Set(classification.tags.filter((slug) => tagSet.has(slug))));
+      for (const rawItem of result.items) {
+        const normalized = await normalizeRawItemToArticle({ raw: rawItem, source });
 
-      const excerpt = buildExcerpt(article.description);
+        const existing = await prisma.article.findUnique({
+          where: { urlCanonical: normalized.canonicalUrl }
+        });
+        if (existing) {
+          skipped += 1;
+          continue;
+        }
 
-      const longform = await generateLongformArticle({
-        title: article.title,
-        summary: article.description,
-        rawHtml: article.contentHtml,
-        language: article.language,
-        sourceName: article.source.name,
-        publishedAt: article.publishedAt
-      });
+        const slug = await generateUniqueArticleSlug(normalized.title, normalized.publishedAt);
+        const status = source.isTrusted ? Status.PUBLISHED : Status.REVIEWED;
 
-      const enrichedContentHtml = longform?.html ?? article.contentHtml;
+        const classification = classifyText(`${normalized.title} ${normalized.description}`);
+        const categorySlugs = Array.from(
+          new Set(classification.categories.filter((slug) => categorySet.has(slug)))
+        );
+        const tagSlugs = Array.from(
+          new Set(classification.tags.filter((slug) => tagSet.has(slug)))
+        );
 
-      let titleFa: string | null = null;
-      let excerptFa: string | null = null;
-      let contentFa: string | null = null;
-      let titleEn: string | null = null;
-      let excerptEn: string | null = null;
-      let contentEn: string | null = null;
+        const excerpt = buildExcerpt(normalized.description);
 
-      if (article.language === Lang.FA) {
-        titleFa = article.title;
-        excerptFa = excerpt;
-        contentFa = enrichedContentHtml;
-      } else {
-        titleEn = article.title;
-        excerptEn = excerpt;
-        contentEn = enrichedContentHtml;
-        const plainContent = sanitizeHtml(enrichedContentHtml || article.description, {
+        const longform = await generateLongformArticle({
+          title: normalized.title,
+          summary: normalized.description,
+          rawHtml: normalized.contentHtml,
+          language: normalized.language,
+          sourceName: source.name,
+          publishedAt: normalized.publishedAt
+        });
+
+        const fallbackParagraph = sanitizeHtml(normalized.description || normalized.contentHtml || '', {
           allowedTags: [],
           allowedAttributes: {}
         });
-        const plainExcerpt = sanitizeHtml(excerpt, { allowedTags: [], allowedAttributes: {} });
-        const { translated } = await translateWithCache({ text: plainContent, sourceLang: Lang.EN, targetLang: Lang.FA });
-        if (translated) {
-          contentFa = translated;
-          const { translated: translatedTitle } = await translateWithCache({ text: article.title, sourceLang: Lang.EN, targetLang: Lang.FA });
-          titleFa = translatedTitle ?? article.title;
-          const { translated: translatedExcerpt } = await translateWithCache({ text: plainExcerpt, sourceLang: Lang.EN, targetLang: Lang.FA });
-          excerptFa = translatedExcerpt ?? excerpt;
-        } else {
-          titleFa = article.title;
-          excerptFa = excerpt;
-          contentFa = article.contentHtml;
-        }
-      }
 
-      if (!titleEn && article.language === Lang.FA) {
-        const { translated: translatedTitle } = await translateWithCache({ text: article.title, sourceLang: Lang.FA, targetLang: Lang.EN });
-        titleEn = translatedTitle ?? null;
+        const baseHtml = normalized.contentHtml?.trim()
+          ? normalized.contentHtml
+          : fallbackParagraph
+          ? `<p>${fallbackParagraph}</p>`
+          : '';
+
+        const enrichedContentHtml = longform?.html ?? baseHtml;
+
+        let titleFa: string | null = null;
+        let excerptFa: string | null = null;
+        let contentFa: string | null = null;
+        let titleEn: string | null = null;
+        let excerptEn: string | null = null;
+        let contentEn: string | null = null;
+
         const plainExcerpt = sanitizeHtml(excerpt, { allowedTags: [], allowedAttributes: {} });
-        const { translated: translatedExcerpt } = await translateWithCache({ text: plainExcerpt, sourceLang: Lang.FA, targetLang: Lang.EN });
-        excerptEn = translatedExcerpt ?? null;
-        if (!contentEn && contentFa) {
-          const plainFaContent = sanitizeHtml(contentFa, { allowedTags: [], allowedAttributes: {} });
-          const { translated: translatedContent } = await translateWithCache({
-            text: plainFaContent,
-            sourceLang: Lang.FA,
-            targetLang: Lang.EN
-          });
-          contentEn = translatedContent ?? null;
+        const plainContent = sanitizeHtml(enrichedContentHtml || normalized.description, {
+          allowedTags: [],
+          allowedAttributes: {}
+        });
+
+        if (normalized.language === Lang.FA) {
+          titleFa = normalized.title;
+          excerptFa = excerpt;
+          contentFa = enrichedContentHtml || baseHtml || null;
+
+          if (!titleEn) {
+            const { translated: translatedTitle } = await translateWithCache({
+              text: normalized.title,
+              sourceLang: Lang.FA,
+              targetLang: Lang.EN
+            });
+            titleEn = translatedTitle ?? null;
+          }
+
+          if (!excerptEn) {
+            const { translated: translatedExcerpt } = await translateWithCache({
+              text: plainExcerpt,
+              sourceLang: Lang.FA,
+              targetLang: Lang.EN
+            });
+            excerptEn = translatedExcerpt ?? null;
+          }
+
+          if (!contentEn && plainContent) {
+            const { translated } = await translateWithCache({
+              text: plainContent,
+              sourceLang: Lang.FA,
+              targetLang: Lang.EN
+            });
+            contentEn = translated ?? null;
+          }
+        } else {
+          titleEn = normalized.title;
+          excerptEn = excerpt;
+          contentEn = enrichedContentHtml || baseHtml || null;
+
+          if (!titleFa) {
+            const { translated: translatedTitle } = await translateWithCache({
+              text: normalized.title,
+              sourceLang: Lang.EN,
+              targetLang: Lang.FA
+            });
+            titleFa = translatedTitle ?? normalized.title;
+          }
+
+          if (!excerptFa) {
+            const { translated: translatedExcerpt } = await translateWithCache({
+              text: plainExcerpt,
+              sourceLang: Lang.EN,
+              targetLang: Lang.FA
+            });
+            excerptFa = translatedExcerpt ?? excerpt;
+          }
+
+          if (!contentFa && plainContent) {
+            const { translated } = await translateWithCache({
+              text: plainContent,
+              sourceLang: Lang.EN,
+              targetLang: Lang.FA
+            });
+            contentFa = translated ?? enrichedContentHtml ?? baseHtml ?? null;
+          }
         }
-      }
 
       try {
         const topicPlainText = sanitizeHtml(
@@ -148,7 +234,7 @@ export async function runIngestion() {
         const plainEnForSummary = contentEn
           ? sanitizeHtml(contentEn, { allowedTags: [], allowedAttributes: {} })
           : undefined;
-        const fallbackPlain = sanitizeHtml(article.description ?? excerpt, {
+        const fallbackPlain = sanitizeHtml(normalized.description ?? excerpt, {
           allowedTags: [],
           allowedAttributes: {}
         });
@@ -164,30 +250,22 @@ export async function runIngestion() {
         await prisma.article.create({
           data: {
             slug,
-            urlCanonical: article.canonicalUrl,
-            titleFa: titleFa ?? article.title,
-            titleEn: titleEn ?? article.title,
+            urlCanonical: normalized.canonicalUrl,
+            titleFa: titleFa ?? normalized.title,
+            titleEn: titleEn ?? normalized.title,
             excerptFa: excerptFa ?? excerpt,
             excerptEn: excerptEn ?? excerpt,
             summaryFa: finalSummaryFa,
             summaryEn: finalSummaryEn,
-            contentFa: contentFa ?? article.contentHtml,
-            contentEn: contentEn ?? article.contentHtml,
-            coverImageUrl: article.coverImageUrl,
-            language: article.language,
-            source: {
-              connectOrCreate: {
-                where: { feedUrl: article.source.feedUrl },
-                create: {
-                  name: article.source.name,
-                  url: article.source.url,
-                  feedUrl: article.source.feedUrl,
-                  isTrusted: article.source.isTrusted
-                }
-              }
+            contentFa: contentFa ?? enrichedContentHtml ?? baseHtml ?? null,
+            contentEn: contentEn ?? enrichedContentHtml ?? baseHtml ?? null,
+            coverImageUrl: normalized.coverImageUrl ?? null,
+            language: normalized.language,
+            newsSource: {
+              connect: { id: source.id }
             },
             status,
-            publishedAt: article.publishedAt,
+            publishedAt: normalized.publishedAt,
             categories: {
               create: categorySlugs.map((slugValue) => ({
                 category: { connect: { slug: slugValue } }
@@ -232,21 +310,33 @@ export async function runIngestion() {
       );
     }
 
+    if (sourceFailures.length) {
+      await recordAlertEvent({
+        channel: 'system',
+        severity: 'warning',
+        subject: 'برخی منابع خبری با خطا مواجه شدند',
+        message: `${sourceFailures.length} منبع در اجرای اخیر جمع‌آوری با خطا مواجه شد`,
+        metadata: sourceFailures
+      });
+    }
+
     await finishCronHeartbeat(heartbeat.id, 'success', {
       startedAt: heartbeat.startedAt,
       message: {
-        fetched: articles.length,
+        fetched: totalFetched,
         created,
         skipped,
-        pendingReview: pendingReviewCount
+        pendingReview: pendingReviewCount,
+        sourceFailures
       }
     });
 
     return {
-      fetched: articles.length,
+      fetched: totalFetched,
       created,
       skipped,
-      pendingReview: pendingReviewCount
+      pendingReview: pendingReviewCount,
+      sourceFailures
     };
   } catch (error) {
     console.error('Ingestion failed', error);

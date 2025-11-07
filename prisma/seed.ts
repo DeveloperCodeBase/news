@@ -4,8 +4,10 @@ import {
   Status,
   Lang,
   ExperimentStatus,
-  ExperimentTemplateType
+  ExperimentTemplateType,
+  IngestionStatus
 } from '@prisma/client';
+import { EXAMPLE_NEWS_SOURCES } from '../src/lib/news/sources';
 
 const prisma = new PrismaClient();
 
@@ -72,64 +74,48 @@ async function main() {
     });
   }
 
-  const sources = [
-    {
-      name: 'OpenAI Blog',
-      url: 'https://openai.com/blog',
-      feedUrl: 'https://openai.com/blog/rss/',
-      isTrusted: true,
-      notes: 'منبع رسمی OpenAI',
-      priority: 5
-    },
-    {
-      name: 'Google DeepMind',
-      url: 'https://deepmind.google/',
-      feedUrl: 'https://deepmind.google/feeds/news',
-      isTrusted: true,
-      notes: 'پوشش پژوهش‌های دیپ‌مایند',
-      priority: 5
-    },
-    {
-      name: 'MIT News - AI',
-      url: 'https://news.mit.edu/topic/artificial-intelligence2',
-      feedUrl: 'https://news.mit.edu/rss/topic/artificial-intelligence2',
-      isTrusted: false,
-      notes: 'رسانه دانشگاهی'
-    },
-    {
-      name: 'Anthropic',
-      url: 'https://www.anthropic.com/news',
-      feedUrl: 'https://www.anthropic.com/rss.xml',
-      isTrusted: true
-    },
-    {
-      name: 'NVIDIA Developer Blog',
-      url: 'https://developer.nvidia.com/blog',
-      feedUrl: 'https://developer.nvidia.com/blog/feed/',
-      isTrusted: true
-    },
-    {
-      name: 'Hugging Face',
-      url: 'https://huggingface.co/blog',
-      feedUrl: 'https://huggingface.co/blog/feed.xml',
-      isTrusted: true,
-      notes: 'اکوسیستم متن‌باز'
-    },
-    {
-      name: 'VentureBeat AI',
-      url: 'https://venturebeat.com/category/ai/',
-      feedUrl: 'https://venturebeat.com/category/ai/feed/',
-      isTrusted: false,
-      notes: 'خبرهای صنعت'
-    }
-  ];
-
-  for (const source of sources) {
-    await prisma.source.upsert({
-      where: { feedUrl: source.feedUrl },
-      update: source,
-      create: source
+  const sourceKeyToId = new Map<string, string>();
+  for (const source of EXAMPLE_NEWS_SOURCES) {
+    const record = await prisma.newsSource.upsert({
+      where: { homepageUrl: source.homepageUrl },
+      update: {
+        name: source.name,
+        homepageUrl: source.homepageUrl,
+        rssUrl: source.rssUrl ?? null,
+        scrapeUrl: source.scrapeUrl ?? null,
+        language: source.language,
+        region: source.region ?? null,
+        topicTags: source.topicTags,
+        notes: source.notes ?? null,
+        isTrusted: source.isTrusted ?? true,
+        enabled: source.enabled ?? true,
+        lastStatus: source.lastStatus
+          ? (IngestionStatus[source.lastStatus] as IngestionStatus)
+          : IngestionStatus.UNKNOWN,
+        lastStatusCode: source.lastStatusCode ?? null,
+        lastErrorMessage: source.lastErrorMessage ?? null
+      },
+      create: {
+        name: source.name,
+        homepageUrl: source.homepageUrl,
+        rssUrl: source.rssUrl ?? null,
+        scrapeUrl: source.scrapeUrl ?? null,
+        language: source.language,
+        region: source.region ?? null,
+        topicTags: source.topicTags,
+        notes: source.notes ?? null,
+        isTrusted: source.isTrusted ?? true,
+        enabled: source.enabled ?? true,
+        lastStatus: source.lastStatus
+          ? (IngestionStatus[source.lastStatus] as IngestionStatus)
+          : IngestionStatus.UNKNOWN,
+        lastStatusCode: source.lastStatusCode ?? null,
+        lastErrorMessage: source.lastErrorMessage ?? null
+      }
     });
+
+    const key = source.rssUrl ?? source.homepageUrl;
+    sourceKeyToId.set(key, record.id);
   }
 
   const sampleArticles = [
@@ -144,7 +130,7 @@ async function main() {
       contentEn:
         '<p>OpenAI unveiled the latest GPT lineup with native Persian support, enabling safer deployments for regulated industries.</p>',
       coverImageUrl: 'https://cdn.openai.com/news/gpt-2024.jpg',
-      sourceFeedUrl: 'https://openai.com/blog/rss/',
+      sourceKey: 'https://openai.com/blog/rss/',
       categories: ['news', 'industry'],
       tags: ['llm', 'compute'],
       language: Lang.FA
@@ -160,7 +146,7 @@ async function main() {
       contentEn:
         '<p>During a joint summit with the EU and leading tech firms, a new risk evaluation and transparency framework for frontier AI models was established.</p>',
       coverImageUrl: 'https://hooshgate.ir/images/ai-safety.jpg',
-      sourceFeedUrl: 'https://deepmind.google/feeds/news',
+      sourceKey: 'https://deepmind.google/discover',
       categories: ['policy', 'safety'],
       tags: ['open-source', 'llm'],
       language: Lang.EN
@@ -168,6 +154,12 @@ async function main() {
   ];
 
   for (const article of sampleArticles) {
+    const linkedSourceId = sourceKeyToId.get(article.sourceKey);
+    if (!linkedSourceId) {
+      console.warn(`No seeded source found for key ${article.sourceKey}, skipping demo article.`);
+      continue;
+    }
+
     const created = await prisma.article.upsert({
       where: { slug: article.slug },
       update: {
@@ -180,7 +172,10 @@ async function main() {
         contentFa: article.contentFa,
         contentEn: article.contentEn,
         coverImageUrl: article.coverImageUrl,
-        status: Status.PUBLISHED
+        status: Status.PUBLISHED,
+        newsSource: {
+          connect: { id: linkedSourceId }
+        }
       },
       create: {
         slug: article.slug,
@@ -194,7 +189,9 @@ async function main() {
         contentFa: article.contentFa,
         contentEn: article.contentEn,
         coverImageUrl: article.coverImageUrl,
-        source: { connect: { feedUrl: article.sourceFeedUrl } },
+        newsSource: {
+          connect: { id: linkedSourceId }
+        },
         status: Status.PUBLISHED,
         publishedAt: new Date('2024-05-01T10:00:00Z'),
         language: article.language,

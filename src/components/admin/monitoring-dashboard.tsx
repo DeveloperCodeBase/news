@@ -48,16 +48,36 @@ type IngestionSnapshot = {
   pendingReviewCount: number;
 };
 
+type NewsSourceSummary = {
+  totals: {
+    total: number;
+    enabled: number;
+    ok: number;
+    error: number;
+    unknown: number;
+  };
+  recentFailures: {
+    id: string;
+    name: string;
+    homepageUrl: string;
+    lastStatusCode: number | null;
+    lastErrorMessage: string | null;
+    lastFetchAt: string | null;
+  }[];
+};
+
 type MonitoringData = {
   heartbeats: CronHeartbeat[];
   queueSnapshots: QueueSnapshot[];
   alerts: AlertEvent[];
   ingestion: IngestionSnapshot;
+  newsSources: NewsSourceSummary;
 };
 
 const EMPTY_QUEUE_SNAPSHOTS: QueueSnapshot[] = [];
 const EMPTY_HEARTBEATS: CronHeartbeat[] = [];
 const EMPTY_ALERTS: AlertEvent[] = [];
+const EMPTY_FAILURES: NewsSourceSummary['recentFailures'] = [];
 
 function formatTime(value: string | Date) {
   const date = typeof value === 'string' ? new Date(value) : value;
@@ -104,6 +124,10 @@ export default function MonitoringDashboard({ initialData }: { initialData: Moni
     lastRunMetrics: null,
     pendingReviewCount: 0
   };
+  const newsSources = data?.newsSources ?? {
+    totals: { total: 0, enabled: 0, ok: 0, error: 0, unknown: 0 },
+    recentFailures: EMPTY_FAILURES
+  };
 
   const latestQueues = useMemo(() => {
     const snapshots = data?.queueSnapshots;
@@ -128,6 +152,11 @@ export default function MonitoringDashboard({ initialData }: { initialData: Moni
     const source = data?.alerts;
     return source && source.length ? source.slice(0, 15) : EMPTY_ALERTS;
   }, [data]);
+
+  const recentSourceFailures = useMemo(() => {
+    const failures = newsSources.recentFailures;
+    return failures && failures.length ? failures : EMPTY_FAILURES;
+  }, [newsSources.recentFailures]);
 
   if (query.isError) {
     return (
@@ -218,6 +247,69 @@ export default function MonitoringDashboard({ initialData }: { initialData: Moni
           ) : (
             <p className="mt-2 text-sm text-emerald-200">هیچ خطای اخیر ثبت نشده است.</p>
           )}
+        </div>
+      </div>
+
+      <div className="grid gap-4 lg:grid-cols-[2fr_3fr]">
+        <div className="rounded-2xl border border-slate-800/60 bg-slate-950/70 p-4">
+          <h2 className="text-lg font-semibold text-slate-100">وضعیت منابع خبری</h2>
+          <dl className="mt-4 grid grid-cols-2 gap-3 text-xs text-slate-300">
+            <div>
+              <dt className="text-slate-500">کل منابع</dt>
+              <dd className="text-2xl font-semibold text-slate-50">{newsSources.totals.total}</dd>
+            </div>
+            <div>
+              <dt className="text-slate-500">فعال</dt>
+              <dd className="text-2xl font-semibold text-emerald-300">{newsSources.totals.enabled}</dd>
+            </div>
+            <div>
+              <dt className="text-slate-500">وضعیت موفق</dt>
+              <dd className="text-2xl font-semibold text-sky-300">{newsSources.totals.ok}</dd>
+            </div>
+            <div>
+              <dt className="text-slate-500">خطادار</dt>
+              <dd className="text-2xl font-semibold text-rose-300">{newsSources.totals.error}</dd>
+            </div>
+            <div>
+              <dt className="text-slate-500">نامشخص</dt>
+              <dd className="text-2xl font-semibold text-amber-300">{newsSources.totals.unknown}</dd>
+            </div>
+          </dl>
+        </div>
+        <div className="rounded-2xl border border-slate-800/60 bg-slate-950/70 p-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-slate-100">آخرین خطاهای منابع</h2>
+            <span className="text-xs text-slate-500">۱۰ مورد اخیر</span>
+          </div>
+          <div className="mt-4 space-y-3 text-xs text-slate-300">
+            {recentSourceFailures.length === 0 ? (
+              <p className="text-slate-500">خطایی برای منابع ثبت نشده است.</p>
+            ) : (
+              recentSourceFailures.map((failure) => (
+                <div
+                  key={failure.id}
+                  className="rounded-xl border border-rose-500/30 bg-rose-950/10 px-3 py-2"
+                >
+                  <div className="flex items-center justify-between text-[11px]">
+                    <span className="font-semibold text-rose-200">{failure.name}</span>
+                    <span className="text-rose-100/70">{formatDateTime(failure.lastFetchAt)}</span>
+                  </div>
+                  <a
+                    className="mt-1 inline-flex text-[11px] text-rose-200/80 underline decoration-dotted"
+                    href={failure.homepageUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {failure.homepageUrl}
+                  </a>
+                  <p className="mt-2 text-[11px] text-rose-100/80">
+                    {failure.lastStatusCode ? `کد خطا ${failure.lastStatusCode} – ` : ''}
+                    {failure.lastErrorMessage ?? 'جزئیات خطا موجود نیست'}
+                  </p>
+                </div>
+              ))
+            )}
+          </div>
         </div>
       </div>
 

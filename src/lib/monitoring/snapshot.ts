@@ -1,4 +1,4 @@
-import { Status } from '@prisma/client';
+import { IngestionStatus, Status } from '@prisma/client';
 import { prisma } from '../db/client';
 import { withPrismaConnectionFallback } from '../db/errors';
 
@@ -46,11 +46,41 @@ export type IngestionSnapshot = {
   pendingReviewCount: number;
 };
 
+export type NewsSourceFailureRecord = {
+  id: string;
+  name: string;
+  homepageUrl: string;
+  lastStatusCode: number | null;
+  lastErrorMessage: string | null;
+  lastFetchAt: string | null;
+};
+
+export type NewsSourceSummary = {
+  totals: {
+    total: number;
+    enabled: number;
+    ok: number;
+    error: number;
+    unknown: number;
+  };
+  recentFailures: NewsSourceFailureRecord[];
+};
+
+type RecentNewsSourceFailureRow = {
+  id: string;
+  name: string;
+  homepageUrl: string;
+  lastStatusCode: number | null;
+  lastErrorMessage: string | null;
+  lastFetchAt: Date | null;
+};
+
 export type MonitoringSnapshot = {
   heartbeats: HeartbeatRecord[];
   queueSnapshots: QueueSnapshotRecord[];
   alerts: AlertEventRecord[];
   ingestion: IngestionSnapshot;
+  newsSources: NewsSourceSummary;
 };
 
 function toIso(value: Date | null | undefined): string | null {
@@ -116,7 +146,13 @@ export async function getMonitoringSnapshot(): Promise<MonitoringSnapshot> {
     pendingReviewCount,
     latestIngestion,
     latestIngestionSuccess,
-    latestIngestionError
+    latestIngestionError,
+    newsSourceTotal,
+    newsSourceEnabled,
+    newsSourceOk,
+    newsSourceError,
+    newsSourceUnknown,
+    recentNewsSourceFailures
   ] = await Promise.all([
     withPrismaConnectionFallback(
       () =>
@@ -172,6 +208,40 @@ export async function getMonitoringSnapshot(): Promise<MonitoringSnapshot> {
           orderBy: { createdAt: 'desc' }
         }),
       null
+    ),
+    withPrismaConnectionFallback(() => prisma.newsSource.count(), 0),
+    withPrismaConnectionFallback(
+      () => prisma.newsSource.count({ where: { enabled: true } }),
+      0
+    ),
+    withPrismaConnectionFallback(
+      () => prisma.newsSource.count({ where: { lastStatus: IngestionStatus.OK } }),
+      0
+    ),
+    withPrismaConnectionFallback(
+      () => prisma.newsSource.count({ where: { lastStatus: IngestionStatus.ERROR } }),
+      0
+    ),
+    withPrismaConnectionFallback(
+      () => prisma.newsSource.count({ where: { lastStatus: IngestionStatus.UNKNOWN } }),
+      0
+    ),
+    withPrismaConnectionFallback<RecentNewsSourceFailureRow[]>(
+      () =>
+        prisma.newsSource.findMany({
+          where: { lastStatus: IngestionStatus.ERROR },
+          orderBy: [{ lastFetchAt: 'desc' }, { updatedAt: 'desc' }],
+          take: 10,
+          select: {
+            id: true,
+            name: true,
+            homepageUrl: true,
+            lastStatusCode: true,
+            lastErrorMessage: true,
+            lastFetchAt: true
+          }
+        }),
+      []
     )
   ]);
 
@@ -188,10 +258,29 @@ export async function getMonitoringSnapshot(): Promise<MonitoringSnapshot> {
     pendingReviewCount
   };
 
+  const newsSources: NewsSourceSummary = {
+    totals: {
+      total: newsSourceTotal,
+      enabled: newsSourceEnabled,
+      ok: newsSourceOk,
+      error: newsSourceError,
+      unknown: newsSourceUnknown
+    },
+    recentFailures: recentNewsSourceFailures.map((failure) => ({
+      id: failure.id,
+      name: failure.name,
+      homepageUrl: failure.homepageUrl,
+      lastStatusCode: failure.lastStatusCode ?? null,
+      lastErrorMessage: failure.lastErrorMessage ?? null,
+      lastFetchAt: toIso(failure.lastFetchAt)
+    }))
+  };
+
   return {
     heartbeats,
     queueSnapshots,
     alerts,
-    ingestion
+    ingestion,
+    newsSources
   };
 }

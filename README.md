@@ -333,6 +333,11 @@ pnpm queue:worker # اجرای Worker صف در ترمینال جداگانه
 | بازسازی کش خبر مشخص | `curl -X POST -H "Authorization: Bearer $INTERNAL_API_TOKEN" -d '{"slug":"example"}' http://127.0.0.1:3000/api/revalidate` |
 | مشاهدهٔ وضعیت صف | `docker exec -it hooshgate_web pnpm queue:status` *(خروجی جدول وضعیت وظایف pg-boss)* |
 
+## مستندات تکمیلی
+
+- برای درک کامل مدل `NewsSource`، جریان اینجست و مدیریت هزاران منبع خبری، به سند [docs/ingestion.md](./docs/ingestion.md) مراجعه کنید.
+- برای دستورالعمل‌های مربوط به OAuth، SMTP و هشدار پیامکی، نمونه پیکربندی در فایل‌های `.env.example` و `.env.production` آورده شده است.
+
 ## نقشهٔ راه پیشنهادی
 
 - افزودن ماژول خلاصه‌سازی هوشمند برای تولید خلاصهٔ کوتاه فارسی/انگلیسی هر خبر.
