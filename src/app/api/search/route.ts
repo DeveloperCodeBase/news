@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
           ? article.summaryFa ?? article.excerptFa ?? article.summaryEn ?? article.excerptEn
           : article.summaryEn ?? article.excerptEn ?? article.summaryFa ?? article.excerptFa,
       publishedAt: article.publishedAt.toISOString(),
-      source: article.source.name
+      source: article.newsSource?.name ?? ''
     }))
   });
 }

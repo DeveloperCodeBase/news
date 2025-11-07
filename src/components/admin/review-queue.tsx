@@ -197,8 +197,8 @@ export default function ReviewQueue({ initialSnapshot }: ReviewQueueProps) {
                     <span className="rounded-full border border-slate-700/60 px-3 py-1 text-slate-200">
                       {article.language === 'FA' ? 'FA' : 'EN'}
                     </span>
-                    {article.source?.name ? (
-                      <span>منبع: {article.source.name}</span>
+                    {article.newsSource?.name ? (
+                      <span>منبع: {article.newsSource.name}</span>
                     ) : (
                       <span>منبع نامشخص</span>
                     )}

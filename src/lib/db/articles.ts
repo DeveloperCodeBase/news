@@ -19,7 +19,7 @@ const ARTICLE_SELECT = {
   scheduledFor: true,
   status: true,
   urlCanonical: true,
-  source: {
+  newsSource: {
     select: {
       id: true,
       name: true,
@@ -89,7 +89,7 @@ export type ReviewQueueArticle = {
   publishedAt: Date;
   updatedAt: Date;
   scheduledFor: Date | null;
-  source: { name: string } | null;
+  newsSource: { name: string } | null;
 };
 
 export type ReviewQueueStats = {
@@ -129,7 +129,7 @@ export async function getReviewQueueSnapshot(filters: ReviewQueueFilters = {}): 
     where.OR = [
       { titleFa: { contains: search, mode: 'insensitive' } },
       { titleEn: { contains: search, mode: 'insensitive' } },
-      { source: { name: { contains: search, mode: 'insensitive' } } }
+      { newsSource: { name: { contains: search, mode: 'insensitive' } } }
     ];
   }
 
@@ -152,7 +152,7 @@ export async function getReviewQueueSnapshot(filters: ReviewQueueFilters = {}): 
         publishedAt: true,
         updatedAt: true,
         scheduledFor: true,
-        source: { select: { name: true } }
+        newsSource: { select: { name: true } }
       }
     }),
     prisma.article.count({ where: { status: Status.REVIEWED } }),
@@ -217,7 +217,7 @@ export async function getScheduledArticles(limit = 25) {
       titleFa: true,
       titleEn: true,
       scheduledFor: true,
-      source: { select: { name: true } }
+      newsSource: { select: { name: true } }
     }
   });
 }

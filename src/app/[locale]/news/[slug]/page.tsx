@@ -78,6 +78,7 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
 
   const primaryTopic = article!.topics?.[0];
   const topicBadges = (article!.topics ?? []).slice(0, 3);
+  const unknownSourceLabel = locale === 'fa' ? 'منبع نامشخص' : 'Unknown source';
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -107,12 +108,12 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
         <span
           className={clsx(
             'rounded-full px-3 py-1',
-            article!.source.isTrusted
+            article!.newsSource?.isTrusted
               ? 'bg-emerald-500/10 text-emerald-200'
               : 'bg-amber-500/10 text-amber-200'
           )}
         >
-          {article!.source.name}
+          {article!.newsSource?.name ?? unknownSourceLabel}
         </span>
         <time>{formatDisplayDate(article!.publishedAt, locale)}</time>
         {primaryTopic ? (
@@ -130,7 +131,13 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
         </p>
       )}
       <p className="text-sm text-slate-400">
-        {t('source')}: <a className="text-sky-300 hover:text-sky-200" href={article!.source.url} rel="noopener noreferrer" target="_blank">{article!.source.url}</a>
+        {t('source')}: {article!.newsSource?.url ? (
+          <a className="text-sky-300 hover:text-sky-200" href={article!.newsSource.url} rel="noopener noreferrer" target="_blank">
+            {article!.newsSource.url}
+          </a>
+        ) : (
+          <span>{unknownSourceLabel}</span>
+        )}
       </p>
       {topicBadges.length > 1 ? (
         <div className="flex flex-wrap gap-2 text-xs">
@@ -195,7 +202,7 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
               <span className="block text-sm font-semibold text-slate-100">
                 {getLocalizedValue(item, locale, 'title')}
               </span>
-              <span className="mt-2 block text-xs text-slate-400">{item.source.name}</span>
+              <span className="mt-2 block text-xs text-slate-400">{item.newsSource?.name ?? unknownSourceLabel}</span>
             </a>
           ))}
           {related.length === 0 && <p className="text-sm text-slate-400">{locale === 'fa' ? 'خبر مرتبطی ثبت نشده است.' : 'No related stories yet.'}</p>}

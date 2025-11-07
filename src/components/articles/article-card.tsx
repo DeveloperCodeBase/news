@@ -16,7 +16,7 @@ export type ArticleSummary = {
   coverImageUrl: string | null;
   publishedAt: Date;
   status: string;
-  source: { name: string; url: string; isTrusted: boolean };
+  newsSource: { name: string; url: string; isTrusted: boolean } | null;
   categories: Array<{ slug: string; nameFa: string; nameEn: string | null }>;
 };
 
@@ -54,8 +54,8 @@ export default function ArticleCard({ article, locale }: ArticleCardProps) {
       )}
       <div className="flex flex-1 flex-col gap-3 p-5">
         <div className="flex items-center justify-between text-xs text-slate-400">
-          <span className={clsx('rounded-full px-2 py-1', article.source.isTrusted ? 'bg-emerald-500/10 text-emerald-200' : 'bg-amber-500/10 text-amber-200')}>
-            {article.source.name}
+          <span className={clsx('rounded-full px-2 py-1', article.newsSource?.isTrusted ? 'bg-emerald-500/10 text-emerald-200' : 'bg-amber-500/10 text-amber-200')}>
+            {article.newsSource?.name ?? 'نامشخص'}
           </span>
           <time>{formatDisplayDate(article.publishedAt, locale)}</time>
         </div>

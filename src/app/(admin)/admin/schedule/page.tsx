@@ -29,7 +29,7 @@ export default async function SchedulePage() {
                   <p className="font-medium text-slate-100">{article.titleFa ?? article.titleEn}</p>
                   <p className="text-xs text-slate-500">/{article.slug}</p>
                 </td>
-                <td className="px-4 py-3 text-center text-slate-300">{article.source.name}</td>
+                <td className="px-4 py-3 text-center text-slate-300">{article.newsSource?.name ?? '—'}</td>
                 <td className="px-4 py-3 text-center text-slate-200">
                   {article.scheduledFor
                     ? new Date(article.scheduledFor).toLocaleString('fa-IR')

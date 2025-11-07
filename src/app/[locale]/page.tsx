@@ -50,7 +50,7 @@ export default async function LocaleHomePage({ params }: { params: { locale: App
               className="mt-8 block rounded-2xl border border-slate-800/70 bg-slate-900/40 p-6 transition hover:border-sky-500/60 hover:bg-slate-900/60"
             >
               <div className="flex flex-col gap-3">
-                <span className="text-sm text-slate-300">{hero.source.name}</span>
+                <span className="text-sm text-slate-300">{hero.newsSource?.name ?? 'نامشخص'}</span>
                 <h2 className="text-2xl font-semibold text-slate-50">
                   {getLocalizedValue(hero, locale, 'title')}
                 </h2>
@@ -73,7 +73,7 @@ export default async function LocaleHomePage({ params }: { params: { locale: App
                 <span className="text-sm font-semibold text-slate-100">
                   {getLocalizedValue(article, locale, 'title')}
                 </span>
-                <span className="text-xs text-slate-400">{article.source.name}</span>
+                <span className="text-xs text-slate-400">{article.newsSource?.name ?? 'نامشخص'}</span>
               </Link>
             ))}
             {articles.length === 0 && <p className="text-slate-400">{t('emptyState')}</p>}
@@ -108,7 +108,7 @@ export default async function LocaleHomePage({ params }: { params: { locale: App
               coverImageUrl: article.coverImageUrl,
               publishedAt: article.publishedAt,
               status: article.status,
-              source: article.source,
+              newsSource: article.newsSource,
               categories: article.categories.map(({ category }) => ({
                 slug: category.slug,
                 nameFa: category.nameFa,
@@ -129,7 +129,7 @@ export default async function LocaleHomePage({ params }: { params: { locale: App
                 coverImageUrl: hero.coverImageUrl,
                 publishedAt: hero.publishedAt,
                 status: hero.status,
-                source: hero.source,
+                newsSource: hero.newsSource,
                 categories: hero.categories.map(({ category }) => ({
                   slug: category.slug,
                   nameFa: category.nameFa,
