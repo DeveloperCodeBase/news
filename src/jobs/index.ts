@@ -107,7 +107,7 @@ async function ingestSources(): Promise<IngestionMetrics> {
 
         const existing = await prisma.article.findUnique({
           where: { urlCanonical: normalized.canonicalUrl },
-          select: { id: true, slug: true, status: true }
+          select: { id: true, slug: true, status: true, sourceImageUrl: true, coverImageUrl: true }
         });
 
         if (
@@ -268,6 +268,9 @@ async function ingestSources(): Promise<IngestionMetrics> {
           tag: { connect: { slug: slugValue } }
         }));
 
+        const coverImageUrl = normalized.coverImageUrl ?? null;
+        const sourceImageUrl = normalized.sourceImageUrl ?? null;
+
         const articleFields = {
           titleFa: titleFa ?? normalized.title,
           titleEn: titleEn ?? normalized.title,
@@ -277,36 +280,48 @@ async function ingestSources(): Promise<IngestionMetrics> {
           summaryEn: finalSummaryEn,
           contentFa: contentFa ?? baseContent,
           contentEn: contentEn ?? baseContent,
-          coverImageUrl: normalized.coverImageUrl ?? null,
           language: normalized.language,
           status: articleStatus
         };
 
         if (existing) {
-          await prisma.article.update({
-            where: { id: existing.id },
-            data: {
-              ...articleFields,
-              newsSource: { connect: { id: source.id } },
-              categories: {
-                deleteMany: {},
-                ...(categoryCreate.length ? { create: categoryCreate } : {})
-              },
-              tags: {
-                deleteMany: {},
-                ...(tagCreate.length ? { create: tagCreate } : {})
-              },
-              topics: {
-                deleteMany: {},
-                ...(topicCreate.length ? { create: topicCreate } : {})
-              },
-              analytics: {
-                upsert: {
-                  update: {},
-                  create: {}
-                }
+          const shouldUpdateCover =
+            !!coverImageUrl && (!existing.coverImageUrl || existing.coverImageUrl === existing.sourceImageUrl);
+
+          const updateData: Prisma.ArticleUpdateInput = {
+            ...articleFields,
+            newsSource: { connect: { id: source.id } },
+            categories: {
+              deleteMany: {},
+              ...(categoryCreate.length ? { create: categoryCreate } : {})
+            },
+            tags: {
+              deleteMany: {},
+              ...(tagCreate.length ? { create: tagCreate } : {})
+            },
+            topics: {
+              deleteMany: {},
+              ...(topicCreate.length ? { create: topicCreate } : {})
+            },
+            analytics: {
+              upsert: {
+                update: {},
+                create: {}
               }
             }
+          };
+
+          if (shouldUpdateCover) {
+            updateData.coverImageUrl = coverImageUrl;
+          }
+
+          if (sourceImageUrl && sourceImageUrl !== existing.sourceImageUrl) {
+            updateData.sourceImageUrl = sourceImageUrl;
+          }
+
+          await prisma.article.update({
+            where: { id: existing.id },
+            data: updateData
           });
           updated += 1;
           continue;
@@ -322,6 +337,8 @@ async function ingestSources(): Promise<IngestionMetrics> {
               slug,
               urlCanonical: normalized.canonicalUrl,
               ...articleFields,
+              coverImageUrl: coverImageUrl ?? sourceImageUrl ?? null,
+              sourceImageUrl,
               newsSource: { connect: { id: source.id } },
               analytics: { create: {} }
             };

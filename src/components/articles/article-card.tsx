@@ -14,6 +14,7 @@ export type ArticleSummary = {
   summaryFa: string | null;
   summaryEn: string | null;
   coverImageUrl: string | null;
+  sourceImageUrl: string | null;
   publishedAt: Date | null;
   updatedAt: Date;
   status: string;
@@ -45,16 +46,17 @@ export default function ArticleCard({ article, locale }: ArticleCardProps) {
   const href = `/${locale}/news/${article.slug}`;
   const direction = locale === 'fa' ? 'rtl' : 'ltr';
   const publishedDate = article.publishedAt ?? article.updatedAt;
+  const coverImage = article.coverImageUrl ?? article.sourceImageUrl;
 
   return (
     <article
       dir={direction}
       className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-800/70 bg-slate-900/60 shadow-lg shadow-slate-950/40 transition hover:border-sky-500/60 hover:shadow-sky-900/40"
     >
-      {article.coverImageUrl ? (
+      {coverImage ? (
         <div className="relative h-48 w-full overflow-hidden">
           <Image
-            src={article.coverImageUrl}
+            src={coverImage}
             alt={title}
             fill
             sizes="(min-width: 768px) 33vw, 100vw"

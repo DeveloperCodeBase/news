@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { cookies } from 'next/headers';
@@ -13,6 +14,91 @@ import { resolveExperimentVariant } from '@/lib/experiments/assignment';
 export const dynamic = 'force-dynamic';
 export const revalidate = 600;
 
+function buildVideoEmbed(videoUrl: string, locale: AppLocale, title: string) {
+  try {
+    const parsed = new URL(videoUrl);
+    const host = parsed.hostname.toLowerCase();
+
+    const baseClasses = 'h-full w-full';
+
+    if (host.includes('youtube.com')) {
+      let id = parsed.searchParams.get('v');
+      if (!id && parsed.pathname.startsWith('/shorts/')) {
+        id = parsed.pathname.split('/').filter(Boolean).pop() ?? null;
+      }
+      if (!id && parsed.pathname.startsWith('/live/')) {
+        id = parsed.pathname.split('/').filter(Boolean).pop() ?? null;
+      }
+      if (id) {
+        const embedUrl = `https://www.youtube.com/embed/${id}`;
+        return (
+          <iframe
+            title={title}
+            src={embedUrl}
+            className={baseClasses}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        );
+      }
+    }
+
+    if (host === 'youtu.be') {
+      const id = parsed.pathname.split('/').filter(Boolean).pop();
+      if (id) {
+        const embedUrl = `https://www.youtube.com/embed/${id}`;
+        return (
+          <iframe
+            title={title}
+            src={embedUrl}
+            className={baseClasses}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        );
+      }
+    }
+
+    if (host.includes('vimeo.com')) {
+      const id = parsed.pathname.split('/').filter(Boolean).pop();
+      if (id) {
+        const embedUrl = `https://player.vimeo.com/video/${id}`;
+        return (
+          <iframe
+            title={title}
+            src={embedUrl}
+            className={baseClasses}
+            allow="autoplay; fullscreen; picture-in-picture"
+            allowFullScreen
+          />
+        );
+      }
+    }
+
+    if (/\.(mp4|webm|ogg)$/i.test(parsed.pathname)) {
+      return (
+        <video controls className={`${baseClasses} rounded-xl bg-black`}>
+          <source src={videoUrl} />
+          {locale === 'fa' ? 'مرورگر شما از ویدیو پشتیبانی نمی‌کند.' : 'Your browser does not support the video element.'}
+        </video>
+      );
+    }
+  } catch (error) {
+    console.warn('[article] invalid video url', error);
+  }
+
+  return (
+    <a
+      href={videoUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex h-full items-center justify-center rounded-xl border border-slate-700/60 bg-slate-900/80 text-sm text-sky-300 hover:text-sky-200"
+    >
+      {locale === 'fa' ? 'مشاهده ویدیو در پنجره جدید' : 'Open video in a new tab'}
+    </a>
+  );
+}
+
 export async function generateMetadata({ params }: { params: { locale: AppLocale; slug: string } }): Promise<Metadata> {
   const { slug, locale } = params;
   const article = await getArticleBySlug(slug);
@@ -26,8 +112,9 @@ export async function generateMetadata({ params }: { params: { locale: AppLocale
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hooshgate.ir';
   const url = `${siteUrl}/${locale}/news/${article.slug}`;
   const publishedDate = article.publishedAt ?? article.updatedAt ?? new Date();
+  const coverImage = article.coverImageUrl ?? article.sourceImageUrl ?? undefined;
 
-  const images = article.coverImageUrl ? [{ url: article.coverImageUrl }] : undefined;
+  const images = coverImage ? [{ url: coverImage }] : undefined;
 
   return {
     title,
@@ -66,6 +153,7 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
   const leadText = summary || excerpt;
   const safeContent = content || (leadText ? `<p>${leadText}</p>` : '');
   const publishedDate = article!.publishedAt ?? article!.updatedAt ?? new Date();
+  const coverImage = article!.coverImageUrl ?? article!.sourceImageUrl ?? null;
 
   const related = await getRelatedArticles(
     article!.id,
@@ -81,6 +169,7 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
   const primaryTopic = article!.topics?.[0];
   const topicBadges = (article!.topics ?? []).slice(0, 3);
   const unknownSourceLabel = locale === 'fa' ? 'منبع نامشخص' : 'Unknown source';
+  const videoContent = article!.videoUrl ? buildVideoEmbed(article!.videoUrl, locale, title) : null;
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -88,7 +177,7 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
     headline: title,
     datePublished: publishedDate.toISOString(),
     mainEntityOfPage: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hooshgate.ir'}/${locale}/news/${article!.slug}`,
-    image: article!.coverImageUrl,
+    image: coverImage ?? undefined,
     description: leadText,
     author: {
       '@type': 'Organization',
@@ -181,10 +270,10 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
       />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      {isImmersive && article!.coverImageUrl ? (
+      {isImmersive && coverImage ? (
         <div className="relative overflow-hidden rounded-3xl border border-slate-800/40 bg-slate-950/70 shadow-2xl shadow-slate-950/40">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={article!.coverImageUrl} alt={title} className="h-96 w-full object-cover opacity-60" />
+          <img src={coverImage} alt={title} className="h-96 w-full object-cover opacity-60" />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
           <div className="relative z-10 space-y-4 p-8">{headerContent}</div>
         </div>
@@ -192,9 +281,15 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
         <header className="space-y-4">{headerContent}</header>
       )}
 
-      {!isImmersive && article!.coverImageUrl ? (
+      {!isImmersive && coverImage ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={article!.coverImageUrl} alt={title} className="w-full rounded-3xl border border-slate-800/60" />
+        <img src={coverImage} alt={title} className="w-full rounded-3xl border border-slate-800/60" />
+      ) : null}
+
+      {videoContent ? (
+        <div className="overflow-hidden rounded-3xl border border-slate-800/60 bg-slate-900/60">
+          <div className="aspect-video w-full">{videoContent}</div>
+        </div>
       ) : null}
 
       <div
@@ -241,6 +336,14 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
           ))}
         </div>
       </section>
+      <div className="pt-2">
+        <Link
+          href={`/${locale}/news`}
+          className="inline-flex items-center rounded-full border border-slate-700/60 px-4 py-2 text-sm text-sky-300 hover:border-sky-500 hover:text-sky-200"
+        >
+          {locale === 'fa' ? 'بازگشت به لیست خبرها' : 'Back to news'}
+        </Link>
+      </div>
     </article>
   );
 }

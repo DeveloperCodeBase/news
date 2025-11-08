@@ -1,0 +1,3 @@
+ALTER TABLE "Article"
+  ADD COLUMN IF NOT EXISTS "sourceImageUrl" TEXT,
+  ADD COLUMN IF NOT EXISTS "videoUrl" TEXT;

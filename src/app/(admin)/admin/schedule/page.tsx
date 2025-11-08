@@ -37,7 +37,7 @@ export default async function SchedulePage() {
                 </td>
                 <td className="px-4 py-3 text-center">
                   <Link
-                    href={`/admin/articles/${article.id}`}
+                    href={`/admin/articles/${article.id}?returnTo=${encodeURIComponent('/admin/schedule')}&source=schedule`}
                     className="rounded-lg border border-emerald-500 px-3 py-1 text-xs text-emerald-300 hover:bg-emerald-500/10"
                   >
                     مدیریت

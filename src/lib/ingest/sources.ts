@@ -251,6 +251,7 @@ export type NormalizedArticle = {
   publishedAt: Date;
   canonicalUrl: string;
   coverImageUrl?: string;
+  sourceImageUrl?: string;
   language: Lang;
 };
 
@@ -279,6 +280,7 @@ export async function normalizeRawItemToArticle({
     publishedAt,
     canonicalUrl: raw.url,
     coverImageUrl: raw.image,
+    sourceImageUrl: raw.image,
     language
   };
 }

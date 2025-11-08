@@ -85,6 +85,8 @@ model Article {
   contentFa     String?
   contentEn     String?
   coverImageUrl String?
+  sourceImageUrl String?
+  videoUrl       String?
   newsSourceId  String   @map("sourceId")
   newsSource    NewsSource   @relation(fields: [newsSourceId], references: [id])
   status        Status   @default(REVIEWED)

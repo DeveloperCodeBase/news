@@ -23,6 +23,12 @@ const coverImageSchema = z
   .optional()
   .nullable();
 
+const videoUrlSchema = z
+  .string()
+  .url({ message: 'Invalid video URL' })
+  .optional()
+  .nullable();
+
 const updateArticleSchema = z
   .object({
     titleFa: z.string().min(3),
@@ -37,6 +43,7 @@ const updateArticleSchema = z
     categories: z.array(z.string()),
     tags: z.array(z.string()),
     coverImageUrl: coverImageSchema,
+    videoUrl: videoUrlSchema,
     scheduledFor: z.string().datetime().optional().nullable()
   })
   .refine(
@@ -80,6 +87,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     categories,
     tags,
     coverImageUrl,
+    videoUrl,
     scheduledFor
   } = payload.data;
 
@@ -128,7 +136,8 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
             }
           : {})
       },
-      coverImageUrl: coverImageUrl ?? null
+      coverImageUrl: coverImageUrl ?? null,
+      videoUrl: videoUrl ?? null
     },
     select: {
       id: true,

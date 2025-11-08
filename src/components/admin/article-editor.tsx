@@ -26,14 +26,19 @@ type ArticleEditorProps = {
     categories: { category: Taxonomy }[];
     tags: { tag: Taxonomy }[];
     coverImageUrl?: string | null;
+    sourceImageUrl?: string | null;
+    videoUrl?: string | null;
+    newsSource?: { id: string; name: string | null; homepageUrl: string | null } | null;
   };
   taxonomies: {
     categories: Taxonomy[];
     tags: Taxonomy[];
   };
+  returnPath?: string;
+  originLabel?: string;
 };
 
-export default function ArticleEditor({ article, taxonomies }: ArticleEditorProps) {
+export default function ArticleEditor({ article, taxonomies, returnPath, originLabel }: ArticleEditorProps) {
   const router = useRouter();
   const [status, setStatus] = useState<ArticleStatus>(article.status);
   const [titleFa, setTitleFa] = useState<string>(article.titleFa);
@@ -54,6 +59,7 @@ export default function ArticleEditor({ article, taxonomies }: ArticleEditorProp
   const [activeLocale, setActiveLocale] = useState<'fa' | 'en'>('fa');
   const [coverImageUrl, setCoverImageUrl] = useState(article.coverImageUrl ?? '');
   const [isUploading, setIsUploading] = useState(false);
+  const [videoUrl, setVideoUrl] = useState(article.videoUrl ?? '');
   const [scheduledAt, setScheduledAt] = useState(() => {
     if (!article.scheduledFor) return '';
     const parsed = new Date(article.scheduledFor);
@@ -100,7 +106,8 @@ export default function ArticleEditor({ article, taxonomies }: ArticleEditorProp
       categories: selectedCategories,
       tags: selectedTags,
       coverImageUrl: coverImageUrl ? coverImageUrl : null,
-      scheduledFor
+      scheduledFor,
+      videoUrl: videoUrl.trim() ? videoUrl.trim() : null
     };
 
     try {
@@ -114,7 +121,8 @@ export default function ArticleEditor({ article, taxonomies }: ArticleEditorProp
         throw new Error('Failed to update');
       }
 
-      router.push('/admin');
+      const destination = returnPath ?? '/admin';
+      router.push(destination);
       router.refresh();
     } catch (error) {
       console.error('Failed to update article', error);
@@ -151,6 +159,37 @@ export default function ArticleEditor({ article, taxonomies }: ArticleEditorProp
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <button
+          type="button"
+          onClick={() => {
+            const destination = returnPath ?? '/admin';
+            router.push(destination);
+          }}
+          className="rounded-lg border border-slate-700 px-4 py-2 text-sm text-slate-200 transition hover:border-sky-500 hover:text-sky-200"
+        >
+          {originLabel ?? 'بازگشت'}
+        </button>
+        {article.newsSource ? (
+          <div className="text-xs text-slate-400">
+            منبع: {article.newsSource.name ?? '—'}
+            {article.newsSource.homepageUrl ? (
+              <>
+                {' '}
+                ·{' '}
+                <a
+                  href={article.newsSource.homepageUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sky-300 hover:text-sky-200"
+                >
+                  {article.newsSource.homepageUrl.replace(/^https?:\/\//, '')}
+                </a>
+              </>
+            ) : null}
+          </div>
+        ) : null}
+      </div>
       <div className="flex flex-wrap gap-3 sm:flex-nowrap">
         <button
           type="button"
@@ -210,6 +249,21 @@ export default function ArticleEditor({ article, taxonomies }: ArticleEditorProp
               />
             </div>
           ) : null}
+          {article.sourceImageUrl ? (
+            <div className="space-y-2 rounded-lg border border-slate-800/80 bg-slate-950/70 p-3 text-xs text-slate-300">
+              <p className="font-medium text-slate-200">تصویر اصلی منبع</p>
+              <div className="relative h-32 w-full overflow-hidden rounded">
+                <Image
+                  src={article.sourceImageUrl}
+                  alt="تصویر منبع"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover"
+                />
+              </div>
+              <code className="block truncate rounded bg-slate-900/80 px-2 py-1 text-[11px]">{article.sourceImageUrl}</code>
+            </div>
+          ) : null}
         </div>
         <label className="space-y-2">
           <span className="block text-sm text-slate-300">عنوان فارسی</span>
@@ -266,6 +320,19 @@ export default function ArticleEditor({ article, taxonomies }: ArticleEditorProp
             required
           />
           <span className="block text-xs text-slate-500">Used for English feeds and SEO snippet.</span>
+        </label>
+        <label className="space-y-2 md:col-span-2">
+          <span className="block text-sm text-slate-300">ویدیو (اختیاری)</span>
+          <input
+            type="url"
+            placeholder="https://www.youtube.com/watch?v=..."
+            value={videoUrl}
+            onChange={(event) => setVideoUrl(event.target.value)}
+            className="w-full rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-slate-100 focus:border-emerald-400 focus:outline-none"
+          />
+          <span className="block text-xs text-slate-500">
+            لینک مستقیم یا YouTube/Vimeo. اگر خالی باشد، ویدیویی نمایش داده نمی‌شود.
+          </span>
         </label>
       </div>
 

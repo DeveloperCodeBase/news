@@ -15,6 +15,8 @@ const ARTICLE_SELECT = {
   contentFa: true,
   contentEn: true,
   coverImageUrl: true,
+  sourceImageUrl: true,
+  videoUrl: true,
   publishedAt: true,
   updatedAt: true,
   scheduledFor: true,
@@ -206,6 +208,9 @@ export async function getArticleForAdmin(id: string) {
       status: true,
       scheduledFor: true,
       coverImageUrl: true,
+      sourceImageUrl: true,
+      videoUrl: true,
+      newsSource: { select: { id: true, name: true, homepageUrl: true } },
       categories: { select: { category: { select: { id: true, nameFa: true, nameEn: true } } } },
       tags: { select: { tag: { select: { id: true, nameFa: true, nameEn: true } } } }
     }

@@ -51,6 +51,22 @@ export default function ReviewQueue({ initialSnapshot }: ReviewQueueProps) {
     searchValue
   ]);
 
+  const returnParams = useMemo(() => {
+    const params = new URLSearchParams();
+    if (statusFilters.length) {
+      params.set('status', statusFilters.join(','));
+    }
+    if (languageFilter !== 'all') {
+      params.set('language', languageFilter);
+    }
+    if (searchValue.trim()) {
+      params.set('search', searchValue.trim());
+    }
+    return params.toString();
+  }, [languageFilter, searchValue, statusFilters]);
+
+  const returnPath = returnParams ? `/admin?${returnParams}` : '/admin';
+
   const query = useQuery<ReviewQueueSnapshot>({
     queryKey,
     queryFn: async () => {
@@ -212,7 +228,7 @@ export default function ReviewQueue({ initialSnapshot }: ReviewQueueProps) {
                   <p className="text-xs text-slate-500">انتشار اولیه: {publishedLabel}</p>
                   <p className="text-xs text-slate-500">آخرین بروزرسانی: {updatedLabel}</p>
                   <Link
-                    href={`/admin/articles/${article.id}`}
+                    href={`/admin/articles/${article.id}?returnTo=${encodeURIComponent(returnPath)}&source=review`}
                     className="inline-flex items-center text-xs font-medium text-sky-300 hover:text-sky-200"
                   >
                     ویرایش و بررسی کامل ↗
