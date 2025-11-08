@@ -131,13 +131,26 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
         </p>
       )}
       <p className="text-sm text-slate-400">
-        {t('source')}: {article!.newsSource?.url ? (
-          <a className="text-sky-300 hover:text-sky-200" href={article!.newsSource.url} rel="noopener noreferrer" target="_blank">
-            {article!.newsSource.url}
-          </a>
-        ) : (
-          <span>{unknownSourceLabel}</span>
-        )}
+        {t('source')}: {
+          (() => {
+            const sourceUrl =
+              article!.urlCanonical ??
+              article!.newsSource?.homepageUrl ??
+              article!.newsSource?.rssUrl ??
+              article!.newsSource?.scrapeUrl ??
+              null;
+
+            if (sourceUrl) {
+              return (
+                <a className="text-sky-300 hover:text-sky-200" href={sourceUrl} rel="noopener noreferrer" target="_blank">
+                  {article!.newsSource?.name ?? sourceUrl}
+                </a>
+              );
+            }
+
+            return <span>{article!.newsSource?.name ?? unknownSourceLabel}</span>;
+          })()
+        }
       </p>
       {topicBadges.length > 1 ? (
         <div className="flex flex-wrap gap-2 text-xs">

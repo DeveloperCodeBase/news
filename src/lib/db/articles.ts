@@ -23,7 +23,12 @@ const ARTICLE_SELECT = {
     select: {
       id: true,
       name: true,
-      url: true,
+      homepageUrl: true,
+      rssUrl: true,
+      scrapeUrl: true,
+      language: true,
+      region: true,
+      topicTags: true,
       isTrusted: true
     }
   },
@@ -89,7 +94,7 @@ export type ReviewQueueArticle = {
   publishedAt: Date;
   updatedAt: Date;
   scheduledFor: Date | null;
-  newsSource: { name: string } | null;
+  newsSource: { name: string; homepageUrl: string | null } | null;
 };
 
 export type ReviewQueueStats = {
@@ -152,7 +157,7 @@ export async function getReviewQueueSnapshot(filters: ReviewQueueFilters = {}): 
         publishedAt: true,
         updatedAt: true,
         scheduledFor: true,
-        newsSource: { select: { name: true } }
+        newsSource: { select: { name: true, homepageUrl: true } }
       }
     }),
     prisma.article.count({ where: { status: Status.REVIEWED } }),
@@ -217,7 +222,7 @@ export async function getScheduledArticles(limit = 25) {
       titleFa: true,
       titleEn: true,
       scheduledFor: true,
-      newsSource: { select: { name: true } }
+      newsSource: { select: { name: true, homepageUrl: true } }
     }
   });
 }

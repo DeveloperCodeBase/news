@@ -16,7 +16,18 @@ export type ArticleSummary = {
   coverImageUrl: string | null;
   publishedAt: Date;
   status: string;
-  newsSource: { name: string; url: string; isTrusted: boolean } | null;
+  newsSource:
+    | {
+        name: string;
+        homepageUrl: string | null;
+        rssUrl: string | null;
+        scrapeUrl: string | null;
+        language: string;
+        region: string | null;
+        topicTags: string[];
+        isTrusted: boolean;
+      }
+    | null;
   categories: Array<{ slug: string; nameFa: string; nameEn: string | null }>;
 };
 
