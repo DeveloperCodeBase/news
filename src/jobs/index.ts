@@ -356,6 +356,8 @@ async function ingestSources(): Promise<IngestionMetrics> {
             createdSuccessfully = true;
           }
         }
+
+      }
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Unknown error';
       sourceFailures.push({ name: source.name, statusCode: undefined, message });
