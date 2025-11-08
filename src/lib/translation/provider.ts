@@ -75,18 +75,27 @@ export async function translateWithCache({
     return { translated: cached.translated, providerId: cached.provider };
   }
 
-  const translated = await provider.translate(text, sourceLang, targetLang);
+  try {
+    const translated = await provider.translate(text, sourceLang, targetLang);
 
-  await prisma.translationCache.create({
-    data: {
-      hash,
-      sourceLang,
-      targetLang,
-      sourceText: text,
-      translated,
-      provider: provider.id
-    }
-  });
+    await prisma.translationCache.create({
+      data: {
+        hash,
+        sourceLang,
+        targetLang,
+        sourceText: text,
+        translated,
+        provider: provider.id
+      }
+    });
 
-  return { translated, providerId: provider.id };
+    return { translated, providerId: provider.id };
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : typeof error === 'string' ? error : 'Unknown error';
+    console.warn(
+      `[translation] Provider ${provider.id} failed (${sourceLang}->${targetLang}): ${message}`
+    );
+    return { translated: null, providerId: provider.id };
+  }
 }

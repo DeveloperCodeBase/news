@@ -107,6 +107,7 @@ export default async function LocaleHomePage({ params }: { params: { locale: App
               summaryEn: article.summaryEn,
               coverImageUrl: article.coverImageUrl,
               publishedAt: article.publishedAt,
+              updatedAt: article.updatedAt,
               status: article.status,
               newsSource: article.newsSource,
               categories: article.categories.map(({ category }) => ({
@@ -128,6 +129,7 @@ export default async function LocaleHomePage({ params }: { params: { locale: App
                 summaryEn: hero.summaryEn,
                 coverImageUrl: hero.coverImageUrl,
                 publishedAt: hero.publishedAt,
+                updatedAt: hero.updatedAt,
                 status: hero.status,
                 newsSource: hero.newsSource,
                 categories: hero.categories.map(({ category }) => ({

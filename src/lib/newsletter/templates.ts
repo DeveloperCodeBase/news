@@ -32,7 +32,8 @@ function renderArticleList(items: ArticlePayload[], locale: 'fa' | 'en', siteUrl
       const summary = locale === 'fa' ? article.summaryFa ?? article.summaryEn : article.summaryEn ?? article.summaryFa;
       const excerpt = summary ?? (locale === 'fa' ? article.excerptFa ?? article.excerptEn ?? '' : article.excerptEn ?? article.excerptFa ?? '');
       const link = `${siteUrl}/${locale}/news/${article.slug}`;
-      return { title, excerpt, link, date: article.publishedAt.toISOString().split('T')[0] };
+      const publication = article.publishedAt ?? new Date();
+      return { title, excerpt, link, date: publication.toISOString().split('T')[0] };
     })
     .filter((item) => item.title);
 }

@@ -13,12 +13,13 @@ export async function GET() {
       const title = getLocalizedValue(article, 'fa', 'title');
       const summary = getLocalizedValue(article, 'fa', 'summary');
       const description = summary || getLocalizedValue(article, 'fa', 'excerpt');
+      const publishedAt = article.publishedAt ?? article.updatedAt ?? new Date();
       return `    <item>
       <title><![CDATA[${title}]]></title>
       <link>${siteUrl}/fa/news/${article.slug}</link>
       <guid isPermaLink="false">${article.urlCanonical}</guid>
       <description><![CDATA[${description ?? ''}]]></description>
-      <pubDate>${article.publishedAt.toUTCString()}</pubDate>
+      <pubDate>${publishedAt.toUTCString()}</pubDate>
     </item>`;
     })
     .join('\n');

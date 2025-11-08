@@ -14,7 +14,8 @@ export type ArticleSummary = {
   summaryFa: string | null;
   summaryEn: string | null;
   coverImageUrl: string | null;
-  publishedAt: Date;
+  publishedAt: Date | null;
+  updatedAt: Date;
   status: string;
   newsSource:
     | {
@@ -43,6 +44,7 @@ export default function ArticleCard({ article, locale }: ArticleCardProps) {
   const teaser = summary || excerpt;
   const href = `/${locale}/news/${article.slug}`;
   const direction = locale === 'fa' ? 'rtl' : 'ltr';
+  const publishedDate = article.publishedAt ?? article.updatedAt;
 
   return (
     <article
@@ -68,7 +70,7 @@ export default function ArticleCard({ article, locale }: ArticleCardProps) {
           <span className={clsx('rounded-full px-2 py-1', article.newsSource?.isTrusted ? 'bg-emerald-500/10 text-emerald-200' : 'bg-amber-500/10 text-amber-200')}>
             {article.newsSource?.name ?? 'نامشخص'}
           </span>
-          <time>{formatDisplayDate(article.publishedAt, locale)}</time>
+          <time>{formatDisplayDate(publishedDate, locale)}</time>
         </div>
         <h3 className="line-clamp-2 text-lg font-semibold text-slate-100">{title}</h3>
         {teaser && <p className="line-clamp-3 text-sm text-slate-300">{teaser}</p>}

@@ -35,6 +35,7 @@ export default async function NewsIndexPage({ params }: { params: { locale: AppL
               summaryEn: article.summaryEn,
               coverImageUrl: article.coverImageUrl,
               publishedAt: article.publishedAt,
+              updatedAt: article.updatedAt,
               status: article.status,
               newsSource: article.newsSource,
               categories: article.categories.map(({ category }) => ({

@@ -183,7 +183,9 @@ export default function ReviewQueue({ initialSnapshot }: ReviewQueueProps) {
         <div className="divide-y divide-slate-800 overflow-hidden rounded-2xl border border-slate-800">
           {articles.map((article) => {
             const summary = getLocalizedSummary(article);
-            const publishedLabel = new Date(article.publishedAt).toLocaleString('fa-IR');
+            const publishedLabel = article.publishedAt
+              ? new Date(article.publishedAt).toLocaleString('fa-IR')
+              : new Date(article.updatedAt).toLocaleString('fa-IR');
             const updatedLabel = new Date(article.updatedAt).toLocaleString('fa-IR');
             const statusLabel = REVIEW_STATUS_OPTIONS.find((item) => item.value === article.status)?.label ?? article.status;
             return (

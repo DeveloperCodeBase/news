@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
         locale === 'fa'
           ? article.summaryFa ?? article.excerptFa ?? article.summaryEn ?? article.excerptEn
           : article.summaryEn ?? article.excerptEn ?? article.summaryFa ?? article.excerptFa,
-      publishedAt: article.publishedAt.toISOString(),
+      publishedAt: (article.publishedAt ?? article.updatedAt ?? new Date()).toISOString(),
       source: article.newsSource?.name ?? ''
     }))
   });

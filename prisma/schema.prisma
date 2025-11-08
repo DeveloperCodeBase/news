@@ -91,7 +91,7 @@ model Article {
   language      Lang     @default(EN)
   authorId      String?
   author        User?    @relation("AuthorArticles", fields: [authorId], references: [id])
-  publishedAt   DateTime @default(now())
+  publishedAt   DateTime?
   scheduledFor  DateTime?
   scheduleJobId String?
   createdAt     DateTime @default(now())

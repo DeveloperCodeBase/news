@@ -16,6 +16,7 @@ const ARTICLE_SELECT = {
   contentEn: true,
   coverImageUrl: true,
   publishedAt: true,
+  updatedAt: true,
   scheduledFor: true,
   status: true,
   urlCanonical: true,
@@ -91,7 +92,7 @@ export type ReviewQueueArticle = {
   summaryEn: string | null;
   status: Status;
   language: Lang;
-  publishedAt: Date;
+  publishedAt: Date | null;
   updatedAt: Date;
   scheduledFor: Date | null;
   newsSource: { name: string; homepageUrl: string | null } | null;

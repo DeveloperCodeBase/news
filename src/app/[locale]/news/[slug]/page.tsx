@@ -25,6 +25,7 @@ export async function generateMetadata({ params }: { params: { locale: AppLocale
   const description = localizedSummary || localizedExcerpt;
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hooshgate.ir';
   const url = `${siteUrl}/${locale}/news/${article.slug}`;
+  const publishedDate = article.publishedAt ?? article.updatedAt ?? new Date();
 
   const images = article.coverImageUrl ? [{ url: article.coverImageUrl }] : undefined;
 
@@ -36,7 +37,7 @@ export async function generateMetadata({ params }: { params: { locale: AppLocale
       description,
       url,
       type: 'article',
-      publishedTime: article.publishedAt.toISOString(),
+      publishedTime: publishedDate.toISOString(),
       images
     },
     alternates: {
@@ -64,6 +65,7 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
   const excerpt = getLocalizedValue(article!, locale, 'excerpt');
   const leadText = summary || excerpt;
   const safeContent = content || (leadText ? `<p>${leadText}</p>` : '');
+  const publishedDate = article!.publishedAt ?? article!.updatedAt ?? new Date();
 
   const related = await getRelatedArticles(
     article!.id,
@@ -84,7 +86,7 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
     '@context': 'https://schema.org',
     '@type': 'NewsArticle',
     headline: title,
-    datePublished: article!.publishedAt.toISOString(),
+    datePublished: publishedDate.toISOString(),
     mainEntityOfPage: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hooshgate.ir'}/${locale}/news/${article!.slug}`,
     image: article!.coverImageUrl,
     description: leadText,
@@ -115,7 +117,7 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
         >
           {article!.newsSource?.name ?? unknownSourceLabel}
         </span>
-        <time>{formatDisplayDate(article!.publishedAt, locale)}</time>
+        <time>{formatDisplayDate(publishedDate, locale)}</time>
         {primaryTopic ? (
           <span className="rounded-full bg-sky-500/10 px-3 py-1 text-sky-200">
             {primaryTopic.label}

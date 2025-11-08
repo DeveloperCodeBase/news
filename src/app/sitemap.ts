@@ -7,7 +7,7 @@ export const revalidate = 0;
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hooshgate.ir';
   const articles = await getHomepageArticles(50);
-  const lastModified = articles[0]?.publishedAt ?? new Date();
+  const lastModified = articles[0]?.publishedAt ?? articles[0]?.updatedAt ?? new Date();
 
   const localizedRoots: MetadataRoute.Sitemap = ['fa', 'en'].map((locale) => ({
     url: `${baseUrl}/${locale}`,
@@ -28,7 +28,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const articleEntries: MetadataRoute.Sitemap = articles.flatMap((article) =>
     ['fa', 'en'].map((locale) => ({
       url: `${baseUrl}/${locale}/news/${article.slug}`,
-      lastModified: article.publishedAt,
+      lastModified: article.publishedAt ?? article.updatedAt ?? new Date(),
       changeFrequency: 'hourly',
       priority: 0.8
     }))

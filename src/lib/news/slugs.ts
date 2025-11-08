@@ -1,9 +1,10 @@
 import slugify from '@sindresorhus/slugify';
 import { prisma } from '../db/client';
 
-export async function generateUniqueArticleSlug(title: string, publishedAt: Date): Promise<string> {
+export async function generateUniqueArticleSlug(title: string, publishedAt?: Date | null): Promise<string> {
+  const referenceDate = publishedAt ?? new Date();
   const base = slugify(title, { decamelize: false, separator: '-' }).slice(0, 80);
-  const stamp = publishedAt.toISOString().slice(0, 10).replace(/-/g, '');
+  const stamp = referenceDate.toISOString().slice(0, 10).replace(/-/g, '');
   let slug = `${stamp}-${base}`.replace(/-+/g, '-');
   let attempts = 0;
 

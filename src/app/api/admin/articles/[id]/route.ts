@@ -111,7 +111,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
       status,
       scheduledFor: status === Status.SCHEDULED ? scheduledForDate : null,
       scheduleJobId: status === Status.SCHEDULED ? existing.scheduleJobId : null,
-      publishedAt: status === Status.PUBLISHED ? new Date() : undefined,
+      publishedAt: status === Status.PUBLISHED ? new Date() : null,
       categories: {
         deleteMany: {},
         ...(categories.length

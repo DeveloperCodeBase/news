@@ -1,4 +1,4 @@
-import { Status, Lang, IngestionStatus } from '@prisma/client';
+import { Status, Lang, IngestionStatus, Prisma } from '@prisma/client';
 import { prisma } from '../lib/db/client';
 import { classifyText } from '../lib/news/classifier';
 import { generateUniqueArticleSlug } from '../lib/news/slugs';
@@ -26,6 +26,7 @@ type SourceFailure = { name: string; statusCode?: number; message: string };
 type IngestionMetrics = {
   fetched: number;
   created: number;
+  updated: number;
   skipped: number;
   pendingReview: number;
   sourcesAttempted: number;
@@ -40,6 +41,7 @@ async function ingestSources(): Promise<IngestionMetrics> {
     return {
       fetched: 0,
       created: 0,
+      updated: 0,
       skipped: 0,
       pendingReview: 0,
       sourcesAttempted: 0,
@@ -56,9 +58,11 @@ async function ingestSources(): Promise<IngestionMetrics> {
   const tagSet = new Set(tags.map((tag) => tag.slug));
 
   let created = 0;
+  let updated = 0;
   let skipped = 0;
 
   for (const source of sources) {
+    try {
       const result = await fetchSourceFeed({
         id: source.id,
         name: source.name,
@@ -102,15 +106,16 @@ async function ingestSources(): Promise<IngestionMetrics> {
         const normalized = await normalizeRawItemToArticle({ raw: rawItem, source });
 
         const existing = await prisma.article.findUnique({
-          where: { urlCanonical: normalized.canonicalUrl }
+          where: { urlCanonical: normalized.canonicalUrl },
+          select: { id: true, slug: true, status: true }
         });
-        if (existing) {
+
+        if (existing && ![Status.REVIEWED, Status.DRAFT].includes(existing.status)) {
           skipped += 1;
           continue;
         }
 
-        const slug = await generateUniqueArticleSlug(normalized.title, normalized.publishedAt);
-        const status = source.isTrusted ? Status.PUBLISHED : Status.REVIEWED;
+        const articleStatus = source.isTrusted ? Status.REVIEWED : Status.DRAFT;
 
         const classification = classifyText(`${normalized.title} ${normalized.description}`);
         const categorySlugs = Array.from(
@@ -168,7 +173,7 @@ async function ingestSources(): Promise<IngestionMetrics> {
               sourceLang: Lang.FA,
               targetLang: Lang.EN
             });
-            titleEn = translatedTitle ?? null;
+            titleEn = translatedTitle ?? normalized.title;
           }
 
           if (!excerptEn) {
@@ -177,7 +182,7 @@ async function ingestSources(): Promise<IngestionMetrics> {
               sourceLang: Lang.FA,
               targetLang: Lang.EN
             });
-            excerptEn = translatedExcerpt ?? null;
+            excerptEn = translatedExcerpt ?? plainExcerpt ?? excerpt;
           }
 
           if (!contentEn && plainContent) {
@@ -186,7 +191,7 @@ async function ingestSources(): Promise<IngestionMetrics> {
               sourceLang: Lang.FA,
               targetLang: Lang.EN
             });
-            contentEn = translated ?? null;
+            contentEn = translated ?? enrichedContentHtml ?? baseHtml ?? null;
           }
         } else {
           titleEn = normalized.title;
@@ -221,7 +226,6 @@ async function ingestSources(): Promise<IngestionMetrics> {
           }
         }
 
-      try {
         const topicPlainText = sanitizeHtml(
           `${contentFa ?? ''} ${contentEn ?? ''}`,
           { allowedTags: [], allowedAttributes: {} }
@@ -251,56 +255,117 @@ async function ingestSources(): Promise<IngestionMetrics> {
 
         const finalSummaryFa = summaryFa || excerptFa || excerpt;
         const finalSummaryEn = summaryEn || excerptEn || excerpt;
+        const baseContent = enrichedContentHtml || baseHtml || null;
 
-        await prisma.article.create({
-          data: {
-            slug,
-            urlCanonical: normalized.canonicalUrl,
-            titleFa: titleFa ?? normalized.title,
-            titleEn: titleEn ?? normalized.title,
-            excerptFa: excerptFa ?? excerpt,
-            excerptEn: excerptEn ?? excerpt,
-            summaryFa: finalSummaryFa,
-            summaryEn: finalSummaryEn,
-            contentFa: contentFa ?? enrichedContentHtml ?? baseHtml ?? null,
-            contentEn: contentEn ?? enrichedContentHtml ?? baseHtml ?? null,
-            coverImageUrl: normalized.coverImageUrl ?? null,
-            language: normalized.language,
-            newsSource: {
-              connect: { id: source.id }
-            },
-            status,
-            publishedAt: normalized.publishedAt,
-            categories: {
-              create: categorySlugs.map((slugValue) => ({
-                category: { connect: { slug: slugValue } }
-              }))
-            },
-            tags: {
-              create: tagSlugs.map((slugValue) => ({
-                tag: { connect: { slug: slugValue } }
-              }))
-            },
-            ...(topicCreate.length
-              ? {
-                  topics: {
-                    create: topicCreate
-                  }
+        const categoryCreate = categorySlugs.map((slugValue) => ({
+          category: { connect: { slug: slugValue } }
+        }));
+        const tagCreate = tagSlugs.map((slugValue) => ({
+          tag: { connect: { slug: slugValue } }
+        }));
+
+        const articleFields = {
+          titleFa: titleFa ?? normalized.title,
+          titleEn: titleEn ?? normalized.title,
+          excerptFa: excerptFa ?? excerpt,
+          excerptEn: excerptEn ?? excerpt,
+          summaryFa: finalSummaryFa,
+          summaryEn: finalSummaryEn,
+          contentFa: contentFa ?? baseContent,
+          contentEn: contentEn ?? baseContent,
+          coverImageUrl: normalized.coverImageUrl ?? null,
+          language: normalized.language,
+          status: articleStatus
+        };
+
+        if (existing) {
+          await prisma.article.update({
+            where: { id: existing.id },
+            data: {
+              ...articleFields,
+              newsSource: { connect: { id: source.id } },
+              categories: {
+                deleteMany: {},
+                ...(categoryCreate.length ? { create: categoryCreate } : {})
+              },
+              tags: {
+                deleteMany: {},
+                ...(tagCreate.length ? { create: tagCreate } : {})
+              },
+              topics: {
+                deleteMany: {},
+                ...(topicCreate.length ? { create: topicCreate } : {})
+              },
+              analytics: {
+                upsert: {
+                  update: {},
+                  create: {}
                 }
-              : {}),
-            analytics: {
-              create: {}
+              }
             }
-          }
-        });
-        created += 1;
-      } catch (error: unknown) {
-        if (error && typeof error === 'object' && 'code' in error && (error as { code?: string }).code === 'P2002') {
-          skipped += 1;
-        } else {
-          console.error('Failed to insert article', error);
+          });
+          updated += 1;
+          continue;
         }
-      }
+
+        let slug = await generateUniqueArticleSlug(normalized.title, normalized.publishedAt);
+        let attempts = 0;
+        let createdSuccessfully = false;
+
+        while (!createdSuccessfully && attempts < 5) {
+          try {
+            const createData: Prisma.ArticleCreateInput = {
+              slug,
+              urlCanonical: normalized.canonicalUrl,
+              ...articleFields,
+              newsSource: { connect: { id: source.id } },
+              analytics: { create: {} }
+            };
+
+            if (categoryCreate.length) {
+              createData.categories = { create: categoryCreate };
+            }
+
+            if (tagCreate.length) {
+              createData.tags = { create: tagCreate };
+            }
+
+            if (topicCreate.length) {
+              createData.topics = { create: topicCreate };
+            }
+
+            await prisma.article.create({ data: createData });
+            created += 1;
+            createdSuccessfully = true;
+          } catch (error) {
+            const prismaError = error as { code?: string; meta?: { target?: string[] } };
+            if (prismaError?.code === 'P2002' && prismaError.meta?.target?.includes('slug')) {
+              attempts += 1;
+              slug = await generateUniqueArticleSlug(
+                `${normalized.title}-${attempts}`,
+                normalized.publishedAt
+              );
+              continue;
+            }
+            if (prismaError?.code === 'P2002' && prismaError.meta?.target?.includes('urlCanonical')) {
+              skipped += 1;
+              createdSuccessfully = true;
+              continue;
+            }
+            console.error('Failed to insert article', error);
+            createdSuccessfully = true;
+          }
+        }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      sourceFailures.push({ name: source.name, statusCode: undefined, message });
+      console.error(`[ingestion] ${source.name} unexpected failure: ${message}`);
+      await updateNewsSourceIngestionStatus(source.id, {
+        status: IngestionStatus.ERROR,
+        statusCode: null,
+        errorMessage: message,
+        fetchedAt: new Date()
+      });
     }
   }
 
@@ -329,6 +394,7 @@ async function ingestSources(): Promise<IngestionMetrics> {
   return {
     fetched: totalFetched,
     created,
+    updated,
     skipped,
     pendingReview: pendingReviewCount,
     sourcesAttempted: sources.length,
@@ -347,6 +413,7 @@ export async function runIngestion() {
       message: {
         fetched: result.fetched,
         created: result.created,
+        updated: result.updated,
         skipped: result.skipped,
         pendingReview: result.pendingReview,
         sourceFailures: result.sourceFailures,
