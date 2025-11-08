@@ -8,8 +8,11 @@ RUN_SEED="${RUN_SEED:-true}"
 
 if [ "$RUN_MIGRATIONS" = "true" ]; then
   if [ -d "prisma/migrations" ] && [ "$(ls -A prisma/migrations 2>/dev/null)" ]; then
-    echo "Applying Prisma migrations via migrate deploy..."
-    pnpm prisma migrate deploy
+    echo "Trying Prisma migrations via migrate deploy..."
+    if ! pnpm prisma migrate deploy; then
+      echo "migrate deploy failed; falling back to prisma db push..."
+      pnpm prisma db push
+    fi
   else
     echo "No Prisma migrations detected; syncing schema with db push..."
     pnpm prisma db push
