@@ -110,7 +110,11 @@ async function ingestSources(): Promise<IngestionMetrics> {
           select: { id: true, slug: true, status: true }
         });
 
-        if (existing && ![Status.REVIEWED, Status.DRAFT].includes(existing.status)) {
+        if (
+          existing &&
+          existing.status !== Status.REVIEWED &&
+          existing.status !== Status.DRAFT
+        ) {
           skipped += 1;
           continue;
         }
