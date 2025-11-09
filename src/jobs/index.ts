@@ -13,6 +13,7 @@ import { sendAlertSms } from '../lib/alerts/sms';
 import { generateLongformArticle } from '../lib/news/longform';
 import { getActiveNewsSources, updateNewsSourceIngestionStatus } from '../lib/db/sources';
 import { fetchSourceFeed, normalizeRawItemToArticle } from '../lib/ingest/sources';
+import { BudgetExceededError, getOpenAIMode } from '../lib/ai/openai';
 
 function buildExcerpt(text: string, length = 260) {
   if (!text) return '';
@@ -60,6 +61,9 @@ async function ingestSources(): Promise<IngestionMetrics> {
   let created = 0;
   let updated = 0;
   let skipped = 0;
+  const aiMode = getOpenAIMode();
+  let aiBudgetExceeded = false;
+  let budgetWarningLogged = false;
 
   for (const source of sources) {
     try {
@@ -131,14 +135,29 @@ async function ingestSources(): Promise<IngestionMetrics> {
 
         const excerpt = buildExcerpt(normalized.description);
 
-        const longform = await generateLongformArticle({
-          title: normalized.title,
-          summary: normalized.description,
-          rawHtml: normalized.contentHtml,
-          language: normalized.language,
-          sourceName: source.name,
-          publishedAt: normalized.publishedAt
-        });
+        let longform: Awaited<ReturnType<typeof generateLongformArticle>> = null;
+        if (aiMode === 'full' && !aiBudgetExceeded) {
+          try {
+            longform = await generateLongformArticle({
+              title: normalized.title,
+              summary: normalized.description,
+              rawHtml: normalized.contentHtml,
+              language: normalized.language,
+              sourceName: source.name,
+              publishedAt: normalized.publishedAt
+            });
+          } catch (error) {
+            if (error instanceof BudgetExceededError) {
+              aiBudgetExceeded = true;
+              if (!budgetWarningLogged) {
+                console.warn('[ingestion] OpenAI budget exhausted, skipping enrichment for remaining articles.');
+                budgetWarningLogged = true;
+              }
+            } else {
+              console.warn('[ingestion] longform generation failed', error);
+            }
+          }
+        }
 
         const fallbackParagraph = sanitizeHtml(normalized.description || normalized.contentHtml || '', {
           allowedTags: [],

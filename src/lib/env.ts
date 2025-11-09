@@ -27,6 +27,17 @@ const envSchema = z.object({
   TREND_MODEL_PATH: z.string().optional(),
   LT_URL: z.string().optional(),
   OPENAI_API_KEY: z.string().optional(),
+  OPENAI_MODE: z
+    .enum(['full', 'cheap', 'off'])
+    .default('full'),
+  OPENAI_MAX_DAILY_TOKENS: z
+    .string()
+    .optional()
+    .transform((value) => {
+      if (!value) return undefined;
+      const parsed = Number(value);
+      return Number.isFinite(parsed) && parsed > 0 ? Math.floor(parsed) : undefined;
+    }),
   GOOGLE_PROJECT_ID: z.string().optional(),
   GOOGLE_APPLICATION_CREDENTIALS: z.string().optional(),
   ALERT_EMAIL: z.string().email().optional(),

@@ -3,6 +3,7 @@
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
+import { formatJalaliDateTime } from '@/lib/time/jalali';
 
 type CronHeartbeat = {
   id: string;
@@ -80,24 +81,12 @@ const EMPTY_ALERTS: AlertEvent[] = [];
 const EMPTY_FAILURES: NewsSourceSummary['recentFailures'] = [];
 
 function formatTime(value: string | Date) {
-  const date = typeof value === 'string' ? new Date(value) : value;
-  return new Intl.DateTimeFormat('fa-IR', {
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit'
-  }).format(date);
+  return formatJalaliDateTime(value, 'HH:mm:ss');
 }
 
 function formatDateTime(value: string | null) {
   if (!value) return 'نامشخص';
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) {
-    return 'نامشخص';
-  }
-  return new Intl.DateTimeFormat('fa-IR', {
-    dateStyle: 'short',
-    timeStyle: 'short'
-  }).format(date);
+  return formatJalaliDateTime(value, 'YYYY/MM/DD HH:mm');
 }
 
 export default function MonitoringDashboard({ initialData }: { initialData: MonitoringData }) {

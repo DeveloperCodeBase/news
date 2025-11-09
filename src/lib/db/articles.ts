@@ -107,16 +107,25 @@ export type ReviewQueueStats = {
   pendingReview: number;
 };
 
+export type ReviewQueuePagination = {
+  page: number;
+  pageSize: number;
+  total: number;
+  totalPages: number;
+};
+
 export type ReviewQueueSnapshot = {
   articles: ReviewQueueArticle[];
   stats: ReviewQueueStats;
+  pagination: ReviewQueuePagination;
 };
 
 export type ReviewQueueFilters = {
   statuses?: Status[];
   language?: Lang;
   search?: string;
-  limit?: number;
+  page?: number;
+  pageSize?: number;
 };
 
 export async function getReviewQueueSnapshot(filters: ReviewQueueFilters = {}): Promise<ReviewQueueSnapshot> {
@@ -141,13 +150,17 @@ export async function getReviewQueueSnapshot(filters: ReviewQueueFilters = {}): 
     ];
   }
 
-  const take = filters.limit ?? 25;
+  const pageSize = Math.min(Math.max(filters.pageSize ?? 25, 5), 100);
+  const page = Math.max(filters.page ?? 1, 1);
+  const skip = (page - 1) * pageSize;
 
-  const [articles, reviewedCount, draftCount, scheduledCount] = await Promise.all([
+  const [totalMatching, articles, reviewedCount, draftCount, scheduledCount] = await Promise.all([
+    prisma.article.count({ where }),
     prisma.article.findMany({
       where,
       orderBy: [{ status: 'asc' }, { updatedAt: 'desc' }],
-      take,
+      skip,
+      take: pageSize,
       select: {
         id: true,
         slug: true,
@@ -168,6 +181,8 @@ export async function getReviewQueueSnapshot(filters: ReviewQueueFilters = {}): 
     prisma.article.count({ where: { status: Status.SCHEDULED } })
   ]);
 
+  const totalPages = Math.max(1, Math.ceil(totalMatching / pageSize));
+
   return {
     articles,
     stats: {
@@ -175,12 +190,18 @@ export async function getReviewQueueSnapshot(filters: ReviewQueueFilters = {}): 
       draft: draftCount,
       scheduled: scheduledCount,
       pendingReview: reviewedCount + draftCount
+    },
+    pagination: {
+      page: Math.min(page, totalPages),
+      pageSize,
+      total: totalMatching,
+      totalPages
     }
   };
 }
 
 export async function getReviewQueueArticles(limit = 25) {
-  const snapshot = await getReviewQueueSnapshot({ limit });
+  const snapshot = await getReviewQueueSnapshot({ pageSize: limit });
   return snapshot.articles;
 }
 

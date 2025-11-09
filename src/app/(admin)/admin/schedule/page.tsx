@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { getScheduledArticles } from '@/lib/db/articles';
+import { formatJalaliDateTime } from '@/lib/time/jalali';
 
 export const dynamic = 'force-dynamic';
 
@@ -31,9 +32,7 @@ export default async function SchedulePage() {
                 </td>
                 <td className="px-4 py-3 text-center text-slate-300">{article.newsSource?.name ?? '—'}</td>
                 <td className="px-4 py-3 text-center text-slate-200">
-                  {article.scheduledFor
-                    ? new Date(article.scheduledFor).toLocaleString('fa-IR')
-                    : '—'}
+                  {formatJalaliDateTime(article.scheduledFor)}
                 </td>
                 <td className="px-4 py-3 text-center">
                   <Link

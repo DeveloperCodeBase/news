@@ -4,6 +4,7 @@ import {
   getTrendHighlights,
   getExperimentSummaries
 } from '@/lib/db/articles';
+import { formatJalaliDateTime } from '@/lib/time/jalali';
 
 export const dynamic = 'force-dynamic';
 
@@ -84,9 +85,7 @@ export default async function AnalyticsPage() {
                     {article.analytics ? `${Math.round((article.analytics.avgCompletion ?? 0) * 100)}٪` : '—'}
                   </td>
                   <td className="px-4 py-3 text-center text-xs text-slate-400">
-                    {article.analytics?.lastViewedAt
-                      ? new Date(article.analytics.lastViewedAt).toLocaleString('fa-IR')
-                      : '—'}
+                    {formatJalaliDateTime(article.analytics?.lastViewedAt)}
                   </td>
                 </tr>
               ))}
@@ -108,7 +107,7 @@ export default async function AnalyticsPage() {
                 </li>
               ))}
               <li className="text-xs text-slate-500">
-                آخرین بروزرسانی: {new Date(trends.generatedAt).toLocaleString('fa-IR')}
+                آخرین بروزرسانی: {formatJalaliDateTime(trends.generatedAt)}
               </li>
             </ul>
           ) : (
@@ -140,7 +139,7 @@ export default async function AnalyticsPage() {
             </table>
           </div>
           <div className="text-xs text-slate-500">
-            آخرین اندازه‌گیری در {vitals.latest[0] ? new Date(vitals.latest[0].createdAt).toLocaleString('fa-IR') : '—'}
+            آخرین اندازه‌گیری در {formatJalaliDateTime(vitals.latest[0]?.createdAt)}
           </div>
         </div>
       </section>

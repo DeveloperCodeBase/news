@@ -1,11 +1,11 @@
 import SourceManager from '@/components/admin/source-manager';
-import { getAdminNewsSources, getNewsSourceHealthSummary } from '@/lib/db/sources';
+import { getNewsSourceHealthSummary, listAdminNewsSources } from '@/lib/db/sources';
 
 export const dynamic = 'force-dynamic';
 
 export default async function SourcesPage() {
-  const [sources, summary] = await Promise.all([
-    getAdminNewsSources(),
+  const [{ sources, pagination }, summary] = await Promise.all([
+    listAdminNewsSources({ page: 1, pageSize: 25 }),
     getNewsSourceHealthSummary()
   ]);
 
@@ -50,6 +50,7 @@ export default async function SourcesPage() {
           lastErrorMessage: source.lastErrorMessage ?? null,
           lastFetchAt: source.lastFetchAt ? source.lastFetchAt.toISOString() : null
         }))}
+        initialPagination={pagination}
       />
     </section>
   );

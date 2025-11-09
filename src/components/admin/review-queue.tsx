@@ -1,12 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import clsx from 'clsx';
 import type { Lang } from '@prisma/client';
 import type { ReviewQueueSnapshot } from '@/lib/db/articles';
 import type { ArticleStatus } from '@/lib/news/status';
+import { formatJalaliDateTime } from '@/lib/time/jalali';
 
 const REVIEW_STATUS_OPTIONS: { value: ArticleStatus; label: string }[] = [
   { value: 'REVIEWED', label: 'در انتظار بازبینی' },
@@ -20,10 +21,10 @@ const LANGUAGE_OPTIONS: { value: 'all' | Lang; label: string }[] = [
   { value: 'EN', label: 'انگلیسی' }
 ];
 
-const DEFAULT_LIMIT = 25;
+const DEFAULT_PAGE_SIZE = 25;
 
-function buildQueryKey(statuses: ArticleStatus[], language: 'all' | Lang, search: string) {
-  return ['review-queue', statuses.slice().sort().join(','), language, search.trim()];
+function buildQueryKey(statuses: ArticleStatus[], language: 'all' | Lang, search: string, page: number) {
+  return ['review-queue', statuses.slice().sort().join(','), language, search.trim(), page];
 }
 
 function getLocalizedSummary(article: ReviewQueueSnapshot['articles'][number]) {
@@ -44,11 +45,15 @@ export default function ReviewQueue({ initialSnapshot }: ReviewQueueProps) {
   const [searchInput, setSearchInput] = useState('');
   const [searchValue, setSearchValue] = useState('');
   const [pendingId, setPendingId] = useState<string | null>(null);
+  const [page, setPage] = useState(initialSnapshot.pagination.page);
 
-  const queryKey = useMemo(() => buildQueryKey(statusFilters, languageFilter, searchValue), [
+  const pageSize = initialSnapshot.pagination.pageSize ?? DEFAULT_PAGE_SIZE;
+
+  const queryKey = useMemo(() => buildQueryKey(statusFilters, languageFilter, searchValue, page), [
     statusFilters,
     languageFilter,
-    searchValue
+    searchValue,
+    page
   ]);
 
   const returnParams = useMemo(() => {
@@ -71,7 +76,8 @@ export default function ReviewQueue({ initialSnapshot }: ReviewQueueProps) {
     queryKey,
     queryFn: async () => {
       const params = new URLSearchParams();
-      params.set('limit', String(DEFAULT_LIMIT));
+      params.set('page', String(page));
+      params.set('pageSize', String(pageSize));
       if (statusFilters.length) {
         params.set('status', statusFilters.join(','));
       }
@@ -94,6 +100,11 @@ export default function ReviewQueue({ initialSnapshot }: ReviewQueueProps) {
   const snapshot = query.data ?? initialSnapshot;
   const articles = snapshot.articles;
   const stats = snapshot.stats;
+  const pagination = snapshot.pagination;
+
+  useEffect(() => {
+    setPage((current) => (current === 1 ? current : 1));
+  }, [languageFilter, statusFilters, searchValue]);
 
   async function updateStatus(id: string, status: ArticleStatus) {
     setPendingId(id);
@@ -120,10 +131,13 @@ export default function ReviewQueue({ initialSnapshot }: ReviewQueueProps) {
       const next = exists ? current.filter((status) => status !== value) : [...current, value];
       return next.length ? next : ['REVIEWED'];
     });
+    setPage(1);
   }
 
   const filteredStatuses = statusFilters.join(',');
   const isFetching = query.isFetching && !query.isLoading;
+  const hasNextPage = pagination.page < pagination.totalPages;
+  const hasPreviousPage = pagination.page > 1;
 
   return (
     <div className="space-y-6">
@@ -152,7 +166,10 @@ export default function ReviewQueue({ initialSnapshot }: ReviewQueueProps) {
           <select
             className="rounded-lg border border-slate-700/60 bg-slate-900 px-3 py-2 text-xs text-slate-200"
             value={languageFilter}
-            onChange={(event) => setLanguageFilter(event.target.value as 'all' | Lang)}
+            onChange={(event) => {
+              setLanguageFilter(event.target.value as 'all' | Lang);
+              setPage(1);
+            }}
           >
             {LANGUAGE_OPTIONS.map((option) => (
               <option key={option.value} value={option.value}>
@@ -164,6 +181,7 @@ export default function ReviewQueue({ initialSnapshot }: ReviewQueueProps) {
             className="flex items-center gap-2"
             onSubmit={(event) => {
               event.preventDefault();
+              setPage(1);
               setSearchValue(searchInput.trim());
             }}
           >
@@ -200,9 +218,9 @@ export default function ReviewQueue({ initialSnapshot }: ReviewQueueProps) {
           {articles.map((article) => {
             const summary = getLocalizedSummary(article);
             const publishedLabel = article.publishedAt
-              ? new Date(article.publishedAt).toLocaleString('fa-IR')
-              : new Date(article.updatedAt).toLocaleString('fa-IR');
-            const updatedLabel = new Date(article.updatedAt).toLocaleString('fa-IR');
+              ? formatJalaliDateTime(article.publishedAt, 'YYYY/MM/DD HH:mm')
+              : formatJalaliDateTime(article.updatedAt, 'YYYY/MM/DD HH:mm');
+            const updatedLabel = formatJalaliDateTime(article.updatedAt, 'YYYY/MM/DD HH:mm');
             const statusLabel = REVIEW_STATUS_OPTIONS.find((item) => item.value === article.status)?.label ?? article.status;
             return (
               <article
@@ -258,8 +276,31 @@ export default function ReviewQueue({ initialSnapshot }: ReviewQueueProps) {
         </div>
       )}
 
-      <footer className="text-xs text-slate-500">
-        فیلترهای فعال: وضعیت ({filteredStatuses || '---'}) · زبان ({languageFilter})
+      <footer className="flex flex-col gap-3 text-xs text-slate-500 md:flex-row md:items-center md:justify-between">
+        <span>
+          فیلترهای فعال: وضعیت ({filteredStatuses || '---'}) · زبان ({languageFilter})
+        </span>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            disabled={!hasPreviousPage || query.isFetching}
+            onClick={() => setPage((current) => Math.max(1, current - 1))}
+            className="rounded-lg border border-slate-700/60 px-3 py-1 text-xs text-slate-200 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            قبلی
+          </button>
+          <span>
+            صفحه {pagination.page} از {pagination.totalPages}
+          </span>
+          <button
+            type="button"
+            disabled={!hasNextPage || query.isFetching}
+            onClick={() => setPage((current) => current + 1)}
+            className="rounded-lg border border-slate-700/60 px-3 py-1 text-xs text-slate-200 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            بعدی
+          </button>
+        </div>
       </footer>
     </div>
   );

@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useMemo, useState, useTransition } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useMemo, useState } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import clsx from 'clsx';
 import type { IngestionStatus } from '@prisma/client';
+import { formatJalaliDateTime } from '@/lib/time/jalali';
 
 export type AdminNewsSource = {
   id: string;
@@ -44,7 +45,25 @@ export type SourceFailure = {
 
 type SourceManagerProps = {
   initialSources: AdminNewsSource[];
+  initialPagination: {
+    page: number;
+    pageSize: number;
+    total: number;
+    totalPages: number;
+  };
   initialSummary: SourceSummary;
+  recentFailures: SourceFailure[];
+};
+
+type SourceListResponse = {
+  sources: AdminNewsSource[];
+  pagination: {
+    page: number;
+    pageSize: number;
+    total: number;
+    totalPages: number;
+  };
+  summary: SourceSummary;
   recentFailures: SourceFailure[];
 };
 
@@ -56,9 +75,7 @@ const STATUS_LABELS: Record<IngestionStatus, string> = {
 
 function formatDate(value: string | null) {
   if (!value) return '—';
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return '—';
-  return new Intl.DateTimeFormat('fa-IR', { dateStyle: 'short', timeStyle: 'short' }).format(date);
+  return formatJalaliDateTime(value, 'YYYY/MM/DD HH:mm');
 }
 
 type SourceRowProps = {
@@ -267,36 +284,80 @@ function SourceRow({ source, isEditing, onToggleEdit, onToggle, onPriorityChange
   );
 }
 
-export default function SourceManager({ initialSources, initialSummary, recentFailures }: SourceManagerProps) {
-  const router = useRouter();
-  const [sources, setSources] = useState(initialSources);
-  const [summary] = useState(initialSummary);
+export default function SourceManager({
+  initialSources,
+  initialPagination,
+  initialSummary,
+  recentFailures
+}: SourceManagerProps) {
+  const queryClient = useQueryClient();
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | IngestionStatus>('all');
   const [enabledFilter, setEnabledFilter] = useState<'all' | 'enabled' | 'disabled'>('all');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
-  const [isPending, startTransition] = useTransition();
+  const [isMutating, setIsMutating] = useState(false);
+  const [page, setPage] = useState(initialPagination.page);
 
-  const filteredSources = useMemo(() => {
-    const term = search.trim().toLowerCase();
-    return sources.filter((source) => {
-      const matchesSearch =
-        term.length === 0 ||
-        source.name.toLowerCase().includes(term) ||
-        source.homepageUrl.toLowerCase().includes(term) ||
-        source.topicTags.some((tag) => tag.toLowerCase().includes(term));
-      if (!matchesSearch) return false;
-      if (statusFilter !== 'all' && source.lastStatus !== statusFilter) return false;
-      if (enabledFilter === 'enabled' && !source.enabled) return false;
-      if (enabledFilter === 'disabled' && source.enabled) return false;
-      return true;
-    });
-  }, [sources, search, statusFilter, enabledFilter]);
+  const pageSize = initialPagination.pageSize;
+
+  useEffect(() => {
+    setPage((current) => (current === 1 ? current : 1));
+  }, [search, statusFilter, enabledFilter]);
+
+  const queryKey = useMemo(
+    () => [
+      'admin-sources',
+      {
+        page,
+        pageSize,
+        search: search.trim(),
+        status: statusFilter,
+        enabled: enabledFilter
+      }
+    ],
+    [page, pageSize, search, statusFilter, enabledFilter]
+  );
+
+  const query = useQuery<SourceListResponse>({
+    queryKey,
+    queryFn: async () => {
+      const params = new URLSearchParams({
+        page: String(page),
+        pageSize: String(pageSize)
+      });
+      if (search.trim()) {
+        params.set('search', search.trim());
+      }
+      if (statusFilter !== 'all') {
+        params.set('status', statusFilter);
+      }
+      if (enabledFilter !== 'all') {
+        params.set('enabled', enabledFilter);
+      }
+      const response = await fetch(`/api/admin/sources?${params.toString()}`);
+      if (!response.ok) {
+        throw new Error('Failed to load sources');
+      }
+      const payload = (await response.json()) as SourceListResponse;
+      return payload;
+    },
+    initialData: {
+      sources: initialSources,
+      pagination: initialPagination,
+      summary: initialSummary,
+      recentFailures
+    }
+  });
+
+  const sources = query.data?.sources ?? initialSources;
+  const pagination = query.data?.pagination ?? initialPagination;
+  const summary = query.data?.summary ?? initialSummary;
+  const latestFailures = query.data?.recentFailures ?? recentFailures;
 
   async function mutateSource(id: string, payload: Record<string, unknown>) {
     setFormError(null);
-    setSources((current) => current.map((item) => (item.id === id ? { ...item, ...payload } : item)));
+    setIsMutating(true);
     try {
       const response = await fetch(`/api/admin/sources/${id}`, {
         method: 'PATCH',
@@ -306,11 +367,13 @@ export default function SourceManager({ initialSources, initialSummary, recentFa
       if (!response.ok) {
         throw new Error('Request failed');
       }
-      startTransition(() => router.refresh());
+      await queryClient.invalidateQueries({ queryKey: ['admin-sources'] });
     } catch (error) {
       console.error(error);
       setFormError('به‌روزرسانی منبع با خطا مواجه شد.');
-      startTransition(() => router.refresh());
+      await queryClient.invalidateQueries({ queryKey: ['admin-sources'] });
+    } finally {
+      setIsMutating(false);
     }
   }
 
@@ -335,6 +398,10 @@ export default function SourceManager({ initialSources, initialSummary, recentFa
       notes: details.notes || null
     });
 
+  const isFetching = query.isFetching && !query.isLoading;
+  const currentPage = pagination.page;
+  const totalPages = pagination.totalPages;
+
   return (
     <div className="space-y-8">
       <section className="grid gap-4 rounded-2xl border border-slate-800 bg-slate-950/60 p-6 text-slate-100 md:grid-cols-2 xl:grid-cols-4">
@@ -356,11 +423,11 @@ export default function SourceManager({ initialSources, initialSummary, recentFa
         </div>
       </section>
 
-      {recentFailures.length > 0 ? (
+      {latestFailures.length > 0 ? (
         <section className="rounded-2xl border border-rose-500/30 bg-rose-950/10 p-4 text-sm text-rose-100">
           <h2 className="text-base font-semibold">آخرین خطاهای جمع‌آوری</h2>
           <ul className="mt-3 space-y-2">
-            {recentFailures.map((failure) => (
+            {latestFailures.map((failure) => (
               <li key={failure.id} className="flex flex-col gap-1 rounded-xl border border-rose-500/20 bg-rose-900/20 p-3">
                 <div className="flex items-center justify-between text-xs">
                   <span className="font-semibold">{failure.name}</span>
@@ -413,7 +480,7 @@ export default function SourceManager({ initialSources, initialSummary, recentFa
           </select>
         </div>
         {formError ? <p className="text-xs text-rose-300">{formError}</p> : null}
-        {isPending ? <p className="text-xs text-slate-400">در حال بروزرسانی…</p> : null}
+        {isMutating || isFetching ? <p className="text-xs text-slate-400">در حال بروزرسانی…</p> : null}
       </div>
 
       <div className="overflow-hidden rounded-2xl border border-slate-800">
@@ -429,7 +496,7 @@ export default function SourceManager({ initialSources, initialSummary, recentFa
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800">
-              {filteredSources.map((source) => (
+              {sources.map((source) => (
                 <SourceRow
                   key={source.id}
                   source={source}
@@ -443,9 +510,36 @@ export default function SourceManager({ initialSources, initialSummary, recentFa
             </tbody>
           </table>
         </div>
-        {filteredSources.length === 0 ? (
+        {sources.length === 0 ? (
           <p className="px-4 py-6 text-center text-sm text-slate-400">منبعی مطابق با فیلترهای انتخابی یافت نشد.</p>
-        ) : null}
+        ) : (
+          <div className="flex items-center justify-between border-t border-slate-800 px-4 py-3 text-xs text-slate-300">
+            <span>
+              نمایش {sources.length} منبع از {pagination.total}
+            </span>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                disabled={currentPage <= 1}
+                onClick={() => setPage((value) => Math.max(1, value - 1))}
+                className="rounded-lg border border-slate-700 px-3 py-1 text-slate-200 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                قبلی
+              </button>
+              <span>
+                صفحه {currentPage} از {totalPages}
+              </span>
+              <button
+                type="button"
+                disabled={currentPage >= totalPages}
+                onClick={() => setPage((value) => Math.min(totalPages, value + 1))}
+                className="rounded-lg border border-slate-700 px-3 py-1 text-slate-200 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                بعدی
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

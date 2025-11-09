@@ -1,14 +1,9 @@
 import type { AppLocale } from '../i18n/config';
-
-const LOCALE_MAP: Record<AppLocale, string> = {
-  fa: 'fa-IR',
-  en: 'en-US'
-};
+import { formatJalaliDateTime, formatTehranDateTime } from '../time/jalali';
 
 export function formatDisplayDate(date: Date, locale: AppLocale): string {
-  const formatter = new Intl.DateTimeFormat(LOCALE_MAP[locale], {
-    dateStyle: 'medium',
-    timeStyle: 'short'
-  });
-  return formatter.format(date);
+  if (locale === 'fa') {
+    return formatJalaliDateTime(date, 'YYYY/MM/DD HH:mm');
+  }
+  return formatTehranDateTime(date, 'YYYY-MM-DD HH:mm');
 }

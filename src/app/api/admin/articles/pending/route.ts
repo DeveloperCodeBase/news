@@ -10,7 +10,8 @@ const querySchema = z.object({
   status: z.string().optional(),
   language: z.string().optional(),
   search: z.string().optional(),
-  limit: z.coerce.number().min(1).max(100).optional()
+  page: z.coerce.number().min(1).optional(),
+  pageSize: z.coerce.number().min(5).max(100).optional()
 });
 
 function parseStatuses(value?: string | null): Status[] {
@@ -49,7 +50,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid query', details: parseResult.error.flatten() }, { status: 400 });
   }
 
-  const { status, language, search, limit } = parseResult.data;
+  const { status, language, search, page, pageSize } = parseResult.data;
   const statuses = parseStatuses(status);
   const languageFilter = language && language !== 'all' ? parseLanguage(language) : undefined;
 
@@ -57,7 +58,8 @@ export async function GET(request: NextRequest) {
     statuses,
     language: languageFilter,
     search,
-    limit
+    page,
+    pageSize
   });
 
   return NextResponse.json(snapshot);

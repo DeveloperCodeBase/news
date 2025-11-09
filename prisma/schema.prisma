@@ -404,3 +404,11 @@ model SmsNotification {
   response   String?
   createdAt  DateTime @default(now())
 }
+
+model AiUsage {
+  date       String   @id
+  tokensIn   Int      @default(0)
+  tokensOut  Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
