@@ -64,6 +64,8 @@ model NewsSource {
   lastStatusCode   Int?
   lastErrorMessage String?
   lastFetchAt      DateTime?         @map("lastFetchedAt")
+  lastSuccessAt    DateTime?
+  failureCount     Int               @default(0)
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
   articles         Article[]

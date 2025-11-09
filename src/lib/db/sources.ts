@@ -1,4 +1,5 @@
 import { IngestionStatus, Status, Prisma } from '@prisma/client';
+import { SOURCE_FAILURE_THRESHOLD } from '../constants';
 import { prisma } from './client';
 
 export type SourceListFilters = {
@@ -109,17 +110,45 @@ export async function updateNewsSourceIngestionStatus(
     statusCode?: number | null;
     errorMessage?: string | null;
     fetchedAt: Date;
+    success: boolean;
   }
 ) {
-  await prisma.newsSource.update({
+  const baseUpdate: Prisma.NewsSourceUpdateInput = {
+    lastStatus: data.status,
+    lastStatusCode: data.statusCode ?? null,
+    lastErrorMessage: data.errorMessage ?? null,
+    lastFetchAt: data.fetchedAt
+  };
+
+  if (data.success) {
+    await prisma.newsSource.update({
+      where: { id },
+      data: {
+        ...baseUpdate,
+        failureCount: 0,
+        lastSuccessAt: data.fetchedAt
+      }
+    });
+    return;
+  }
+
+  const updated = await prisma.newsSource.update({
     where: { id },
     data: {
-      lastStatus: data.status,
-      lastStatusCode: data.statusCode ?? null,
-      lastErrorMessage: data.errorMessage ?? null,
-      lastFetchAt: data.fetchedAt
+      ...baseUpdate,
+      failureCount: { increment: 1 }
     }
   });
+
+  if (updated.failureCount >= SOURCE_FAILURE_THRESHOLD && updated.enabled) {
+    await prisma.newsSource.update({
+      where: { id },
+      data: { enabled: false }
+    });
+    console.warn(
+      `[ingestion] ${updated.name} auto-disabled after ${updated.failureCount} consecutive failures.`
+    );
+  }
 }
 
 export async function getNewsSourceHealthSummary() {

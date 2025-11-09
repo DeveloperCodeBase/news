@@ -86,7 +86,8 @@ async function ingestSources(): Promise<IngestionMetrics> {
             ? result.warnings.join('; ')
             : null
           : result.errorMessage ?? null,
-        fetchedAt
+        fetchedAt,
+        success: result.ok
       });
 
       if (!result.ok) {
@@ -406,7 +407,8 @@ async function ingestSources(): Promise<IngestionMetrics> {
         status: IngestionStatus.ERROR,
         statusCode: null,
         errorMessage: message,
-        fetchedAt: new Date()
+        fetchedAt: new Date(),
+        success: false
       });
     }
   }

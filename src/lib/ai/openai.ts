@@ -67,7 +67,11 @@ export async function callOpenAI<T extends { usage?: { prompt_tokens?: number; c
   options: { maxExpectedTokens?: number; requireFullMode?: boolean } = {}
 ): Promise<T | null> {
   const mode = resolveMode();
-  if (mode === 'off' || (mode === 'cheap' && options.requireFullMode)) {
+  if (mode === 'off') {
+    return null;
+  }
+
+  if (mode === 'cheap' && options.requireFullMode) {
     throw new BudgetExceededError('OpenAI usage disabled by configuration');
   }
 

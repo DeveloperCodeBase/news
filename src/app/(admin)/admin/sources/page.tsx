@@ -48,7 +48,9 @@ export default async function SourcesPage() {
           lastStatus: source.lastStatus,
           lastStatusCode: source.lastStatusCode ?? null,
           lastErrorMessage: source.lastErrorMessage ?? null,
-          lastFetchAt: source.lastFetchAt ? source.lastFetchAt.toISOString() : null
+          lastFetchAt: source.lastFetchAt ? source.lastFetchAt.toISOString() : null,
+          lastSuccessAt: source.lastSuccessAt ? source.lastSuccessAt.toISOString() : null,
+          failureCount: source.failureCount
         }))}
         initialPagination={pagination}
       />

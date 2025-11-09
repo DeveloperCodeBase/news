@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import clsx from 'clsx';
 import type { IngestionStatus } from '@prisma/client';
+import { SOURCE_FAILURE_THRESHOLD } from '@/lib/constants';
 import { formatJalaliDateTime } from '@/lib/time/jalali';
 
 export type AdminNewsSource = {
@@ -24,6 +25,8 @@ export type AdminNewsSource = {
   lastStatusCode: number | null;
   lastErrorMessage: string | null;
   lastFetchAt: string | null;
+  lastSuccessAt: string | null;
+  failureCount: number;
 };
 
 export type SourceSummary = {
@@ -188,6 +191,15 @@ function SourceRow({ source, isEditing, onToggleEdit, onToggle, onPriorityChange
         <p className="mt-1 text-[11px] text-slate-500">
           {source.lastStatusCode ? `کد ${source.lastStatusCode}` : 'کد نامشخص'}
         </p>
+        <p className="mt-1 text-[11px] text-rose-400">
+          خطاهای پیاپی: {source.failureCount}
+          <span className="text-[10px] text-slate-500"> (حد آستانه {SOURCE_FAILURE_THRESHOLD})</span>
+        </p>
+        {source.lastSuccessAt ? (
+          <p className="mt-1 text-[11px] text-slate-500">
+            آخرین موفقیت: {formatDate(source.lastSuccessAt)}
+          </p>
+        ) : null}
       </td>
       <td className="px-4 py-4 text-center">
         <button
