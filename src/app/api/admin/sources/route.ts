@@ -49,7 +49,7 @@ const listQuerySchema = z.object({
     .default('all')
 });
 
-async function ensureAdmin(request: NextRequest) {
+async function ensureAdmin(_request: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.role) {
     return { ok: false as const, response: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }) };
