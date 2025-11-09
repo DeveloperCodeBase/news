@@ -49,7 +49,7 @@ const listQuerySchema = z.object({
     .default('all')
 });
 
-async function ensureAdmin(_request: NextRequest) {
+async function ensureAdmin() {
   const session = await getServerSession(authOptions);
   if (!session?.user?.role) {
     return { ok: false as const, response: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }) };
@@ -64,7 +64,7 @@ async function ensureAdmin(_request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-  const auth = await ensureAdmin(request);
+  const auth = await ensureAdmin();
   if (!auth.ok) {
     return auth.response;
   }
@@ -90,7 +90,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const auth = await ensureAdmin(request);
+  const auth = await ensureAdmin();
   if (!auth.ok) {
     return auth.response;
   }
