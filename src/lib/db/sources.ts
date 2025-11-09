@@ -29,7 +29,6 @@ export async function getActiveNewsSources() {
 export async function listAdminNewsSources(filters: SourceListFilters = {}): Promise<SourceListResult> {
   const pageSize = Math.min(Math.max(filters.pageSize ?? 25, 10), 100);
   const page = Math.max(filters.page ?? 1, 1);
-  const skip = (page - 1) * pageSize;
 
   const where: Prisma.NewsSourceWhereInput = {};
 
