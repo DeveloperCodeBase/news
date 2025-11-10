@@ -87,6 +87,7 @@ model Article {
   contentFa     String?
   contentEn     String?
   faTranslationMeta Json?
+  aiScore      Float?
   coverImageUrl String?
   sourceImageUrl String?
   videoUrl       String?

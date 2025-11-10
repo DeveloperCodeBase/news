@@ -306,6 +306,9 @@ async function ingestSources(): Promise<IngestionMetrics> {
         const topicCreate = topicPredictions
           .slice(0, 6)
           .map((topic) => ({ label: topic.label, score: topic.score, source: topic.source }));
+        const topTopicScore =
+          topicPredictions.length > 0 ? Math.max(...topicPredictions.map((topic) => topic.score)) : null;
+        const normalizedTopScore = typeof topTopicScore === 'number' ? Number(topTopicScore.toFixed(3)) : null;
 
         const plainFaForSummary = contentFa
           ? sanitizeHtml(contentFa, { allowedTags: [], allowedAttributes: {} })
@@ -353,6 +356,7 @@ async function ingestSources(): Promise<IngestionMetrics> {
           contentFa: contentFa ?? baseContent,
           contentEn: contentEn ?? baseContent,
           faTranslationMeta,
+          aiScore: normalizedTopScore,
           language: normalized.language,
           status: articleStatus
         };

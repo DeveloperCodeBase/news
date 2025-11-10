@@ -15,6 +15,7 @@ const ARTICLE_SELECT = {
   contentFa: true,
   contentEn: true,
   faTranslationMeta: true,
+  aiScore: true,
   coverImageUrl: true,
   sourceImageUrl: true,
   videoUrl: true,
@@ -93,6 +94,7 @@ export type ReviewQueueArticle = {
   titleEn: string | null;
   summaryFa: string | null;
   summaryEn: string | null;
+  aiScore: number | null;
   status: Status;
   language: Lang;
   createdAt: Date;
@@ -182,7 +184,7 @@ function buildReviewQueueOrderBy(
       orderBy.push({ topics: { _count: direction } });
       break;
     case 'aiScore':
-      orderBy.push({ topics: { _max: { score: direction } } });
+      orderBy.push({ aiScore: direction });
       break;
     default:
       orderBy.push({ createdAt: 'desc' });
@@ -240,6 +242,7 @@ export async function getReviewQueueSnapshot(filters: ReviewQueueFilters = {}): 
         titleEn: true,
         summaryFa: true,
         summaryEn: true,
+        aiScore: true,
         status: true,
         language: true,
         createdAt: true,

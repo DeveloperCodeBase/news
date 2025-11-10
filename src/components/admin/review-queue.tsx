@@ -386,7 +386,12 @@ export default function ReviewQueue({ initialSnapshot }: ReviewQueueProps) {
                     : categoryNames.join('، ')
                   : '---';
                 const topTopic = article.topics[0] ?? null;
-                const aiScore = topTopic ? topTopic.score.toFixed(2) : '---';
+                const aiScore =
+                  typeof article.aiScore === 'number'
+                    ? article.aiScore.toFixed(2)
+                    : topTopic
+                      ? topTopic.score.toFixed(2)
+                      : '---';
                 const createdLabel = formatJalaliDateTime(article.createdAt, 'YYYY/MM/DD HH:mm');
                 const publishedLabel = article.publishedAt
                   ? formatJalaliDateTime(article.publishedAt, 'YYYY/MM/DD HH:mm')
