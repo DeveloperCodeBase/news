@@ -1,5 +1,5 @@
 import type { AppLocale } from '../i18n/config';
-import type { ArticleFaTranslationMeta, TranslationFieldState } from '../translation/meta';
+import type { TranslationFieldState } from '../translation/meta';
 import { parseFaTranslationMeta } from '../translation/meta';
 
 type LocalizableRecord = Record<string, unknown> & {
