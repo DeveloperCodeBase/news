@@ -176,6 +176,7 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
   const topicBadges = (article!.topics ?? []).slice(0, 3);
   const unknownSourceLabel = locale === 'fa' ? 'منبع نامشخص' : 'Unknown source';
   const videoContent = article!.videoUrl ? buildVideoEmbed(article!.videoUrl, locale, title) : null;
+  const siteUrl = getSiteUrl();
 
   const jsonLd = {
     '@context': 'https://schema.org',
