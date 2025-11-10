@@ -176,10 +176,10 @@ function buildReviewQueueOrderBy(
       orderBy.push({ status: direction });
       break;
     case 'category':
-      orderBy.push({ categories: { _min: { categoryId: direction } } });
+      orderBy.push({ categories: { _count: direction } });
       break;
     case 'topic':
-      orderBy.push({ topics: { _min: { label: direction } } });
+      orderBy.push({ topics: { _count: direction } });
       break;
     case 'aiScore':
       orderBy.push({ topics: { _max: { score: direction } } });
