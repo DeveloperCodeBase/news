@@ -85,6 +85,7 @@ type MonitoringData = {
 type TranslationFailureContext = {
   sourceLang: string;
   targetLang: string;
+  errorStack?: string;
 } | null;
 
 const EMPTY_QUEUE_SNAPSHOTS: QueueSnapshot[] = [];

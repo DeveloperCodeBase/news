@@ -4,14 +4,32 @@ import { z } from 'zod';
 import { Status, Lang } from '@prisma/client';
 import { authOptions } from '@/lib/auth/options';
 import { isEditorialRole } from '@/lib/auth/permissions';
-import { getReviewQueueSnapshot } from '@/lib/db/articles';
+import {
+  getReviewQueueSnapshot,
+  type ReviewQueueSortDirection,
+  type ReviewQueueSortField
+} from '@/lib/db/articles';
+
+const SORT_FIELDS = [
+  'createdAt',
+  'updatedAt',
+  'publishedAt',
+  'source',
+  'language',
+  'status',
+  'category',
+  'topic',
+  'aiScore'
+] as const satisfies readonly ReviewQueueSortField[];
 
 const querySchema = z.object({
   status: z.string().optional(),
   language: z.string().optional(),
   search: z.string().optional(),
   page: z.coerce.number().min(1).optional(),
-  pageSize: z.coerce.number().min(5).max(100).optional()
+  pageSize: z.coerce.number().min(5).max(100).optional(),
+  sortBy: z.string().optional(),
+  sortDirection: z.string().optional()
 });
 
 function parseStatuses(value?: string | null): Status[] {
@@ -35,6 +53,22 @@ function parseLanguage(value?: string | null): Lang | undefined {
   return undefined;
 }
 
+function parseSortField(value?: string | null): ReviewQueueSortField {
+  if (!value) {
+    return 'createdAt';
+  }
+  const normalized = value.trim() as ReviewQueueSortField;
+  return SORT_FIELDS.includes(normalized) ? normalized : 'createdAt';
+}
+
+function parseSortDirection(value?: string | null): ReviewQueueSortDirection {
+  if (!value) {
+    return 'desc';
+  }
+  const normalized = value.trim().toLowerCase();
+  return normalized === 'asc' ? 'asc' : 'desc';
+}
+
 export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session?.user) {
@@ -50,16 +84,20 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid query', details: parseResult.error.flatten() }, { status: 400 });
   }
 
-  const { status, language, search, page, pageSize } = parseResult.data;
+  const { status, language, search, page, pageSize, sortBy, sortDirection } = parseResult.data;
   const statuses = parseStatuses(status);
   const languageFilter = language && language !== 'all' ? parseLanguage(language) : undefined;
+  const resolvedSortBy = parseSortField(sortBy);
+  const resolvedSortDirection = parseSortDirection(sortDirection);
 
   const snapshot = await getReviewQueueSnapshot({
     statuses,
     language: languageFilter,
     search,
     page,
-    pageSize
+    pageSize,
+    sortBy: resolvedSortBy,
+    sortDirection: resolvedSortDirection
   });
 
   return NextResponse.json(snapshot);

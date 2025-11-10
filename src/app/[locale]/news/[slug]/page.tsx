@@ -7,6 +7,7 @@ import clsx from 'clsx';
 import { getArticleBySlug, getRelatedArticles } from '@/lib/db/articles';
 import type { AppLocale } from '@/lib/i18n/config';
 import { getLocalizedFieldWithMeta, getLocalizedValue } from '@/lib/news/localization';
+import { getSiteUrl } from '@/lib/site/url';
 import { formatDisplayDate } from '@/lib/news/dates';
 import PageViewTracker from '@/components/analytics/page-view-tracker';
 import { resolveExperimentVariant } from '@/lib/experiments/assignment';
@@ -109,7 +110,7 @@ export async function generateMetadata({ params }: { params: { locale: AppLocale
   const localizedSummary = getLocalizedValue(article, locale, 'summary');
   const localizedExcerpt = getLocalizedValue(article, locale, 'excerpt');
   const description = localizedSummary || localizedExcerpt;
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hooshgate.ir';
+  const siteUrl = getSiteUrl();
   const url = `${siteUrl}/${locale}/news/${article.slug}`;
   const publishedDate = article.publishedAt ?? article.updatedAt ?? new Date();
   const coverImage = article.coverImageUrl ?? article.sourceImageUrl ?? undefined;
@@ -181,7 +182,7 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
     '@type': 'NewsArticle',
     headline: title,
     datePublished: publishedDate.toISOString(),
-    mainEntityOfPage: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hooshgate.ir'}/${locale}/news/${article!.slug}`,
+    mainEntityOfPage: `${siteUrl}/${locale}/news/${article!.slug}`,
     image: coverImage ?? undefined,
     description: leadText,
     author: {
@@ -193,7 +194,7 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
       name: 'Hoosh Gate Magazine',
       logo: {
         '@type': 'ImageObject',
-        url: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hooshgate.ir'}/logo.png`
+        url: `${siteUrl}/logo.png`
       }
     }
   };

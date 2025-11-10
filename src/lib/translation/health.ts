@@ -4,6 +4,7 @@ import { prisma } from '../db/client';
 export type TranslationFailureContext = {
   sourceLang: Lang;
   targetLang: Lang;
+  errorStack?: string;
 };
 
 export type TranslationFailureRecord = {
@@ -26,12 +27,14 @@ export async function recordTranslationFailure({
   provider,
   message,
   sourceLang,
-  targetLang
+  targetLang,
+  errorStack
 }: {
   provider: string;
   message: string;
   sourceLang: Lang;
   targetLang: Lang;
+  errorStack?: string;
 }): Promise<void> {
   await prisma.translationFailure.create({
     data: {
@@ -39,7 +42,8 @@ export async function recordTranslationFailure({
       message: message.slice(0, 1000),
       context: {
         sourceLang,
-        targetLang
+        targetLang,
+        ...(errorStack ? { errorStack } : {})
       }
     }
   });

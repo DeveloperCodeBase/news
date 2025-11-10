@@ -8,6 +8,7 @@ import { sendEmail, sendNewsletterDigest } from '@/lib/email/mailer';
 import { getEnv } from '@/lib/env';
 import { resolveExperimentVariant } from '@/lib/experiments/assignment';
 import { renderNewsletterTemplate } from '@/lib/newsletter/templates';
+import { getSiteUrl } from '@/lib/site/url';
 
 const newsletterSchema = z.object({
   subject: z.string().min(5),
@@ -63,7 +64,7 @@ export async function POST(request: NextRequest) {
   }
 
   const intro = parsed.data.intro ?? 'جدیدترین خبرهای هوش مصنوعی از مجله هوش گیت';
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hooshgate.ir';
+  const siteUrl = getSiteUrl();
   const env = getEnv();
   const resolvedRecipients = parsed.data.recipients?.length
     ? parsed.data.recipients

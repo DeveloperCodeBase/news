@@ -91,32 +91,64 @@ export async function translateWithCache({
     const translated = await provider.translate(text, sourceLang, targetLang);
 
     if (options.persist !== false) {
-      await prisma.translationCache.create({
-        data: {
-          hash,
+      try {
+        await prisma.translationCache.upsert({
+          where: { hash },
+          update: {
+            sourceLang,
+            targetLang,
+            sourceText: text,
+            translated,
+            provider: provider.id
+          },
+          create: {
+            hash,
+            sourceLang,
+            targetLang,
+            sourceText: text,
+            translated,
+            provider: provider.id
+          }
+        });
+      } catch (persistError) {
+        const persistMessage =
+          persistError instanceof Error
+            ? persistError.message
+            : typeof persistError === 'string'
+              ? persistError
+              : 'Unknown persistence error';
+        console.error(
+          `[translation] Failed to persist translation cache (${provider.id} ${sourceLang}->${targetLang})`,
+          persistError
+        );
+        await recordTranslationFailure({
+          provider: provider.id,
+          message: persistMessage,
           sourceLang,
           targetLang,
-          sourceText: text,
-          translated,
-          provider: provider.id
-        }
-      });
+          errorStack: persistError instanceof Error ? persistError.stack : undefined
+        }).catch((err) => {
+          console.error('[translation] Failed to record translation failure after persistence error', err);
+        });
+      }
     }
 
     return { translated, providerId: provider.id, error: null, cached: false };
   } catch (error) {
     const message =
       error instanceof Error ? error.message : typeof error === 'string' ? error : 'Unknown error';
-    console.warn(
-      `[translation] Provider ${provider.id} failed (${sourceLang}->${targetLang}): ${message}`
+    console.error(
+      `[translation] Provider ${provider.id} failed (${sourceLang}->${targetLang}): ${message}`,
+      error
     );
     await recordTranslationFailure({
       provider: provider.id,
       message,
       sourceLang,
-      targetLang
+      targetLang,
+      errorStack: error instanceof Error ? error.stack : undefined
     }).catch((err) => {
-      console.warn('[translation] Failed to record translation failure', err);
+      console.error('[translation] Failed to record translation failure', err);
     });
     return { translated: null, providerId: provider.id, error: message, cached: false };
   }

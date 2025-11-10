@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import clsx from 'clsx';
 import type { Lang } from '@prisma/client';
@@ -24,8 +25,48 @@ const LANGUAGE_OPTIONS: { value: 'all' | Lang; label: string }[] = [
 
 const DEFAULT_PAGE_SIZE = 25;
 
-function buildQueryKey(statuses: ArticleStatus[], language: 'all' | Lang, search: string, page: number) {
-  return ['review-queue', statuses.slice().sort().join(','), language, search.trim(), page];
+type SortField = ReviewQueueSnapshot['sort']['field'];
+type SortDirection = ReviewQueueSnapshot['sort']['direction'];
+
+const SORTABLE_FIELDS: SortField[] = [
+  'createdAt',
+  'updatedAt',
+  'publishedAt',
+  'source',
+  'language',
+  'status',
+  'category',
+  'topic',
+  'aiScore'
+];
+
+function ensureSortField(value: string | null, fallback: SortField): SortField {
+  if (!value) return fallback;
+  return SORTABLE_FIELDS.includes(value as SortField) ? (value as SortField) : fallback;
+}
+
+function ensureSortDirection(value: string | null, fallback: SortDirection): SortDirection {
+  if (!value) return fallback;
+  return value === 'asc' ? 'asc' : value === 'desc' ? 'desc' : fallback;
+}
+
+function buildQueryKey(
+  statuses: ArticleStatus[],
+  language: 'all' | Lang,
+  search: string,
+  page: number,
+  sortField: SortField,
+  sortDirection: SortDirection
+) {
+  return [
+    'review-queue',
+    statuses.slice().sort().join(','),
+    language,
+    search.trim(),
+    page,
+    sortField,
+    sortDirection
+  ];
 }
 
 function getLocalizedSummary(article: ReviewQueueSnapshot['articles'][number]) {
@@ -41,21 +82,26 @@ type ReviewQueueProps = {
 
 export default function ReviewQueue({ initialSnapshot }: ReviewQueueProps) {
   const queryClient = useQueryClient();
+  const searchParams = useSearchParams();
   const [statusFilters, setStatusFilters] = useState<ArticleStatus[]>(['REVIEWED', 'DRAFT']);
   const [languageFilter, setLanguageFilter] = useState<'all' | Lang>('all');
   const [searchInput, setSearchInput] = useState('');
   const [searchValue, setSearchValue] = useState('');
   const [pendingId, setPendingId] = useState<string | null>(null);
   const [page, setPage] = useState(initialSnapshot.pagination.page);
+  const [sortField, setSortField] = useState<SortField>(() =>
+    ensureSortField(searchParams?.get('sortBy'), initialSnapshot.sort.field)
+  );
+  const [sortDirection, setSortDirection] = useState<SortDirection>(() =>
+    ensureSortDirection(searchParams?.get('sortDirection'), initialSnapshot.sort.direction)
+  );
 
   const pageSize = initialSnapshot.pagination.pageSize ?? DEFAULT_PAGE_SIZE;
 
-  const queryKey = useMemo(() => buildQueryKey(statusFilters, languageFilter, searchValue, page), [
-    statusFilters,
-    languageFilter,
-    searchValue,
-    page
-  ]);
+  const queryKey = useMemo(
+    () => buildQueryKey(statusFilters, languageFilter, searchValue, page, sortField, sortDirection),
+    [statusFilters, languageFilter, searchValue, page, sortField, sortDirection]
+  );
 
   const returnParams = useMemo(() => {
     const params = new URLSearchParams();
@@ -68,8 +114,13 @@ export default function ReviewQueue({ initialSnapshot }: ReviewQueueProps) {
     if (searchValue.trim()) {
       params.set('search', searchValue.trim());
     }
+    params.set('sortBy', sortField);
+    params.set('sortDirection', sortDirection);
+    if (page > 1) {
+      params.set('page', String(page));
+    }
     return params.toString();
-  }, [languageFilter, searchValue, statusFilters]);
+  }, [languageFilter, page, searchValue, sortDirection, sortField, statusFilters]);
 
   const returnPath = returnParams ? `/admin?${returnParams}` : '/admin';
 
@@ -88,6 +139,8 @@ export default function ReviewQueue({ initialSnapshot }: ReviewQueueProps) {
       if (searchValue.trim()) {
         params.set('search', searchValue.trim());
       }
+      params.set('sortBy', sortField);
+      params.set('sortDirection', sortDirection);
       const response = await fetch(`/api/admin/articles/pending?${params.toString()}`);
       if (!response.ok) {
         throw new Error('Failed to load review queue');
@@ -104,8 +157,41 @@ export default function ReviewQueue({ initialSnapshot }: ReviewQueueProps) {
   const pagination = snapshot.pagination;
 
   useEffect(() => {
+    if (!query.data) {
+      return;
+    }
+    const { field: nextField, direction: nextDirection } = query.data.sort;
+    setSortField((current) => (current !== nextField ? nextField : current));
+    setSortDirection((current) => (current !== nextDirection ? nextDirection : current));
+  }, [query.data]);
+
+  useEffect(() => {
     setPage((current) => (current === 1 ? current : 1));
-  }, [languageFilter, statusFilters, searchValue]);
+  }, [languageFilter, searchValue, statusFilters]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+    const params = new URLSearchParams();
+    if (statusFilters.length) {
+      params.set('status', statusFilters.join(','));
+    }
+    if (languageFilter !== 'all') {
+      params.set('language', languageFilter);
+    }
+    if (searchValue.trim()) {
+      params.set('search', searchValue.trim());
+    }
+    params.set('sortBy', sortField);
+    params.set('sortDirection', sortDirection);
+    if (page > 1) {
+      params.set('page', String(page));
+    }
+    const queryString = params.toString();
+    const nextUrl = queryString ? `/admin?${queryString}` : '/admin';
+    window.history.replaceState(window.history.state, '', nextUrl);
+  }, [languageFilter, page, searchValue, sortDirection, sortField, statusFilters]);
 
   async function updateStatus(id: string, status: ArticleStatus) {
     setPendingId(id);
@@ -139,6 +225,53 @@ export default function ReviewQueue({ initialSnapshot }: ReviewQueueProps) {
   const isFetching = query.isFetching && !query.isLoading;
   const hasNextPage = pagination.page < pagination.totalPages;
   const hasPreviousPage = pagination.page > 1;
+
+  function handleSort(field: SortField) {
+    setPage(1);
+    if (sortField === field) {
+      setSortDirection((current) => (current === 'asc' ? 'desc' : 'asc'));
+    } else {
+      setSortField(field);
+      setSortDirection('desc');
+    }
+  }
+
+  const SortHeader = ({
+    field,
+    label,
+    align = 'right'
+  }: {
+    field: SortField;
+    label: string;
+    align?: 'left' | 'center' | 'right';
+  }) => {
+    const isActive = sortField === field;
+    const indicator = !isActive ? '↕' : sortDirection === 'asc' ? '↑' : '↓';
+    const alignmentClass = align === 'center' ? 'text-center' : align === 'left' ? 'text-left' : 'text-right';
+    const justifyClass = align === 'center' ? 'justify-center' : align === 'left' ? 'justify-start' : 'justify-end';
+    const ariaSort: 'none' | 'ascending' | 'descending' = !isActive
+      ? 'none'
+      : sortDirection === 'asc'
+        ? 'ascending'
+        : 'descending';
+    return (
+      <th
+        className={`px-3 py-2 text-xs font-medium ${alignmentClass} text-slate-300`}
+        scope="col"
+        aria-sort={ariaSort}
+      >
+        <button
+          type="button"
+          onClick={() => handleSort(field)}
+          className={`flex w-full items-center ${justifyClass} gap-1 text-slate-200 hover:text-sky-300`}
+        >
+          <span>{label}</span>
+          <span aria-hidden>{indicator}</span>
+          <span className="sr-only">مرتب‌سازی</span>
+        </button>
+      </th>
+    );
+  };
 
   return (
     <div className="space-y-6">
@@ -215,75 +348,118 @@ export default function ReviewQueue({ initialSnapshot }: ReviewQueueProps) {
           خبری برای بازبینی در این فیلترها وجود ندارد.
         </div>
       ) : (
-        <div className="divide-y divide-slate-800 overflow-hidden rounded-2xl border border-slate-800">
-          {articles.map((article) => {
-            const translationMeta = parseFaTranslationMeta(article.faTranslationMeta ?? null);
-            const needsTranslation =
-              translationMeta.title.status === 'fallback' || translationMeta.content.status === 'fallback';
-            const summary = getLocalizedSummary(article);
-            const publishedLabel = article.publishedAt
-              ? formatJalaliDateTime(article.publishedAt, 'YYYY/MM/DD HH:mm')
-              : formatJalaliDateTime(article.updatedAt, 'YYYY/MM/DD HH:mm');
-            const updatedLabel = formatJalaliDateTime(article.updatedAt, 'YYYY/MM/DD HH:mm');
-            const statusLabel = REVIEW_STATUS_OPTIONS.find((item) => item.value === article.status)?.label ?? article.status;
-            return (
-              <article
-                key={article.id}
-                className="flex flex-col gap-4 bg-slate-900/60 p-6 md:flex-row md:items-start md:justify-between"
-              >
-                <div className="space-y-3">
-                  <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400">
-                    <span className="rounded-full border border-slate-700/60 px-3 py-1 text-slate-200">{statusLabel}</span>
-                    <span className="rounded-full border border-slate-700/60 px-3 py-1 text-slate-200">
+        <div className="overflow-x-auto rounded-2xl border border-slate-800">
+          <table className="min-w-full divide-y divide-slate-800 text-xs">
+            <thead className="bg-slate-900/70">
+              <tr>
+                <th scope="col" className="px-3 py-2 text-right text-xs font-medium text-slate-300">
+                  عنوان و خلاصه
+                </th>
+                <SortHeader field="source" label="منبع" align="left" />
+                <SortHeader field="language" label="زبان" align="center" />
+                <SortHeader field="category" label="دسته‌بندی" align="left" />
+                <SortHeader field="topic" label="موضوع برتر" align="left" />
+                <SortHeader field="aiScore" label="امتیاز هوش" align="center" />
+                <SortHeader field="status" label="وضعیت" />
+                <SortHeader field="createdAt" label="ایجاد" />
+                <SortHeader field="publishedAt" label="انتشار" />
+                <SortHeader field="updatedAt" label="بروزرسانی" />
+                <th scope="col" className="px-3 py-2 text-xs font-medium text-slate-300">
+                  اقدامات
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-800 bg-slate-950/40">
+              {articles.map((article) => {
+                const translationMeta = parseFaTranslationMeta(article.faTranslationMeta ?? null);
+                const needsTranslation =
+                  translationMeta.title.status === 'fallback' || translationMeta.content.status === 'fallback';
+                const summary = getLocalizedSummary(article);
+                const statusLabel =
+                  REVIEW_STATUS_OPTIONS.find((item) => item.value === article.status)?.label ?? article.status;
+                const categoryNames = article.categories
+                  .map((item) => item.category.nameFa ?? item.category.nameEn ?? '')
+                  .filter(Boolean);
+                const categoryDisplay = categoryNames.length
+                  ? categoryNames.length > 2
+                    ? `${categoryNames.slice(0, 2).join('، ')} و ${categoryNames.length - 2} مورد دیگر`
+                    : categoryNames.join('، ')
+                  : '---';
+                const topTopic = article.topics[0] ?? null;
+                const aiScore = topTopic ? topTopic.score.toFixed(2) : '---';
+                const createdLabel = formatJalaliDateTime(article.createdAt, 'YYYY/MM/DD HH:mm');
+                const publishedLabel = article.publishedAt
+                  ? formatJalaliDateTime(article.publishedAt, 'YYYY/MM/DD HH:mm')
+                  : '---';
+                const updatedLabel = formatJalaliDateTime(article.updatedAt, 'YYYY/MM/DD HH:mm');
+                const slugLabel =
+                  article.slug.length > 24 ? `${article.slug.slice(0, 24)}…` : article.slug;
+                return (
+                  <tr key={article.id} className="bg-slate-900/40 hover:bg-slate-900/70">
+                    <td className="max-w-xs px-3 py-3 align-top text-right text-sm text-slate-200">
+                      <div className="space-y-2">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <span className="font-semibold text-slate-100">
+                            {article.titleFa || article.titleEn || 'بدون عنوان'}
+                          </span>
+                          {needsTranslation ? (
+                            <span className="rounded-full border border-amber-500/40 bg-amber-500/10 px-2 py-1 text-[0.65rem] text-amber-200">
+                              ترجمه نشده
+                            </span>
+                          ) : null}
+                        </div>
+                        {summary && <p className="text-xs text-slate-400 line-clamp-3 leading-5">{summary}</p>}
+                        <div className="flex flex-wrap items-center gap-3 text-[0.7rem] text-slate-500">
+                          <span>شناسه: {slugLabel}</span>
+                          <Link
+                            href={`/admin/articles/${article.id}?returnTo=${encodeURIComponent(returnPath)}&source=review`}
+                            className="text-sky-300 hover:text-sky-200"
+                          >
+                            ویرایش ↗
+                          </Link>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-3 py-3 align-top text-right text-xs text-slate-200">
+                      {article.newsSource?.name ?? 'نامشخص'}
+                    </td>
+                    <td className="px-3 py-3 align-top text-center text-xs text-slate-200">
                       {article.language === 'FA' ? 'FA' : 'EN'}
-                    </span>
-                    {article.newsSource?.name ? (
-                      <span>منبع: {article.newsSource.name}</span>
-                    ) : (
-                      <span>منبع نامشخص</span>
-                    )}
-                  </div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <p className="text-lg font-semibold text-slate-100">
-                      {article.titleFa || article.titleEn || 'بدون عنوان'}
-                    </p>
-                    {needsTranslation ? (
-                      <span className="rounded-full border border-amber-500/40 bg-amber-500/10 px-2 py-1 text-[0.7rem] text-amber-200">
-                        ترجمه نشده
-                      </span>
-                    ) : null}
-                  </div>
-                  {summary && <p className="text-sm text-slate-400 line-clamp-3">{summary}</p>}
-                  <p className="text-xs text-slate-500">انتشار اولیه: {publishedLabel}</p>
-                  <p className="text-xs text-slate-500">آخرین بروزرسانی: {updatedLabel}</p>
-                  <Link
-                    href={`/admin/articles/${article.id}?returnTo=${encodeURIComponent(returnPath)}&source=review`}
-                    className="inline-flex items-center text-xs font-medium text-sky-300 hover:text-sky-200"
-                  >
-                    ویرایش و بررسی کامل ↗
-                  </Link>
-                </div>
-                <div className="flex flex-col gap-3 md:w-48">
-                  <button
-                    type="button"
-                    onClick={() => updateStatus(article.id, 'PUBLISHED')}
-                    disabled={pendingId === article.id}
-                    className="rounded-lg bg-emerald-500 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-60"
-                  >
-                    تأیید و انتشار
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => updateStatus(article.id, 'REJECTED')}
-                    disabled={pendingId === article.id}
-                    className="rounded-lg bg-rose-500 px-4 py-2 text-sm font-medium text-white hover:bg-rose-400 disabled:cursor-not-allowed disabled:opacity-60"
-                  >
-                    رد خبر
-                  </button>
-                </div>
-              </article>
-            );
-          })}
+                    </td>
+                    <td className="px-3 py-3 align-top text-right text-xs text-slate-200">{categoryDisplay}</td>
+                    <td className="px-3 py-3 align-top text-right text-xs text-slate-200">
+                      {topTopic?.label ?? '---'}
+                    </td>
+                    <td className="px-3 py-3 align-top text-center text-xs text-slate-200">{aiScore}</td>
+                    <td className="px-3 py-3 align-top text-right text-xs text-slate-200">{statusLabel}</td>
+                    <td className="px-3 py-3 align-top text-right text-xs text-slate-300">{createdLabel}</td>
+                    <td className="px-3 py-3 align-top text-right text-xs text-slate-300">{publishedLabel}</td>
+                    <td className="px-3 py-3 align-top text-right text-xs text-slate-300">{updatedLabel}</td>
+                    <td className="px-3 py-3 align-top text-right text-xs text-slate-200">
+                      <div className="flex flex-col gap-2">
+                        <button
+                          type="button"
+                          onClick={() => updateStatus(article.id, 'PUBLISHED')}
+                          disabled={pendingId === article.id}
+                          className="rounded-lg bg-emerald-500 px-3 py-1 text-xs font-medium text-white hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-60"
+                        >
+                          انتشار
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => updateStatus(article.id, 'REJECTED')}
+                          disabled={pendingId === article.id}
+                          className="rounded-lg bg-rose-500 px-3 py-1 text-xs font-medium text-white hover:bg-rose-400 disabled:cursor-not-allowed disabled:opacity-60"
+                        >
+                          رد
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       )}
 

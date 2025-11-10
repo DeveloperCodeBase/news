@@ -1,6 +1,7 @@
 import webPush from 'web-push';
 import { prisma } from '../db/client';
 import { getEnv } from '../env';
+import { getSiteUrl } from '../site/url';
 
 let configured = false;
 
@@ -33,7 +34,7 @@ export async function sendArticlePublishedNotification(article: PushArticlePaylo
     return;
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hooshgate.ir';
+  const siteUrl = getSiteUrl();
   const targetLocale = article.locale ?? 'fa';
   const notificationPayload = {
     title: article.title,
