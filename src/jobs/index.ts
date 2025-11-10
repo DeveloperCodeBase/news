@@ -325,6 +325,12 @@ async function ingestSources(): Promise<IngestionMetrics> {
 
         const finalSummaryFa = summaryFa || excerptFa || excerpt;
         const finalSummaryEn = summaryEn || excerptEn || excerpt;
+        metaUpdates.summary = createFieldState(
+          finalSummaryFa ? 'manual' : 'fallback',
+          finalSummaryFa ? 'summarizer' : null,
+          finalSummaryFa ? null : 'summary-missing',
+          new Date()
+        );
         const baseContent = enrichedContentHtml || baseHtml || null;
 
         const categoryCreate = categorySlugs.map((slugValue) => ({

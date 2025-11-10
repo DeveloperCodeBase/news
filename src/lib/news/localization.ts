@@ -62,7 +62,12 @@ export function getLocalizedFieldWithMeta(
   }
 
   const parsed = parseFaTranslationMeta(meta);
-  const state = parsed[field as keyof ArticleFaTranslationMeta];
+  const state = (parsed as Record<string, TranslationFieldState | undefined>)[field] ?? {
+    status: faValue ? 'manual' : 'fallback',
+    provider: null,
+    error: null,
+    attemptedAt: null
+  };
   const fallbackValue = enValue ?? faValue ?? '';
   const value = faValue ?? fallbackValue;
   const isFallback = state.status === 'fallback' || !faValue;

@@ -15,6 +15,7 @@ export type ArticleFaTranslationMeta = {
   title: TranslationFieldState;
   excerpt: TranslationFieldState;
   content: TranslationFieldState;
+  summary: TranslationFieldState;
 };
 
 const fallbackState: TranslationFieldState = {
@@ -41,7 +42,8 @@ const articleFaTranslationMetaSchema = z
   .object({
     title: translationFieldStateSchema.optional(),
     excerpt: translationFieldStateSchema.optional(),
-    content: translationFieldStateSchema.optional()
+    content: translationFieldStateSchema.optional(),
+    summary: translationFieldStateSchema.optional()
   })
   .catch(() => ({}));
 
@@ -50,7 +52,8 @@ export function parseFaTranslationMeta(value: unknown): ArticleFaTranslationMeta
   return {
     title: parsed.title ?? fallbackState,
     excerpt: parsed.excerpt ?? fallbackState,
-    content: parsed.content ?? fallbackState
+    content: parsed.content ?? fallbackState,
+    summary: parsed.summary ?? fallbackState
   } satisfies ArticleFaTranslationMeta;
 }
 
@@ -77,7 +80,8 @@ export function combineFaTranslationMeta(
   return {
     title: updates.title ?? parsed.title,
     excerpt: updates.excerpt ?? parsed.excerpt,
-    content: updates.content ?? parsed.content
+    content: updates.content ?? parsed.content,
+    summary: updates.summary ?? parsed.summary
   } satisfies ArticleFaTranslationMeta;
 }
 
@@ -100,7 +104,8 @@ export function serializeFaTranslationMeta(meta: ArticleFaTranslationMeta): Arti
   return {
     title: { ...meta.title },
     excerpt: { ...meta.excerpt },
-    content: { ...meta.content }
+    content: { ...meta.content },
+    summary: { ...meta.summary }
   } satisfies ArticleFaTranslationMeta;
 }
 
