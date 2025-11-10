@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { formatJalaliDateTime } from '@/lib/time/jalali';
@@ -73,7 +73,19 @@ type MonitoringData = {
   alerts: AlertEvent[];
   ingestion: IngestionSnapshot;
   newsSources: NewsSourceSummary;
+  translation: {
+    provider: string | null;
+    lastSuccessAt: string | null;
+    lastErrorAt: string | null;
+    lastErrorMessage: string | null;
+    lastErrorContext: TranslationFailureContext | null;
+  };
 };
+
+type TranslationFailureContext = {
+  sourceLang: string;
+  targetLang: string;
+} | null;
 
 const EMPTY_QUEUE_SNAPSHOTS: QueueSnapshot[] = [];
 const EMPTY_HEARTBEATS: CronHeartbeat[] = [];
@@ -117,6 +129,16 @@ export default function MonitoringDashboard({ initialData }: { initialData: Moni
     totals: { total: 0, enabled: 0, ok: 0, error: 0, unknown: 0 },
     recentFailures: EMPTY_FAILURES
   };
+  const translation = data?.translation ?? {
+    provider: null,
+    lastSuccessAt: null,
+    lastErrorAt: null,
+    lastErrorMessage: null,
+    lastErrorContext: null
+  };
+  const [testStatus, setTestStatus] = useState<{ status: 'idle' | 'running' | 'success' | 'error'; message?: string }>({
+    status: 'idle'
+  });
 
   const latestQueues = useMemo(() => {
     const snapshots = data?.queueSnapshots;
@@ -173,9 +195,32 @@ export default function MonitoringDashboard({ initialData }: { initialData: Moni
 
   const isRefreshing = query.isFetching && !query.isLoading;
 
+  async function handleTestTranslation() {
+    setTestStatus({ status: 'running' });
+    try {
+      const response = await fetch('/api/admin/translation/health', { method: 'POST' });
+      const payload = (await response.json().catch(() => ({}))) as {
+        ok?: boolean;
+        error?: string;
+        translated?: string;
+        provider?: string | null;
+      };
+      if (!response.ok || payload.ok === false) {
+        throw new Error(payload.error ?? 'آزمایش ترجمه انجام نشد');
+      }
+      setTestStatus({ status: 'success', message: payload.translated ?? 'پاسخ دریافت شد.' });
+      await query.refetch();
+    } catch (error) {
+      setTestStatus({
+        status: 'error',
+        message: error instanceof Error ? error.message : 'خطای ناشناخته رخ داد'
+      });
+    }
+  }
+
   return (
     <div className="space-y-6">
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
         <div className="rounded-2xl border border-slate-800/60 bg-slate-950/70 p-4">
           <p className="text-xs text-slate-500">آخرین اجرای پایپلاین</p>
           <h3 className="mt-2 text-lg font-semibold text-slate-100">{formatDateTime(ingestion.lastRunAt)}</h3>
@@ -206,8 +251,50 @@ export default function MonitoringDashboard({ initialData }: { initialData: Moni
             </div>
           </dl>
           <p className="mt-3 text-[11px] text-slate-500">
-            {isRefreshing ? 'در حال بروزرسانی داده‌ها…' : `آخرین بروزرسانی: ${formatDateTime(ingestion.lastSuccessAt)}`}
+            {isRefreshing ? 'در حال بروزرسانی داده‌ها…' : 'داده‌ها هر ۱۵ ثانیه بروزرسانی می‌شوند.'}
           </p>
+        </div>
+
+        <div className="rounded-2xl border border-slate-800/60 bg-slate-950/70 p-4">
+          <p className="text-xs text-slate-500">وضعیت ترجمه خودکار</p>
+          <h3 className="mt-2 text-lg font-semibold text-slate-100">
+            {translation.provider ?? 'LibreTranslate'}
+          </h3>
+          <dl className="mt-4 space-y-3 text-xs text-slate-300">
+            <div className="flex items-center justify-between">
+              <dt className="text-slate-500">آخرین موفقیت</dt>
+              <dd className="text-sm font-semibold text-emerald-300">
+                {formatDateTime(translation.lastSuccessAt)}
+              </dd>
+            </div>
+            <div className="flex items-center justify-between">
+              <dt className="text-slate-500">آخرین خطا</dt>
+              <dd className="text-sm font-semibold text-amber-200">
+                {translation.lastErrorAt ? formatDateTime(translation.lastErrorAt) : '—'}
+              </dd>
+            </div>
+          </dl>
+          {translation.lastErrorMessage ? (
+            <p className="mt-3 rounded-lg border border-amber-500/40 bg-amber-500/10 p-2 text-xs text-amber-200">
+              {translation.lastErrorMessage}
+            </p>
+          ) : (
+            <p className="mt-3 text-xs text-slate-500">هیچ خطای اخیر ثبت نشده است.</p>
+          )}
+          <button
+            type="button"
+            onClick={handleTestTranslation}
+            disabled={testStatus.status === 'running'}
+            className="mt-4 w-full rounded-lg border border-sky-500/50 bg-sky-500/10 px-4 py-2 text-xs font-semibold text-sky-200 transition hover:bg-sky-500/20 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {testStatus.status === 'running' ? 'در حال آزمایش…' : 'آزمایش LibreTranslate'}
+          </button>
+          {testStatus.status === 'success' && testStatus.message ? (
+            <p className="mt-2 text-[11px] text-emerald-300">{`نتیجه: ${testStatus.message}`}</p>
+          ) : null}
+          {testStatus.status === 'error' && testStatus.message ? (
+            <p className="mt-2 text-[11px] text-amber-200">{testStatus.message}</p>
+          ) : null}
         </div>
 
         <div className="rounded-2xl border border-slate-800/60 bg-slate-950/70 p-4">

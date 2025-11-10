@@ -16,6 +16,7 @@
     "queue:worker": "tsx src/jobs/worker.ts",
     "queue:status": "tsx scripts/queue-status.ts",
     "sources:preview": "tsx scripts/import-ai-sources.ts",
+    "translations:backfill": "tsx src/jobs/backfill-translations.ts",
     "test": "vitest",
     "test:unit": "vitest run tests/unit",
     "test:e2e": "vitest run tests/e2e"

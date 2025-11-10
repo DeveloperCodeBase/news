@@ -15,6 +15,9 @@ vi.mock('@/lib/db/client', () => ({
     translationCache: {
       findUnique: findUniqueMock,
       create: createMock
+    },
+    translationFailure: {
+      create: vi.fn()
     }
   }
 }));
@@ -34,7 +37,7 @@ describe('translateWithCache integration', () => {
   });
 
   it('translates text and caches provider response', async () => {
-    const { translated, providerId } = await translateWithCache({
+    const { translated, providerId, cached } = await translateWithCache({
       text: 'hello world',
       sourceLang: Lang.EN,
       targetLang: Lang.FA
@@ -42,6 +45,7 @@ describe('translateWithCache integration', () => {
 
     expect(translated).toBe('سلام');
     expect(providerId).toBe('libretranslate');
+    expect(cached).toBe(false);
     expect(createMock).toHaveBeenCalledOnce();
     expect(findUniqueMock).toHaveBeenCalledTimes(1);
     expect((global.fetch as any).mock.calls[0][0]).toBe('https://lt.local/translate');
@@ -51,13 +55,14 @@ describe('translateWithCache integration', () => {
     await translateWithCache({ text: 'cached text', sourceLang: Lang.EN, targetLang: Lang.FA });
     (global.fetch as any).mockClear();
 
-    const { translated } = await translateWithCache({
+    const { translated, cached } = await translateWithCache({
       text: 'cached text',
       sourceLang: Lang.EN,
       targetLang: Lang.FA
     });
 
     expect(translated).toBe('سلام');
+    expect(cached).toBe(true);
     expect(createMock).toHaveBeenCalledTimes(1);
     expect((global.fetch as any).mock.calls.length).toBe(0);
   });

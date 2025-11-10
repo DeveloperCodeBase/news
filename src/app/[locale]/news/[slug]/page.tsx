@@ -6,7 +6,7 @@ import type { Metadata } from 'next';
 import clsx from 'clsx';
 import { getArticleBySlug, getRelatedArticles } from '@/lib/db/articles';
 import type { AppLocale } from '@/lib/i18n/config';
-import { getLocalizedValue } from '@/lib/news/localization';
+import { getLocalizedFieldWithMeta, getLocalizedValue } from '@/lib/news/localization';
 import { formatDisplayDate } from '@/lib/news/dates';
 import PageViewTracker from '@/components/analytics/page-view-tracker';
 import { resolveExperimentVariant } from '@/lib/experiments/assignment';
@@ -146,12 +146,17 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
   const t = await getTranslations({ locale, namespace: 'article' });
   const direction = locale === 'fa' ? 'rtl' : 'ltr';
 
-  const title = getLocalizedValue(article!, locale, 'title');
-  const content = getLocalizedValue(article!, locale, 'content');
-  const summary = getLocalizedValue(article!, locale, 'summary');
-  const excerpt = getLocalizedValue(article!, locale, 'excerpt');
+  const titleResult = getLocalizedFieldWithMeta(article!, locale, 'title', article!.faTranslationMeta);
+  const contentResult = getLocalizedFieldWithMeta(article!, locale, 'content', article!.faTranslationMeta);
+  const summaryResult = getLocalizedFieldWithMeta(article!, locale, 'summary', article!.faTranslationMeta);
+  const excerptResult = getLocalizedFieldWithMeta(article!, locale, 'excerpt', article!.faTranslationMeta);
+  const title = titleResult.value;
+  const content = contentResult.value;
+  const summary = summaryResult.value;
+  const excerpt = excerptResult.value;
   const leadText = summary || excerpt;
   const safeContent = content || (leadText ? `<p>${leadText}</p>` : '');
+  const showFallbackNotice = locale === 'fa' && (titleResult.isFallback || contentResult.isFallback);
   const publishedDate = article!.publishedAt ?? article!.updatedAt ?? new Date();
   const coverImage = article!.coverImageUrl ?? article!.sourceImageUrl ?? null;
 
@@ -212,6 +217,11 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
             {primaryTopic.label}
           </span>
         ) : null}
+        {showFallbackNotice ? (
+          <span className="rounded-full border border-amber-500/40 bg-amber-500/10 px-3 py-1 text-amber-200">
+            ترجمه نشده
+          </span>
+        ) : null}
       </div>
       <h1 className={clsx('font-bold text-slate-50', isImmersive ? 'text-5xl leading-tight' : 'text-4xl')}>
         {title}
@@ -221,6 +231,11 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
           {leadText}
         </p>
       )}
+      {showFallbackNotice && leadText ? (
+        <p className="text-xs text-amber-200">
+          هنوز نسخهٔ فارسی این خبر آماده نشده است. متن انگلیسی نمایش داده می‌شود.
+        </p>
+      ) : null}
       <p className="text-sm text-slate-400">
         {t('source')}: {
           (() => {

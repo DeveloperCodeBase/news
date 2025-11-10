@@ -86,6 +86,7 @@ model Article {
   summaryEn     String?
   contentFa     String?
   contentEn     String?
+  faTranslationMeta Json?
   coverImageUrl String?
   sourceImageUrl String?
   videoUrl       String?
@@ -222,6 +223,16 @@ model TranslationCache {
   updatedAt    DateTime @updatedAt
   articleId    String?
   article      Article? @relation(fields: [articleId], references: [id])
+}
+
+model TranslationFailure {
+  id         String   @id @default(cuid())
+  provider   String
+  message    String
+  context    Json?
+  createdAt  DateTime @default(now())
+
+  @@index([createdAt])
 }
 
 model ArticleAnalytics {

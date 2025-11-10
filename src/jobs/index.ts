@@ -14,6 +14,12 @@ import { generateLongformArticle } from '../lib/news/longform';
 import { getActiveNewsSources, updateNewsSourceIngestionStatus } from '../lib/db/sources';
 import { fetchSourceFeed, normalizeRawItemToArticle } from '../lib/ingest/sources';
 import { BudgetExceededError, getOpenAIMode } from '../lib/ai/openai';
+import {
+  combineFaTranslationMeta,
+  createFieldState,
+  parseFaTranslationMeta
+} from '../lib/translation/meta';
+import type { ArticleFaTranslationMeta } from '../lib/translation/meta';
 
 function buildExcerpt(text: string, length = 260) {
   if (!text) return '';
@@ -112,7 +118,14 @@ async function ingestSources(): Promise<IngestionMetrics> {
 
         const existing = await prisma.article.findUnique({
           where: { urlCanonical: normalized.canonicalUrl },
-          select: { id: true, slug: true, status: true, sourceImageUrl: true, coverImageUrl: true }
+          select: {
+            id: true,
+            slug: true,
+            status: true,
+            sourceImageUrl: true,
+            coverImageUrl: true,
+            faTranslationMeta: true
+          }
         });
 
         if (
@@ -179,6 +192,10 @@ async function ingestSources(): Promise<IngestionMetrics> {
         let titleEn: string | null = null;
         let excerptEn: string | null = null;
         let contentEn: string | null = null;
+        const baseMeta = parseFaTranslationMeta(
+          (existing?.faTranslationMeta as Partial<ArticleFaTranslationMeta> | null | undefined) ?? undefined
+        );
+        const metaUpdates: Partial<ArticleFaTranslationMeta> = {};
 
         const plainExcerpt = sanitizeHtml(excerpt, { allowedTags: [], allowedAttributes: {} });
         const plainContent = sanitizeHtml(enrichedContentHtml || normalized.description, {
@@ -190,6 +207,10 @@ async function ingestSources(): Promise<IngestionMetrics> {
           titleFa = normalized.title;
           excerptFa = excerpt;
           contentFa = enrichedContentHtml || baseHtml || null;
+          const timestamp = new Date();
+          metaUpdates.title = createFieldState('source', null, null, timestamp);
+          metaUpdates.excerpt = createFieldState('source', null, null, timestamp);
+          metaUpdates.content = createFieldState('source', null, null, timestamp);
 
           if (!titleEn) {
             const { translated: translatedTitle } = await translateWithCache({
@@ -223,32 +244,57 @@ async function ingestSources(): Promise<IngestionMetrics> {
           contentEn = enrichedContentHtml || baseHtml || null;
 
           if (!titleFa) {
-            const { translated: translatedTitle } = await translateWithCache({
+            const titleAttemptedAt = new Date();
+            const { translated: translatedTitle, providerId, error } = await translateWithCache({
               text: normalized.title,
               sourceLang: Lang.EN,
               targetLang: Lang.FA
             });
             titleFa = translatedTitle ?? normalized.title;
+            metaUpdates.title = createFieldState(
+              translatedTitle ? 'translated' : 'fallback',
+              providerId,
+              translatedTitle ? null : error ?? 'translation-failed',
+              titleAttemptedAt
+            );
           }
 
           if (!excerptFa) {
-            const { translated: translatedExcerpt } = await translateWithCache({
+            const excerptAttemptedAt = new Date();
+            const { translated: translatedExcerpt, providerId, error } = await translateWithCache({
               text: plainExcerpt,
               sourceLang: Lang.EN,
               targetLang: Lang.FA
             });
             excerptFa = translatedExcerpt ?? excerpt;
+            metaUpdates.excerpt = createFieldState(
+              translatedExcerpt ? 'translated' : 'fallback',
+              providerId,
+              translatedExcerpt ? null : error ?? 'translation-failed',
+              excerptAttemptedAt
+            );
           }
 
           if (!contentFa && plainContent) {
-            const { translated } = await translateWithCache({
+            const contentAttemptedAt = new Date();
+            const { translated, providerId, error } = await translateWithCache({
               text: plainContent,
               sourceLang: Lang.EN,
               targetLang: Lang.FA
             });
             contentFa = translated ?? enrichedContentHtml ?? baseHtml ?? null;
+            metaUpdates.content = createFieldState(
+              translated ? 'translated' : 'fallback',
+              providerId,
+              translated ? null : error ?? 'translation-failed',
+              contentAttemptedAt
+            );
+          } else if (!plainContent) {
+            metaUpdates.content = createFieldState('fallback', null, 'no-content', new Date());
           }
         }
+
+        const faTranslationMeta = combineFaTranslationMeta(baseMeta, metaUpdates);
 
         const topicPlainText = sanitizeHtml(
           `${contentFa ?? ''} ${contentEn ?? ''}`,
@@ -300,6 +346,7 @@ async function ingestSources(): Promise<IngestionMetrics> {
           summaryEn: finalSummaryEn,
           contentFa: contentFa ?? baseContent,
           contentEn: contentEn ?? baseContent,
+          faTranslationMeta,
           language: normalized.language,
           status: articleStatus
         };

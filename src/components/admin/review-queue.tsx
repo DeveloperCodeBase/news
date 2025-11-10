@@ -8,6 +8,7 @@ import type { Lang } from '@prisma/client';
 import type { ReviewQueueSnapshot } from '@/lib/db/articles';
 import type { ArticleStatus } from '@/lib/news/status';
 import { formatJalaliDateTime } from '@/lib/time/jalali';
+import { parseFaTranslationMeta } from '@/lib/translation/meta';
 
 const REVIEW_STATUS_OPTIONS: { value: ArticleStatus; label: string }[] = [
   { value: 'REVIEWED', label: 'در انتظار بازبینی' },
@@ -216,6 +217,9 @@ export default function ReviewQueue({ initialSnapshot }: ReviewQueueProps) {
       ) : (
         <div className="divide-y divide-slate-800 overflow-hidden rounded-2xl border border-slate-800">
           {articles.map((article) => {
+            const translationMeta = parseFaTranslationMeta(article.faTranslationMeta ?? null);
+            const needsTranslation =
+              translationMeta.title.status === 'fallback' || translationMeta.content.status === 'fallback';
             const summary = getLocalizedSummary(article);
             const publishedLabel = article.publishedAt
               ? formatJalaliDateTime(article.publishedAt, 'YYYY/MM/DD HH:mm')
@@ -239,9 +243,16 @@ export default function ReviewQueue({ initialSnapshot }: ReviewQueueProps) {
                       <span>منبع نامشخص</span>
                     )}
                   </div>
-                  <p className="text-lg font-semibold text-slate-100">
-                    {article.titleFa || article.titleEn || 'بدون عنوان'}
-                  </p>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <p className="text-lg font-semibold text-slate-100">
+                      {article.titleFa || article.titleEn || 'بدون عنوان'}
+                    </p>
+                    {needsTranslation ? (
+                      <span className="rounded-full border border-amber-500/40 bg-amber-500/10 px-2 py-1 text-[0.7rem] text-amber-200">
+                        ترجمه نشده
+                      </span>
+                    ) : null}
+                  </div>
                   {summary && <p className="text-sm text-slate-400 line-clamp-3">{summary}</p>}
                   <p className="text-xs text-slate-500">انتشار اولیه: {publishedLabel}</p>
                   <p className="text-xs text-slate-500">آخرین بروزرسانی: {updatedLabel}</p>

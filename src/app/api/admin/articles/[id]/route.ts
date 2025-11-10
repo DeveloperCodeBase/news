@@ -7,6 +7,7 @@ import { isEditorialRole } from '@/lib/auth/permissions';
 import { prisma } from '@/lib/db/client';
 import { JOB_NAMES, enqueueJob, getBoss } from '@/jobs/queue';
 import { publishScheduledArticle } from '@/jobs/publish';
+import { combineFaTranslationMeta, createFieldState, parseFaTranslationMeta } from '@/lib/translation/meta';
 
 const coverImageSchema = z
   .string()
@@ -98,12 +99,19 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
 
   const existing = await prisma.article.findUnique({
     where: { id: params.id },
-    select: { id: true, slug: true, scheduleJobId: true }
+    select: { id: true, slug: true, scheduleJobId: true, faTranslationMeta: true }
   });
 
   if (!existing) {
     return NextResponse.json({ error: 'Article not found' }, { status: 404 });
   }
+
+  const baseMeta = parseFaTranslationMeta(existing.faTranslationMeta ?? null);
+  const manualMeta = combineFaTranslationMeta(baseMeta, {
+    title: createFieldState('manual', baseMeta.title.provider ?? null, null, new Date()),
+    excerpt: createFieldState('manual', baseMeta.excerpt.provider ?? null, null, new Date()),
+    content: createFieldState('manual', baseMeta.content.provider ?? null, null, new Date())
+  });
 
   const article = await prisma.article.update({
     where: { id: params.id },
@@ -117,6 +125,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
       contentFa,
       contentEn,
       status,
+      faTranslationMeta: manualMeta,
       scheduledFor: status === Status.SCHEDULED ? scheduledForDate : null,
       scheduleJobId: status === Status.SCHEDULED ? existing.scheduleJobId : null,
       publishedAt: status === Status.PUBLISHED ? new Date() : null,

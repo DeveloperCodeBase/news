@@ -14,6 +14,7 @@ const ARTICLE_SELECT = {
   summaryEn: true,
   contentFa: true,
   contentEn: true,
+  faTranslationMeta: true,
   coverImageUrl: true,
   sourceImageUrl: true,
   videoUrl: true,
@@ -98,6 +99,7 @@ export type ReviewQueueArticle = {
   updatedAt: Date;
   scheduledFor: Date | null;
   newsSource: { name: string; homepageUrl: string | null } | null;
+  faTranslationMeta: Prisma.JsonValue | null;
 };
 
 export type ReviewQueueStats = {
@@ -173,6 +175,7 @@ export async function getReviewQueueSnapshot(filters: ReviewQueueFilters = {}): 
         publishedAt: true,
         updatedAt: true,
         scheduledFor: true,
+        faTranslationMeta: true,
         newsSource: { select: { name: true, homepageUrl: true } }
       }
     }),
@@ -231,6 +234,7 @@ export async function getArticleForAdmin(id: string) {
       coverImageUrl: true,
       sourceImageUrl: true,
       videoUrl: true,
+      faTranslationMeta: true,
       newsSource: { select: { id: true, name: true, homepageUrl: true } },
       categories: { select: { category: { select: { id: true, nameFa: true, nameEn: true } } } },
       tags: { select: { tag: { select: { id: true, nameFa: true, nameEn: true } } } }

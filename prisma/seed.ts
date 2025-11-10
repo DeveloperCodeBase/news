@@ -192,6 +192,14 @@ async function main() {
       continue;
     }
 
+    const translationStatus = article.language === Lang.FA ? 'source' : 'manual';
+    const translationAttempt = new Date().toISOString();
+    const translationMeta = {
+      title: { status: translationStatus, provider: null, error: null, attemptedAt: translationAttempt },
+      excerpt: { status: translationStatus, provider: null, error: null, attemptedAt: translationAttempt },
+      content: { status: translationStatus, provider: null, error: null, attemptedAt: translationAttempt }
+    };
+
     const created = await prisma.article.upsert({
       where: { slug: article.slug },
       update: {
@@ -207,7 +215,8 @@ async function main() {
         status: Status.PUBLISHED,
         newsSource: {
           connect: { id: linkedSourceId }
-        }
+        },
+        faTranslationMeta: translationMeta
       },
       create: {
         slug: article.slug,
@@ -227,6 +236,7 @@ async function main() {
         status: Status.PUBLISHED,
         publishedAt: new Date('2024-05-01T10:00:00Z'),
         language: article.language,
+        faTranslationMeta: translationMeta,
         categories: {
           create: article.categories.map((slug) => ({
             category: { connect: { slug } }
