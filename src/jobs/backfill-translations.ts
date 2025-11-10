@@ -1,3 +1,4 @@
+import type { Prisma } from '@prisma/client';
 import { Lang, Status } from '@prisma/client';
 import sanitizeHtml from 'sanitize-html';
 import { prisma } from '@/lib/db/client';
@@ -39,7 +40,7 @@ async function backfillTranslations() {
   let translatedCount = 0;
   for (const article of articles) {
     const meta = parseFaTranslationMeta(article.faTranslationMeta ?? null);
-    const updates: { titleFa?: string | null; excerptFa?: string | null; contentFa?: string | null } = {};
+    const updates: Prisma.ArticleUpdateInput = {};
     const metaUpdates: Partial<ArticleFaTranslationMeta> = {};
 
     const needsTitle = meta.title.status === 'fallback' || !article.titleFa || article.titleFa === article.titleEn;
