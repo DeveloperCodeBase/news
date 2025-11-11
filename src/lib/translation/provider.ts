@@ -1,18 +1,62 @@
 import { createHash } from 'node:crypto';
-import { prisma } from '../db/client';
-import { getEnv } from '../env';
 import type { Lang } from '@prisma/client';
+import { prisma } from '../db/client';
+import { BudgetExceededError, callOpenAI } from '../ai/openai';
+import { getEnv } from '../env';
+import { getTranslationSettings } from './settings';
+import { chooseTranslationProvider } from './provider-selection';
+import { getTodayCost } from './budget';
 import { recordTranslationFailure } from './health';
 
-type TranslationProvider = {
+interface TranslationProvider {
   id: string;
   translate: (text: string, sourceLang: Lang, targetLang: Lang) => Promise<string>;
-};
+}
+
+class OpenAITranslationProvider implements TranslationProvider {
+  id: TranslationProvider['id'] = 'OPENAI';
+
+  constructor(private readonly model: string) {}
+
+  async translate(text: string, sourceLang: Lang, targetLang: Lang): Promise<string> {
+    const response = await callOpenAI(
+      (client) =>
+        client.chat.completions.create({
+          model: this.model,
+          temperature: 0.2,
+          messages: [
+            {
+              role: 'system',
+              content:
+                'You are a professional translator that converts English news writing into Persian (Farsi) while preserving meaning and tone.'
+            },
+            {
+              role: 'user',
+              content: `Translate the following text from ${sourceLang} to ${targetLang}:
+\n${text}`
+            }
+          ]
+        }),
+      { maxExpectedTokens: Math.min(1500, Math.max(200, Math.ceil(text.length / 3))) }
+    );
+
+    if (!response) {
+      throw new Error('OpenAI client unavailable');
+    }
+
+    const translated = response.choices[0]?.message?.content?.trim();
+    if (!translated) {
+      throw new Error('OpenAI returned empty translation');
+    }
+
+    return translated;
+  }
+}
 
 class LibreTranslateProvider implements TranslationProvider {
-  id = 'libretranslate';
+  id: TranslationProvider['id'] = 'LIBRETRANSLATE';
 
-  async translate(text: string, sourceLang: Lang, targetLang: Lang) {
+  async translate(text: string, sourceLang: Lang, targetLang: Lang): Promise<string> {
     const { LT_URL } = getEnv();
     if (!LT_URL) {
       throw new Error('LT_URL is not configured');
@@ -20,9 +64,7 @@ class LibreTranslateProvider implements TranslationProvider {
 
     const response = await fetch(LT_URL, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         q: text,
         source: sourceLang.toLowerCase(),
@@ -41,16 +83,31 @@ class LibreTranslateProvider implements TranslationProvider {
   }
 }
 
-function getProvider(): TranslationProvider | null {
-  const env = getEnv();
-  if (env.LT_URL) {
+async function resolveProvider(settingsParam?: Awaited<ReturnType<typeof getTranslationSettings>>): Promise<TranslationProvider | null> {
+  const settings = settingsParam ?? (await getTranslationSettings());
+
+  if (!settings.enabled) {
+    return null;
+  }
+
+  const providerId = chooseTranslationProvider(settings);
+
+  if (providerId === 'DISABLED') {
+    return null;
+  }
+
+  if (providerId === 'OPENAI') {
+    return new OpenAITranslationProvider(settings.openaiModel);
+  }
+
+  if (providerId === 'LIBRETRANSLATE') {
+    if (!settings.allowLibreExperimental) {
+      return null;
+    }
     return new LibreTranslateProvider();
   }
-  return null;
-}
 
-export function getActiveTranslationProvider(): TranslationProvider | null {
-  return getProvider();
+  return null;
 }
 
 export async function translateWithCache({
@@ -71,7 +128,17 @@ export async function translateWithCache({
     return { translated: null, providerId: null, error: null, cached: false };
   }
 
-  const provider = getProvider();
+  const settings = await getTranslationSettings();
+  if (!settings.enabled) {
+    return { translated: null, providerId: null, error: 'disabled', cached: false };
+  }
+
+  const { costUsd, tokens } = await getTodayCost();
+  if (costUsd >= settings.dailyBudgetUsd || tokens >= settings.dailyTokenLimit) {
+    return { translated: null, providerId: null, error: 'budget-exhausted', cached: false };
+  }
+
+  const provider = await resolveProvider(settings);
   if (!provider) {
     return { translated: null, providerId: null, error: 'no-provider', cached: false };
   }
@@ -136,7 +203,13 @@ export async function translateWithCache({
     return { translated, providerId: provider.id, error: null, cached: false };
   } catch (error) {
     const message =
-      error instanceof Error ? error.message : typeof error === 'string' ? error : 'Unknown error';
+      error instanceof BudgetExceededError
+        ? error.message
+        : error instanceof Error
+          ? error.message
+          : typeof error === 'string'
+            ? error
+            : 'Unknown error';
     console.error(
       `[translation] Provider ${provider.id} failed (${sourceLang}->${targetLang}): ${message}`,
       error
