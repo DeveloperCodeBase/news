@@ -23,6 +23,7 @@ export async function refreshTrendSnapshot(windowMinutes = 720) {
       excerptEn: true,
       contentFa: true,
       contentEn: true,
+      aiScore: true,
       topics: { select: { id: true, label: true, score: true } }
     }
   });
@@ -51,6 +52,16 @@ export async function refreshTrendSnapshot(windowMinutes = 720) {
             score: prediction.score
           }));
         }
+      }
+
+      const topTopicScore = topics.length ? Math.max(...topics.map((topic) => topic.score)) : null;
+      const normalizedScore = typeof topTopicScore === 'number' ? Number(topTopicScore.toFixed(3)) : null;
+
+      if ((normalizedScore ?? null) !== (article.aiScore ?? null)) {
+        await prisma.article.update({
+          where: { id: article.id },
+          data: { aiScore: normalizedScore }
+        });
       }
 
       for (const topic of topics) {

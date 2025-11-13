@@ -1,11 +1,12 @@
 import type { MetadataRoute } from 'next';
 import { getHomepageArticles } from '@/lib/db/articles';
+import { getSiteUrl } from '@/lib/site/url';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hooshgate.ir';
+  const baseUrl = getSiteUrl();
   const articles = await getHomepageArticles(50);
   const lastModified = articles[0]?.publishedAt ?? articles[0]?.updatedAt ?? new Date();
 

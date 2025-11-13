@@ -3,7 +3,7 @@ import Image from 'next/image';
 import clsx from 'clsx';
 import type { AppLocale } from '@/lib/i18n/config';
 import { formatDisplayDate } from '@/lib/news/dates';
-import { getLocalizedValue } from '@/lib/news/localization';
+import { getLocalizedFieldWithMeta, getLocalizedValue } from '@/lib/news/localization';
 
 export type ArticleSummary = {
   slug: string;
@@ -31,6 +31,7 @@ export type ArticleSummary = {
       }
     | null;
   categories: Array<{ slug: string; nameFa: string; nameEn: string | null }>;
+  faTranslationMeta: unknown;
 };
 
 type ArticleCardProps = {
@@ -39,14 +40,15 @@ type ArticleCardProps = {
 };
 
 export default function ArticleCard({ article, locale }: ArticleCardProps) {
-  const title = getLocalizedValue(article, locale, 'title');
-  const summary = getLocalizedValue(article, locale, 'summary');
-  const excerpt = getLocalizedValue(article, locale, 'excerpt');
-  const teaser = summary || excerpt;
+  const titleResult = getLocalizedFieldWithMeta(article, locale, 'title', article.faTranslationMeta);
+  const summaryResult = getLocalizedFieldWithMeta(article, locale, 'summary', article.faTranslationMeta);
+  const excerptResult = getLocalizedFieldWithMeta(article, locale, 'excerpt', article.faTranslationMeta);
+  const teaser = summaryResult.value || excerptResult.value;
   const href = `/${locale}/news/${article.slug}`;
   const direction = locale === 'fa' ? 'rtl' : 'ltr';
   const publishedDate = article.publishedAt ?? article.updatedAt;
   const coverImage = article.coverImageUrl ?? article.sourceImageUrl;
+  const showFallbackBadge = locale === 'fa' && titleResult.isFallback;
 
   return (
     <article
@@ -57,7 +59,7 @@ export default function ArticleCard({ article, locale }: ArticleCardProps) {
         <div className="relative h-48 w-full overflow-hidden">
           <Image
             src={coverImage}
-            alt={title}
+            alt={titleResult.value}
             fill
             sizes="(min-width: 768px) 33vw, 100vw"
             className="object-cover transition duration-700 group-hover:scale-105"
@@ -72,9 +74,16 @@ export default function ArticleCard({ article, locale }: ArticleCardProps) {
           <span className={clsx('rounded-full px-2 py-1', article.newsSource?.isTrusted ? 'bg-emerald-500/10 text-emerald-200' : 'bg-amber-500/10 text-amber-200')}>
             {article.newsSource?.name ?? 'نامشخص'}
           </span>
-          <time>{formatDisplayDate(publishedDate, locale)}</time>
+          <div className="flex items-center gap-2">
+            {showFallbackBadge ? (
+              <span className="rounded-full border border-amber-500/40 bg-amber-500/10 px-2 py-1 text-[0.7rem] text-amber-100">
+                ترجمه نشده
+              </span>
+            ) : null}
+            <time>{formatDisplayDate(publishedDate, locale)}</time>
+          </div>
         </div>
-        <h3 className="line-clamp-2 text-lg font-semibold text-slate-100">{title}</h3>
+        <h3 className="line-clamp-2 text-lg font-semibold text-slate-100">{titleResult.value}</h3>
         {teaser && <p className="line-clamp-3 text-sm text-slate-300">{teaser}</p>}
         <div className="mt-auto flex flex-wrap gap-2 text-xs text-slate-400">
           {article.categories.slice(0, 2).map((category) => (

@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import Providers from '@/components/providers';
 import SiteShell from '@/components/layout/site-shell';
 import { DEFAULT_LOCALE, SUPPORTED_LOCALES, type AppLocale } from '@/lib/i18n/config';
+import { getSiteUrl } from '@/lib/site/url';
 
 export function generateStaticParams() {
   return SUPPORTED_LOCALES.map((locale) => ({ locale }));
@@ -12,7 +13,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: { locale: AppLocale } }): Promise<Metadata> {
   const locale = params.locale;
   const t = await getTranslations({ locale, namespace: 'meta' });
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hooshgate.ir';
+  const baseUrl = getSiteUrl();
 
   return {
     title: t('title'),

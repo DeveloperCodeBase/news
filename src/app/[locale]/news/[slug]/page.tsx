@@ -6,7 +6,8 @@ import type { Metadata } from 'next';
 import clsx from 'clsx';
 import { getArticleBySlug, getRelatedArticles } from '@/lib/db/articles';
 import type { AppLocale } from '@/lib/i18n/config';
-import { getLocalizedValue } from '@/lib/news/localization';
+import { getLocalizedFieldWithMeta, getLocalizedValue } from '@/lib/news/localization';
+import { getSiteUrl } from '@/lib/site/url';
 import { formatDisplayDate } from '@/lib/news/dates';
 import PageViewTracker from '@/components/analytics/page-view-tracker';
 import { resolveExperimentVariant } from '@/lib/experiments/assignment';
@@ -109,7 +110,7 @@ export async function generateMetadata({ params }: { params: { locale: AppLocale
   const localizedSummary = getLocalizedValue(article, locale, 'summary');
   const localizedExcerpt = getLocalizedValue(article, locale, 'excerpt');
   const description = localizedSummary || localizedExcerpt;
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hooshgate.ir';
+  const siteUrl = getSiteUrl();
   const url = `${siteUrl}/${locale}/news/${article.slug}`;
   const publishedDate = article.publishedAt ?? article.updatedAt ?? new Date();
   const coverImage = article.coverImageUrl ?? article.sourceImageUrl ?? undefined;
@@ -146,12 +147,17 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
   const t = await getTranslations({ locale, namespace: 'article' });
   const direction = locale === 'fa' ? 'rtl' : 'ltr';
 
-  const title = getLocalizedValue(article!, locale, 'title');
-  const content = getLocalizedValue(article!, locale, 'content');
-  const summary = getLocalizedValue(article!, locale, 'summary');
-  const excerpt = getLocalizedValue(article!, locale, 'excerpt');
+  const titleResult = getLocalizedFieldWithMeta(article!, locale, 'title', article!.faTranslationMeta);
+  const contentResult = getLocalizedFieldWithMeta(article!, locale, 'content', article!.faTranslationMeta);
+  const summaryResult = getLocalizedFieldWithMeta(article!, locale, 'summary', article!.faTranslationMeta);
+  const excerptResult = getLocalizedFieldWithMeta(article!, locale, 'excerpt', article!.faTranslationMeta);
+  const title = titleResult.value;
+  const content = contentResult.value;
+  const summary = summaryResult.value;
+  const excerpt = excerptResult.value;
   const leadText = summary || excerpt;
   const safeContent = content || (leadText ? `<p>${leadText}</p>` : '');
+  const showFallbackNotice = locale === 'fa' && (titleResult.isFallback || contentResult.isFallback);
   const publishedDate = article!.publishedAt ?? article!.updatedAt ?? new Date();
   const coverImage = article!.coverImageUrl ?? article!.sourceImageUrl ?? null;
 
@@ -170,13 +176,14 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
   const topicBadges = (article!.topics ?? []).slice(0, 3);
   const unknownSourceLabel = locale === 'fa' ? 'منبع نامشخص' : 'Unknown source';
   const videoContent = article!.videoUrl ? buildVideoEmbed(article!.videoUrl, locale, title) : null;
+  const siteUrl = getSiteUrl();
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'NewsArticle',
     headline: title,
     datePublished: publishedDate.toISOString(),
-    mainEntityOfPage: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hooshgate.ir'}/${locale}/news/${article!.slug}`,
+    mainEntityOfPage: `${siteUrl}/${locale}/news/${article!.slug}`,
     image: coverImage ?? undefined,
     description: leadText,
     author: {
@@ -188,7 +195,7 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
       name: 'Hoosh Gate Magazine',
       logo: {
         '@type': 'ImageObject',
-        url: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hooshgate.ir'}/logo.png`
+        url: `${siteUrl}/logo.png`
       }
     }
   };
@@ -212,6 +219,11 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
             {primaryTopic.label}
           </span>
         ) : null}
+        {showFallbackNotice ? (
+          <span className="rounded-full border border-amber-500/40 bg-amber-500/10 px-3 py-1 text-amber-200">
+            ترجمه نشده
+          </span>
+        ) : null}
       </div>
       <h1 className={clsx('font-bold text-slate-50', isImmersive ? 'text-5xl leading-tight' : 'text-4xl')}>
         {title}
@@ -221,6 +233,11 @@ export default async function ArticlePage({ params }: { params: { locale: AppLoc
           {leadText}
         </p>
       )}
+      {showFallbackNotice && leadText ? (
+        <p className="text-xs text-amber-200">
+          هنوز نسخهٔ فارسی این خبر آماده نشده است. متن انگلیسی نمایش داده می‌شود.
+        </p>
+      ) : null}
       <p className="text-sm text-slate-400">
         {t('source')}: {
           (() => {

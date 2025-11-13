@@ -108,7 +108,7 @@
 4. **تنظیم سایر متغیرها**
    - `INTERNAL_API_TOKEN` را یک رشتهٔ تصادفی حداقل ۱۶ کاراکتری قرار دهید (برای احراز هویت Worker).
    - اگر از مقادیر پیش‌فرض docker-compose استفاده می‌کنید، `DATABASE_URL` را تغییر ندهید.
-   - آدرس عمومی سایت (`NEXT_PUBLIC_SITE_URL`) و ایمیل هشدار (`ALERT_EMAIL`) را ست کنید.
+   - آدرس عمومی سایت (`NEXT_PUBLIC_SITE_URL` / `SITE_URL`) و ایمیل هشدار (`ALERT_EMAIL`) را ست کنید.
 5. **راه‌اندازی سرویس‌ها**
    ```bash
    docker compose up -d --build
@@ -147,7 +147,7 @@
 4. **تکمیل `.env`** (گام‌به‌گام)
    1. مقادیر Google OAuth (`GOOGLE_CLIENT_ID` و `GOOGLE_CLIENT_SECRET`) و آدرس‌های مجاز (`ADMIN_EMAILS`، در صورت نیاز `EDITOR_EMAILS`/`CONTRIBUTOR_EMAILS`) را وارد کنید.
    2. برای ارتباط Worker و وب‌سرور، یک رشتهٔ تصادفی قدرتمند در `INTERNAL_API_TOKEN` قرار دهید و `INTERNAL_API_URL` را در حالت Docker برابر `http://web:3000` بگذارید.
-   3. اگر روی دامنهٔ واقعی مستقر می‌شوید، `NEXTAUTH_URL` و `NEXT_PUBLIC_SITE_URL` را برابر آدرس HTTPS خود تنظیم کنید.
+   3. اگر روی دامنهٔ واقعی مستقر می‌شوید، `NEXTAUTH_URL`، `SITE_URL` و `NEXT_PUBLIC_SITE_URL` را برابر آدرس HTTPS خود تنظیم کنید.
    4. ایمیل هشدار (`ALERT_EMAIL`) و تنظیمات SMTP (`SMTP_HOST`، `SMTP_PORT`، `SMTP_FROM` و در صورت نیاز `SMTP_USER`/`SMTP_PASSWORD`) را برای ارسال خطا و خبرنامه مقداردهی نمایید. در حالت توسعه می‌توانید از Mailhog یا Postal محلی استفاده کنید.
    5. در صورت تمایل، گیرندگان پیش‌فرض خبرنامه را در `NEWSLETTER_RECIPIENTS` (لیست comma-separated) قرار دهید تا بدون وارد کردن دستی نیز ارسال انجام شود.
    6. مسیر مدل طبقه‌بندی پیشرفته را در `TREND_MODEL_PATH` تنظیم کنید (یک فایل ONNX محلی). در صورت خالی بودن، سیستم با موتور هیبریدی مبتنی بر کلیدواژه کار می‌کند.
@@ -229,7 +229,8 @@ ERR_PNPM_FETCH_403 GET <registry-url>: Forbidden - 403
 
 | متغیر | توضیح |
 | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | دامنهٔ عمومی جهت لینک‌ها و JSON-LD. |
+| `NEXT_PUBLIC_SITE_URL` | دامنهٔ عمومی جهت لینک‌ها و JSON-LD (در سمت کلاینت). |
+| `SITE_URL` | دامنهٔ پایه برای لینک‌سازی سمت سرور و اسکریپت‌های پس‌زمینه. |
 | `NEXTAUTH_URL` | پایهٔ URL برای جریان OAuth (در حالت تولید باید HTTPS باشد). |
 | `NEXTAUTH_SECRET` | کلید رمزنگاری جلسات NextAuth (حداقل ۳۲ کاراکتر). |
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | مقادیر OAuth گوگل. |

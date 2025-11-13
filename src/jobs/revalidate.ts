@@ -1,8 +1,9 @@
 import { getEnv } from '../lib/env';
+import { getSiteUrl } from '../lib/site/url';
 
 export async function runRevalidate(slug: string) {
   const env = getEnv();
-  const baseUrl = env.INTERNAL_API_URL ?? env.NEXT_PUBLIC_SITE_URL ?? 'http://127.0.0.1:3000';
+  const baseUrl = env.INTERNAL_API_URL ?? env.SITE_URL ?? env.NEXT_PUBLIC_SITE_URL ?? getSiteUrl();
 
   try {
     const response = await fetch(`${baseUrl.replace(/\/$/, '')}/api/internal/revalidate`, {

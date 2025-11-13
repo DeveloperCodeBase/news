@@ -14,6 +14,8 @@ const ARTICLE_SELECT = {
   summaryEn: true,
   contentFa: true,
   contentEn: true,
+  faTranslationMeta: true,
+  aiScore: true,
   coverImageUrl: true,
   sourceImageUrl: true,
   videoUrl: true,
@@ -92,12 +94,17 @@ export type ReviewQueueArticle = {
   titleEn: string | null;
   summaryFa: string | null;
   summaryEn: string | null;
+  aiScore: number | null;
   status: Status;
   language: Lang;
+  createdAt: Date;
   publishedAt: Date | null;
   updatedAt: Date;
   scheduledFor: Date | null;
   newsSource: { name: string; homepageUrl: string | null } | null;
+  categories: { category: { id: string; nameFa: string | null; nameEn: string | null } }[];
+  topics: { label: string; score: number }[];
+  faTranslationMeta: Prisma.JsonValue | null;
 };
 
 export type ReviewQueueStats = {
@@ -118,7 +125,21 @@ export type ReviewQueueSnapshot = {
   articles: ReviewQueueArticle[];
   stats: ReviewQueueStats;
   pagination: ReviewQueuePagination;
+  sort: { field: ReviewQueueSortField; direction: ReviewQueueSortDirection };
 };
+
+export type ReviewQueueSortField =
+  | 'createdAt'
+  | 'updatedAt'
+  | 'publishedAt'
+  | 'source'
+  | 'language'
+  | 'status'
+  | 'category'
+  | 'topic'
+  | 'aiScore';
+
+export type ReviewQueueSortDirection = 'asc' | 'desc';
 
 export type ReviewQueueFilters = {
   statuses?: Status[];
@@ -126,7 +147,56 @@ export type ReviewQueueFilters = {
   search?: string;
   page?: number;
   pageSize?: number;
+  sortBy?: ReviewQueueSortField;
+  sortDirection?: ReviewQueueSortDirection;
 };
+
+function buildReviewQueueOrderBy(
+  sortBy: ReviewQueueSortField,
+  sortDirection: ReviewQueueSortDirection
+): Prisma.ArticleOrderByWithRelationInput[] {
+  const direction = sortDirection === 'asc' ? 'asc' : 'desc';
+  const orderBy: Prisma.ArticleOrderByWithRelationInput[] = [];
+
+  switch (sortBy) {
+    case 'createdAt':
+      orderBy.push({ createdAt: direction });
+      break;
+    case 'updatedAt':
+      orderBy.push({ updatedAt: direction });
+      break;
+    case 'publishedAt':
+      orderBy.push({ publishedAt: direction });
+      break;
+    case 'source':
+      orderBy.push({ newsSource: { name: direction } });
+      break;
+    case 'language':
+      orderBy.push({ language: direction });
+      break;
+    case 'status':
+      orderBy.push({ status: direction });
+      break;
+    case 'category':
+      orderBy.push({ categories: { _count: direction } });
+      break;
+    case 'topic':
+      orderBy.push({ topics: { _count: direction } });
+      break;
+    case 'aiScore':
+      orderBy.push({ aiScore: direction });
+      break;
+    default:
+      orderBy.push({ createdAt: 'desc' });
+      break;
+  }
+
+  if (sortBy !== 'updatedAt') {
+    orderBy.push({ updatedAt: 'desc' });
+  }
+
+  return orderBy;
+}
 
 export async function getReviewQueueSnapshot(filters: ReviewQueueFilters = {}): Promise<ReviewQueueSnapshot> {
   const statuses = (filters.statuses?.length ? filters.statuses : [Status.REVIEWED, Status.DRAFT]).map((status) =>
@@ -154,11 +224,15 @@ export async function getReviewQueueSnapshot(filters: ReviewQueueFilters = {}): 
   const page = Math.max(filters.page ?? 1, 1);
   const skip = (page - 1) * pageSize;
 
+  const sortBy = filters.sortBy ?? 'createdAt';
+  const sortDirection = filters.sortDirection ?? 'desc';
+  const orderBy = buildReviewQueueOrderBy(sortBy, sortDirection);
+
   const [totalMatching, articles, reviewedCount, draftCount, scheduledCount] = await Promise.all([
     prisma.article.count({ where }),
     prisma.article.findMany({
       where,
-      orderBy: [{ status: 'asc' }, { updatedAt: 'desc' }],
+      orderBy,
       skip,
       take: pageSize,
       select: {
@@ -168,12 +242,34 @@ export async function getReviewQueueSnapshot(filters: ReviewQueueFilters = {}): 
         titleEn: true,
         summaryFa: true,
         summaryEn: true,
+        aiScore: true,
         status: true,
         language: true,
+        createdAt: true,
         publishedAt: true,
         updatedAt: true,
         scheduledFor: true,
-        newsSource: { select: { name: true, homepageUrl: true } }
+        faTranslationMeta: true,
+        newsSource: { select: { name: true, homepageUrl: true } },
+        categories: {
+          select: {
+            category: {
+              select: {
+                id: true,
+                nameFa: true,
+                nameEn: true
+              }
+            }
+          }
+        },
+        topics: {
+          select: {
+            label: true,
+            score: true
+          },
+          orderBy: { score: 'desc' },
+          take: 5
+        }
       }
     }),
     prisma.article.count({ where: { status: Status.REVIEWED } }),
@@ -196,6 +292,10 @@ export async function getReviewQueueSnapshot(filters: ReviewQueueFilters = {}): 
       pageSize,
       total: totalMatching,
       totalPages
+    },
+    sort: {
+      field: sortBy,
+      direction: sortDirection
     }
   };
 }
@@ -231,6 +331,7 @@ export async function getArticleForAdmin(id: string) {
       coverImageUrl: true,
       sourceImageUrl: true,
       videoUrl: true,
+      faTranslationMeta: true,
       newsSource: { select: { id: true, name: true, homepageUrl: true } },
       categories: { select: { category: { select: { id: true, nameFa: true, nameEn: true } } } },
       tags: { select: { tag: { select: { id: true, nameFa: true, nameEn: true } } } }

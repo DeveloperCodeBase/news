@@ -18,6 +18,18 @@ enum Lang {
   EN
 }
 
+enum TranslationProvider {
+  OPENAI
+  LIBRETRANSLATE
+  DISABLED
+}
+
+enum BudgetExhaustedMode {
+  SHOW_ENGLISH
+  QUEUE_TOMORROW
+  SKIP
+}
+
 enum Status {
   DRAFT
   REVIEWED
@@ -86,6 +98,8 @@ model Article {
   summaryEn     String?
   contentFa     String?
   contentEn     String?
+  faTranslationMeta Json?
+  aiScore      Float?
   coverImageUrl String?
   sourceImageUrl String?
   videoUrl       String?
@@ -222,6 +236,30 @@ model TranslationCache {
   updatedAt    DateTime @updatedAt
   articleId    String?
   article      Article? @relation(fields: [articleId], references: [id])
+}
+
+model TranslationFailure {
+  id         String   @id @default(cuid())
+  provider   String
+  message    String
+  context    Json?
+  createdAt  DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+model TranslationSettings {
+  id                     Int                 @id @default(1)
+  enabled                Boolean             @default(true)
+  defaultProvider        TranslationProvider @default(OPENAI)
+  allowLibreExperimental Boolean             @default(false)
+  fallbackProvider       TranslationProvider?
+  openaiModel            String              @default("gpt-4o-mini")
+  dailyBudgetUsd         Float               @default(1.0)
+  dailyTokenLimit        Int                 @default(500000)
+  budgetExhaustedMode    BudgetExhaustedMode @default(SHOW_ENGLISH)
+  createdAt              DateTime            @default(now())
+  updatedAt              DateTime            @updatedAt
 }
 
 model ArticleAnalytics {

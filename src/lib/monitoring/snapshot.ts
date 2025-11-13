@@ -1,6 +1,7 @@
 import { IngestionStatus, Status } from '@prisma/client';
 import { prisma } from '../db/client';
 import { withPrismaConnectionFallback } from '../db/errors';
+import { getTranslationHealthSnapshot, type TranslationFailureContext } from '../translation/health';
 
 export type HeartbeatRecord = {
   id: string;
@@ -81,6 +82,13 @@ export type MonitoringSnapshot = {
   alerts: AlertEventRecord[];
   ingestion: IngestionSnapshot;
   newsSources: NewsSourceSummary;
+  translation: {
+    provider: string | null;
+    lastSuccessAt: string | null;
+    lastErrorAt: string | null;
+    lastErrorMessage: string | null;
+    lastErrorContext: TranslationFailureContext | null;
+  };
 };
 
 function toIso(value: Date | null | undefined): string | null {
@@ -152,7 +160,8 @@ export async function getMonitoringSnapshot(): Promise<MonitoringSnapshot> {
     newsSourceOk,
     newsSourceError,
     newsSourceUnknown,
-    recentNewsSourceFailures
+    recentNewsSourceFailures,
+    translationHealth
   ] = await Promise.all([
     withPrismaConnectionFallback(
       () =>
@@ -242,7 +251,14 @@ export async function getMonitoringSnapshot(): Promise<MonitoringSnapshot> {
           }
         }),
       []
-    )
+    ),
+    getTranslationHealthSnapshot().catch(() => ({
+      provider: null,
+      lastSuccessAt: null,
+      lastErrorAt: null,
+      lastErrorMessage: null,
+      lastErrorContext: null
+    }))
   ]);
 
   const heartbeats = serializeHeartbeats(heartbeatsRaw);
@@ -281,6 +297,13 @@ export async function getMonitoringSnapshot(): Promise<MonitoringSnapshot> {
     queueSnapshots,
     alerts,
     ingestion,
-    newsSources
+    newsSources,
+    translation: {
+      provider: translationHealth.provider,
+      lastSuccessAt: toIso(translationHealth.lastSuccessAt),
+      lastErrorAt: toIso(translationHealth.lastErrorAt),
+      lastErrorMessage: translationHealth.lastErrorMessage,
+      lastErrorContext: translationHealth.lastErrorContext ?? null
+    }
   };
 }

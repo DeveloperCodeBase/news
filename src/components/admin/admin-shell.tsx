@@ -16,7 +16,8 @@ const navItems = [
   { href: '/admin/sources', label: 'منابع خبری' },
   { href: '/admin/analytics', label: 'تحلیل بازدید' },
   { href: '/admin/monitoring', label: 'مانیتورینگ' },
-  { href: '/admin/newsletter', label: 'خبرنامه' }
+  { href: '/admin/newsletter', label: 'خبرنامه' },
+  { href: '/admin/settings/translation', label: 'تنظیمات ترجمه' }
 ];
 
 function formatRole(role: Role | string) {

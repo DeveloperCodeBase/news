@@ -3,7 +3,7 @@ import { getTranslations } from 'next-intl/server';
 import type { AppLocale } from '@/lib/i18n/config';
 import { getHomepageArticles, getCategorySummaries } from '@/lib/db/articles';
 import ArticleCard from '@/components/articles/article-card';
-import { getLocalizedValue } from '@/lib/news/localization';
+import { getLocalizedFieldWithMeta, getLocalizedValue } from '@/lib/news/localization';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -18,6 +18,10 @@ export default async function LocaleHomePage({ params }: { params: { locale: App
   const hero = articles[0];
   const rest = articles.slice(1);
   const direction = locale === 'fa' ? 'rtl' : 'ltr';
+  const heroTitleResult = hero ? getLocalizedFieldWithMeta(hero, locale, 'title', hero.faTranslationMeta) : null;
+  const heroSummaryResult = hero ? getLocalizedFieldWithMeta(hero, locale, 'summary', hero.faTranslationMeta) : null;
+  const heroExcerptResult = hero ? getLocalizedFieldWithMeta(hero, locale, 'excerpt', hero.faTranslationMeta) : null;
+  const heroLead = heroSummaryResult?.value || heroExcerptResult?.value || '';
 
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-12 px-4 py-10 sm:px-6 lg:px-8" dir={direction}>
@@ -51,12 +55,17 @@ export default async function LocaleHomePage({ params }: { params: { locale: App
             >
               <div className="flex flex-col gap-3">
                 <span className="text-sm text-slate-300">{hero.newsSource?.name ?? 'نامشخص'}</span>
-                <h2 className="text-2xl font-semibold text-slate-50">
-                  {getLocalizedValue(hero, locale, 'title')}
-                </h2>
-                <p className="text-sm text-slate-300">
-                  {getLocalizedValue(hero, locale, 'summary') || getLocalizedValue(hero, locale, 'excerpt')}
-                </p>
+                <div className="flex flex-wrap items-center gap-2">
+                  <h2 className="text-2xl font-semibold text-slate-50">
+                    {heroTitleResult?.value ?? ''}
+                  </h2>
+                  {locale === 'fa' && heroTitleResult?.isFallback ? (
+                    <span className="rounded-full border border-amber-500/40 bg-amber-500/10 px-2 py-1 text-[0.7rem] text-amber-200">
+                      ترجمه نشده
+                    </span>
+                  ) : null}
+                </div>
+                {heroLead ? <p className="text-sm text-slate-300">{heroLead}</p> : null}
               </div>
             </Link>
           )}
@@ -64,18 +73,26 @@ export default async function LocaleHomePage({ params }: { params: { locale: App
         <div className="flex flex-col gap-6 rounded-3xl border border-slate-800 bg-slate-900/60 p-6">
           <h2 className="text-lg font-semibold text-slate-100">{t('latest')}</h2>
           <div className="flex flex-col gap-4 text-sm text-slate-300">
-            {articles.slice(0, 4).map((article) => (
-              <Link
-                key={article.slug}
-                href={`/${locale}/news/${article.slug}`}
-                className="flex flex-col gap-2 rounded-xl border border-transparent px-3 py-2 transition hover:border-sky-500/60 hover:bg-slate-900"
-              >
-                <span className="text-sm font-semibold text-slate-100">
-                  {getLocalizedValue(article, locale, 'title')}
-                </span>
-                <span className="text-xs text-slate-400">{article.newsSource?.name ?? 'نامشخص'}</span>
-              </Link>
-            ))}
+            {articles.slice(0, 4).map((article) => {
+              const titleResult = getLocalizedFieldWithMeta(article, locale, 'title', article.faTranslationMeta);
+              return (
+                <Link
+                  key={article.slug}
+                  href={`/${locale}/news/${article.slug}`}
+                  className="flex flex-col gap-2 rounded-xl border border-transparent px-3 py-2 transition hover:border-sky-500/60 hover:bg-slate-900"
+                >
+                  <span className="flex items-center gap-2 text-sm font-semibold text-slate-100">
+                    {titleResult.value}
+                    {locale === 'fa' && titleResult.isFallback ? (
+                      <span className="rounded-full border border-amber-500/40 bg-amber-500/10 px-2 py-0.5 text-[0.65rem] text-amber-200">
+                        ترجمه نشده
+                      </span>
+                    ) : null}
+                  </span>
+                  <span className="text-xs text-slate-400">{article.newsSource?.name ?? 'نامشخص'}</span>
+                </Link>
+              );
+            })}
             {articles.length === 0 && <p className="text-slate-400">{t('emptyState')}</p>}
           </div>
           <div className="mt-auto">
@@ -111,6 +128,7 @@ export default async function LocaleHomePage({ params }: { params: { locale: App
               updatedAt: article.updatedAt,
               status: article.status,
               newsSource: article.newsSource,
+              faTranslationMeta: article.faTranslationMeta,
               categories: article.categories.map(({ category }) => ({
                 slug: category.slug,
                 nameFa: category.nameFa,
@@ -134,6 +152,7 @@ export default async function LocaleHomePage({ params }: { params: { locale: App
                 updatedAt: hero.updatedAt,
                 status: hero.status,
                 newsSource: hero.newsSource,
+                faTranslationMeta: hero.faTranslationMeta,
                 categories: hero.categories.map(({ category }) => ({
                   slug: category.slug,
                   nameFa: category.nameFa,
